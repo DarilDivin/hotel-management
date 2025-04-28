@@ -39,6 +39,6 @@ public class Personnel {
     /**
      * 
      */
-    public Hotel hotel = new Hotel();
+    public Hotel hotel;
 
 }

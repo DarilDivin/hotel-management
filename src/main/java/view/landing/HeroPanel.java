@@ -51,18 +51,18 @@ public class HeroPanel extends JPanel {
         add(buttonPanel, "center");
     }
 
-    public static void main(String[] args) {
-        FlatLightLaf.setup(); // Assure-toi d'avoir FlatLaf dans tes dépendances
-
-        JFrame frame = new JFrame("Hero Section Demo");
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1280, 720);
-        frame.setLocationRelativeTo(null);
-        frame.setLayout(new BorderLayout());
-
-        HeroPanel hero = new HeroPanel();
-        frame.add(hero, BorderLayout.CENTER);
-
-        frame.setVisible(true);
-    }
+//    public static void main(String[] args) {
+//        FlatLightLaf.setup(); // Assure-toi d'avoir FlatLaf dans tes dépendances
+//
+//        JFrame frame = new JFrame("Hero Section Demo");
+//        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+//        frame.setSize(1280, 720);
+//        frame.setLocationRelativeTo(null);
+//        frame.setLayout(new BorderLayout());
+//
+//        HeroPanel hero = new HeroPanel();
+//        frame.add(hero, BorderLayout.CENTER);
+//
+//        frame.setVisible(true);
+//    }
 }

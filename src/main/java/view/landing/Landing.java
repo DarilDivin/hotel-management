@@ -26,7 +26,6 @@ public class Landing extends JFrame {
         setIconImage(icon.getImage());
 
         Hero hero = new Hero();
-//        add(hero);
         JScrollPane scrollPane = new JScrollPane(hero);
         scrollPane.setBorder(null);
         scrollPane.setPreferredSize(new Dimension(1366, 768));
@@ -36,12 +35,12 @@ public class Landing extends JFrame {
     }
 
 
-    public static void main(String[] args) {
-        FlatRobotoFont.install();
-        FlatLaf.registerCustomDefaultsSource("global.themes");
+//    public static void main(String[] args) {
+//        FlatRobotoFont.install();
+//        FlatLaf.registerCustomDefaultsSource("global.themes");
 //        FlatMacDarkLaf.setup();
-        FlatMacLightLaf.setup();
-        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
-        EventQueue.invokeLater(() -> new Landing().setVisible(true));
-    }
+//        FlatMacLightLaf.setup();
+//        UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+//        EventQueue.invokeLater(() -> new Landing().setVisible(true));
+//    }
 }

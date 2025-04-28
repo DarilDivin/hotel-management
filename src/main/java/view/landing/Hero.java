@@ -23,7 +23,6 @@ public class Hero extends JPanel {
 
         JLabel title = new JLabel("<html><p>Profitez des meilleures</p></html>");
         title.setFont(new Font("", Font.BOLD, 48));
-//        title.setForeground(new Color(0x333333));
         JLabel title2 = new JLabel("<html><p style='font-size:36px; font-weight:900;'>et plus belles <span style='color:#007bff'>Chambres du Monde</span></p></html>");
         title2.setFont(new Font("",Font.BOLD, 48));
 
