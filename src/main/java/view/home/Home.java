@@ -2,8 +2,8 @@ package view.home;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
-import view.home.components.HotelCard;
-import view.home.components.SearchBar;
+import view.components.HotelCard;
+import view.components.SearchBar;
 import view.landing.Navigation;
 
 import javax.swing.*;

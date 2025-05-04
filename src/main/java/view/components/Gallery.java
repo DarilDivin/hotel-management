@@ -1,4 +1,4 @@
-package view.home.components;
+package view.components;
 import com.formdev.flatlaf.FlatLightLaf;
 import net.miginfocom.swing.MigLayout;
 import view.home.RoundedImagePanel;

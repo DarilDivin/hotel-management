@@ -6,6 +6,7 @@ import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 import view.home.Home;
+import view.hotel.ShowHotel;
 import view.landing.Hero;
 
 import javax.swing.*;
@@ -24,13 +25,14 @@ public class Main extends JFrame{
 
         Hero hero = new Hero();
         Home home = new Home();
+        ShowHotel showHotel = new ShowHotel();
 
 
 
-        JScrollPane scrollPane = new JScrollPane(home);
+        JScrollPane scrollPane = new JScrollPane(showHotel);
         scrollPane.putClientProperty(FlatClientProperties.SCROLL_PANE_SMOOTH_SCROLLING, true);
         scrollPane.setBorder(null);
-        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
+//        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
         scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         add(scrollPane, "w 1366!");
 
