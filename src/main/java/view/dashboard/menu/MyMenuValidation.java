@@ -1,5 +1,6 @@
 package view.dashboard.menu;
 
+import model.ModelUser;
 import raven.modal.Drawer;
 //import raven.modal.demo.model.ModelUser;
 //import raven.modal.demo.system.Form;
@@ -8,11 +9,11 @@ import view.system.Form;
 
 public class MyMenuValidation extends MenuValidation {
 
-//    public static void setUser(ModelUser user) {
-//        MyMenuValidation.user = user;
-//    }
+    public static void setUser(ModelUser user) {
+        MyMenuValidation.user = user;
+    }
 //
-//    public static ModelUser user;
+    public static ModelUser user;
 
     @Override
     public boolean menuValidation(int[] index) {
@@ -40,12 +41,12 @@ public class MyMenuValidation extends MenuValidation {
     }
 
     public static boolean validation(int[] index) {
-//        if (user == null) {
-//            return false;
-//        }
-//        if (user.getRole() == ModelUser.Role.ADMIN) {
-//            return true;
-//        }
+        if (user == null) {
+            return false;
+        }
+        if (user.getRole() == ModelUser.Role.ADMIN) {
+            return true;
+        }
 
         boolean status
                 // `Modal`

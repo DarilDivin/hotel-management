@@ -1,6 +1,9 @@
 package view.dashboard.menu;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.ModelUser;
+import raven.extras.AvatarIcon;
 import raven.modal.drawer.DrawerPanel;
 import raven.modal.drawer.item.Item;
 import raven.modal.drawer.item.MenuItem;
@@ -14,6 +17,7 @@ import raven.modal.drawer.renderer.DrawerStraightDotLineStyle;
 import raven.modal.drawer.simple.SimpleDrawerBuilder;
 import raven.modal.drawer.simple.footer.LightDarkButtonFooter;
 import raven.modal.drawer.simple.footer.SimpleFooterData;
+import raven.modal.drawer.simple.header.SimpleHeader;
 import raven.modal.drawer.simple.header.SimpleHeaderData;
 import raven.modal.option.Option;
 import view.dashboard.forms.FormInput;
@@ -28,6 +32,7 @@ import java.util.Arrays;
 
 public class MyDrawerBuilder extends SimpleDrawerBuilder {
     private static MyDrawerBuilder instance;
+    private ModelUser user;
 
     public static MyDrawerBuilder getInstance() {
         if (instance == null) {
@@ -35,6 +40,35 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         }
         return instance;
     }
+
+    public ModelUser getUser() {
+        return user;
+    }
+
+    public void setUser(ModelUser user) {
+        boolean updateMenuItem = this.user == null || this.user.getRole() != user.getRole();
+
+        this.user = user;
+
+        // set user to menu validation
+        MyMenuValidation.setUser(user);
+
+        // setup drawer header
+        SimpleHeader header = (SimpleHeader) getHeader();
+        SimpleHeaderData data = header.getSimpleHeaderData();
+//        AvatarIcon icon = (AvatarIcon) data.getIcon();
+//        String iconName = user.getRole() == ModelUser.Role.ADMIN ? "avatar_male.svg" : "avatar_female.svg";
+
+//        icon.setIcon(new FlatSVGIcon("raven/modal/demo/drawer/image/" + iconName, 100, 100));
+        data.setTitle(user.getUserName());
+        data.setDescription(user.getMail());
+        header.setSimpleHeaderData(data);
+
+        if (updateMenuItem) {
+            rebuildMenu();
+        }
+    }
+
     private final int SHADOW_SIZE = 12;
 
     private MyDrawerBuilder() {
@@ -78,7 +112,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                 new Item.Label("MAIN"),
                 new Item("Dashboard", "dashboard.svg", Stat.class),
                 new Item.Label("SWING UI"),
-                new Item("Forms", "forms.svg")
+                new Item("Forms", "dashboard.svg")
                         .subMenu("Input", FormInput.class),
 //                        .subMenu("Table", FormTable.class)
 //                        .subMenu("Responsive Layout", FormResponsiveLayout.class),
@@ -134,13 +168,19 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 //                    return;
 //                }
                 if (itemClass == null || !Form.class.isAssignableFrom(itemClass)) {
-                    action.consume();
                     System.out.println("No" + itemClass);
+                    action.consume();
                     return;
                 }
-                System.out.println("Ok" + itemClass);
-                Class<? extends Form> formClass = (Class<? extends Form>) itemClass;
-                FormManager.showForm(AllForms.getForm(formClass));
+                try {
+                    Class<? extends Form> formClass = (Class<? extends Form>) itemClass;
+                    Form form = AllForms.getForm(formClass);
+                    System.out.println("Formulaire créé : " + form);
+                    FormManager.showForm(form);
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
