@@ -69,7 +69,7 @@ public class Hotel {
 
     }
 
-    public void afficherPersonnel() {
+    /* public void afficherPersonnel() {
         for (Personnel p : list_personnel) {
             System.out.println(p);
         }
@@ -95,7 +95,7 @@ public class Hotel {
         System.out.println("Etages:");
         afficherEtage();
 
-    }
+    } */
 
     
 }
