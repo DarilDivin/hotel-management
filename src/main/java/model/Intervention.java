@@ -7,6 +7,10 @@ import java.util.*;
  */
 public class Intervention {
 
+    private Date date;
+    private Chambre chambre;
+    private AgentNettoyage agent_nettoyage;
+
     /**
      * Default constructor
      */
@@ -16,19 +20,25 @@ public class Intervention {
         this.date = date;
     }
 
-    /**
-     * 
-     */
-    public Date date;
+    public Date getDate() {
+        return this.date;
+    }
+    public Chambre getChambre() {
+        return this.chambre;
+    }
+    public AgentNettoyage getAgentNettoyage() {
+        return this.agent_nettoyage;
+    }
 
-    /**
-     * 
-     */
-    public Chambre chambre;
+    public void setDate(Date d) {
+        this.date = d;
+    }
 
-    /**
-     * 
-     */
-    public AgentNettoyage agent_nettoyage;
+    public void setChambre(Chambre c) {
+        this.chambre = c;
+    }
 
+    public void setAgentNettoyage(AgentNettoyage ag) {
+        this.agent_nettoyage = ag;
+    }
 }

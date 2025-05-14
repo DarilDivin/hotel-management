@@ -13,23 +13,32 @@ public class Produit {
         this.prix = prix;
     }
 
-    /**
-     * 
-     */
-    public String nom;
+    private String nom;
+    private int prix;
+    private Consommation consommation;
 
-    /**
-     * 
-     */
-    public int prix;
+    public String getNom() {
+        return this.nom;
+    }
 
-    /**
-     * 
-     */
-    public Consommation consommation;
+    public int getPrix() {
+        return this.prix;
+    }
 
-    public void setConsommation(Consommation consommation) {
-        this.consommation = consommation;
+    public Consommation getConsommation() {
+        return this.consommation;
+    }
+
+    public void setNom() {
+
+    }
+    
+    public void setPrix() {
+
+    }
+
+    public void setConsommation() {
+
     }
 
 }

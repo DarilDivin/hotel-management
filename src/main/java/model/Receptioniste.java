@@ -24,12 +24,4 @@ public class Receptioniste extends Personnel {
      */
     public Vector<Reservation> list_reservation = new Vector<Reservation>();
 
-    public void addReservation(Reservation reservation) {
-        this.list_reservation.add(reservation);
-    }
-
-    public void deleteReservation() {
-
-    }
-
 }

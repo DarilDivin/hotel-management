@@ -6,13 +6,9 @@ package model;
 public class Personnel {
 
     private String nom;
-
     private String prenom;
-
     private String email;
-
     private String password;
-
     public Hotel hotel;
 
     /**

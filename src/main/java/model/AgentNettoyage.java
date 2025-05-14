@@ -18,4 +18,8 @@ public class AgentNettoyage extends Personnel {
 
     public Vector<Intervention> list_intervention = new Vector<Intervention>();
 
+    public Vector<Intervention> getList_intervention() {
+        return this.list_intervention;
+    }
+
 }   

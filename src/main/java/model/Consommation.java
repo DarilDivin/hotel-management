@@ -39,12 +39,16 @@ public class Consommation {
         return this.list_produit;
     }
 
-    public void setProduit(Produit produit) {
-        this.list_produit.add(produit);
+    public void setId(int newId) {
+        this.id = newId;
     }
 
-    public void setSejour(Sejour sejour) {
-        this.sejour = sejour;
+    public void setSejour(Sejour newSejour) {
+        this.sejour = newSejour;
+    }
+
+    public void setQuantite(int newQuantite) {
+        this.quantite = newQuantite;
     }
 
 }
