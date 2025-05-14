@@ -5,6 +5,7 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
+import view.dashboard.menu.Dashboard;
 import view.home.Home;
 import view.hotel.ShowHotel;
 import view.landing.Hero;
@@ -26,10 +27,11 @@ public class Main extends JFrame{
         Hero hero = new Hero();
         Home home = new Home();
         ShowHotel showHotel = new ShowHotel();
+        Dashboard dashboard = new Dashboard(this);
 
 
 
-        JScrollPane scrollPane = new JScrollPane(showHotel);
+        JScrollPane scrollPane = new JScrollPane(dashboard);
         scrollPane.putClientProperty(FlatClientProperties.SCROLL_PANE_SMOOTH_SCROLLING, true);
         scrollPane.setBorder(null);
 //        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
