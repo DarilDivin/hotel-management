@@ -2,15 +2,19 @@ package view.login_register;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.ModelUser;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import view.system.Form;
+import view.system.FormManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Login extends JPanel {
+public class Login extends Form {
     public static final String ID = "login_id";
 
     public Login() {
@@ -65,7 +69,7 @@ public class Login extends JPanel {
         ButtonLink cmdSignUp = new ButtonLink("S'inscrire");
         add(cmdSignUp, "gapx n push");
 
-        // event
+        // évenement
         cmdSignUp.addActionListener(actionEvent -> {
             String icon = "images/login_register/signup.svg";
             ModalDialog.pushModal(new CustomModalBorder(new SignUp(), "S'inscrire'", icon), ID);
@@ -74,6 +78,14 @@ public class Login extends JPanel {
         cmdForgotPassword.addActionListener(actionEvent -> {
             String icon = "images/login_register/forgot_password.svg";
             ModalDialog.pushModal(new CustomModalBorder(new ForgotPassword(), "Mot de passe oublié", icon), ID);
+        });
+
+        cmdLogin.addActionListener(e -> {
+            String userName = txtEmail.getText();
+            String password = String.valueOf(txtPassword.getPassword());
+            ModelUser user = getUser(userName, password);
+            MyDrawerBuilder.getInstance().setUser(user);
+            FormManager.login();
         });
     }
 
@@ -105,5 +117,17 @@ public class Login extends JPanel {
         });
         toolBar.add(button);
         txt.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_COMPONENT, toolBar);
+    }
+
+    private ModelUser getUser(String user, String password) {
+
+        // just testing.
+        // input any user and password is admin by default
+        // user='staff' password='123' if we want to test validation menu for role staff
+
+        if (user.equals("staff") && password.equals("123")) {
+            return new ModelUser("Justin White", "justinwhite@gmail.com", ModelUser.Role.STAFF);
+        }
+        return new ModelUser("Ra Ven", "raven@gmail.com", ModelUser.Role.ADMIN);
     }
 }

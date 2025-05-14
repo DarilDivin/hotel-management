@@ -5,10 +5,13 @@ import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
+import raven.modal.Drawer;
 import view.dashboard.menu.Dashboard;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.home.Home;
 import view.hotel.ShowHotel;
 import view.landing.Hero;
+import view.system.FormManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,6 +19,9 @@ import java.awt.*;
 public class Main extends JFrame{
     public Main() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
+        Drawer.installDrawer(this, MyDrawerBuilder.getInstance());
+        FormManager.install(this);
         setTitle("ZenHotel");
         setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
@@ -31,7 +37,7 @@ public class Main extends JFrame{
 
 
 
-        JScrollPane scrollPane = new JScrollPane(dashboard);
+        JScrollPane scrollPane = new JScrollPane(hero);
         scrollPane.putClientProperty(FlatClientProperties.SCROLL_PANE_SMOOTH_SCROLLING, true);
         scrollPane.setBorder(null);
 //        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);

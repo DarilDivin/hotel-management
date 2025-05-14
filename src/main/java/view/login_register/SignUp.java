@@ -1,9 +1,12 @@
 package view.login_register;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.ModelUser;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import view.system.FormManager;
 
 import javax.swing.*;
 
@@ -35,7 +38,7 @@ public class SignUp extends JPanel {
                 "font:bold;");
         add(lbPassword, "gapy 10 n");
 
-        JTextField txtPassword = new JTextField();
+        JPasswordField txtPassword = new JPasswordField();
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Minimum 8 caractères");
         add(txtPassword);
 
@@ -73,9 +76,29 @@ public class SignUp extends JPanel {
         ButtonLink cmdBackLogin = new ButtonLink("Connectez-vous");
         add(cmdBackLogin, "gapx n push");
 
-        // event
+        // évenement
         cmdBackLogin.addActionListener(actionEvent -> {
             ModalDialog.popModel(Login.ID);
         });
+
+        cmdSignUp.addActionListener(actionEvent -> {
+            String userName = txtEmail.getText();
+            String password = String.valueOf(txtPassword.getPassword());
+            ModelUser user = getUser(userName, password);
+            MyDrawerBuilder.getInstance().setUser(user);
+            FormManager.login();
+        });
+    }
+
+    private ModelUser getUser(String user, String password) {
+
+        // just testing.
+        // input any user and password is admin by default
+        // user='staff' password='123' if we want to test validation menu for role staff
+
+        if (user.equals("staff") && password.equals("123")) {
+            return new ModelUser("Justin White", "justinwhite@gmail.com", ModelUser.Role.STAFF);
+        }
+        return new ModelUser("Ra Ven", "raven@gmail.com", ModelUser.Role.ADMIN);
     }
 }
