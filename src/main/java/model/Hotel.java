@@ -7,24 +7,12 @@ import java.util.*;
  */
 public class Hotel {
 
-    /**
-     *
-     */
     public String nom;
 
-    /*
-     * 
-     */
     public Vector<Personnel> list_personnel = new Vector<Personnel>();
 
-    /*
-     * 
-     */
     public Vector<Etage> list_etage = new Vector<Etage>();
 
-    /*
-     * 
-     */
     public Vector<Client> list_client = new Vector<Client>();
 
     public Hotel(String nom) {
@@ -97,5 +85,4 @@ public class Hotel {
 
     } */
 
-    
 }

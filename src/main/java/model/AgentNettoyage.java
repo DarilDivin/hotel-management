@@ -16,9 +16,6 @@ public class AgentNettoyage extends Personnel {
         super(nom, prenom, email, password, hotel);
     }
 
-    /**
-     * 
-     */
     public Vector<Intervention> list_intervention = new Vector<Intervention>();
 
 }   

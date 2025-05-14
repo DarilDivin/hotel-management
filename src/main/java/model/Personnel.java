@@ -5,29 +5,14 @@ package model;
  */
 public class Personnel {
 
-    /**
-     * 
-     */
     private String nom;
 
-    /**
-     * 
-     */
     private String prenom;
 
-    /**
-     * 
-     */
     private String email;
 
-    /**
-     * 
-     */
     private String password;
 
-    /**
-     * Hotel de fonction
-     */
     public Hotel hotel;
 
     /**
@@ -41,45 +26,43 @@ public class Personnel {
         this.password = password;
     }
 
-    /*getters */
-    protected String getNom () {
+    public String getNom () {
         return nom;
     }
 
-    protected String getPrenom () {
+    public String getPrenom () {
         return prenom;
     }
 
-    protected String getEmail () {
+    public String getEmail () {
         return email;
     }
 
-    protected String getPassword() {
+    public String getPassword() {
         return password;
     }
 
-    protected Hotel getHotel() {
+    public Hotel getHotel() {
         return hotel;
     }
 
-    /*Setters */
-    protected void setNom(String newNom) {
+    public void setNom(String newNom) {
         this.nom = newNom;
     }
 
-    protected void setPrenom(String newPrenom) {
+    public void setPrenom(String newPrenom) {
         this.prenom = newPrenom;
     }
 
-    protected void setEmail(String newEmail) {
+    public void setEmail(String newEmail) {
         this.email = newEmail;
     }
 
-    protected void setPassword(String newPassword) {
+    public void setPassword(String newPassword) {
         this.password = newPassword;
     }
 
-    protected void setHotel(Hotel newHotel) {
+    public void setHotel(Hotel newHotel) {
         this.hotel = newHotel;
     }
 
