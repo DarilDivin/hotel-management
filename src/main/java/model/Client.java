@@ -17,34 +17,43 @@ public class Client {
         this.password = password;
     }
 
-    /**
-     * 
-     */
-    public String nom;
+    private String nom;
+    private String prenom;
+    private String email;
+    private String password;
+    private Vector<Hotel> list_hotel = new Vector<Hotel>();
+    private Vector<Reservation> list_reservation = new Vector<Reservation>();
 
-    /**
-     * 
-     */
-    public String prenom;
+    public String getNom() {
+        return this.nom;
+    }
+    public String getPrenom() {
+        return this.prenom;
+    }
+    public String getEmail() {
+        return this.email;
+    }
+    public String getPassword() {
+        return this.password;
+    }
+    public Vector<Hotel> getList_hotel() {
+      return this.list_hotel;
+    }
+    public Vector<Reservation> getList_reservation() {
+      return this.list_reservation;
+    }
 
-    /**
-     * 
-     */
-    public String email;
-
-    /**
-     * 
-     */
-    public String password;
-
-    /**
-     * 
-     */
-    public Vector<Hotel> list_hotel = new Vector<Hotel>();
-
-    /**
-     * 
-     */
-    public Vector<Reservation> list_reservation = new Vector<Reservation>();
+    public void setNom(String n) {
+        this.nom = n;
+    }
+    public void setPrenom(String p) {
+        this.prenom = p;
+    }
+    public void setEmail(String e) {
+        this.email = e;
+    }
+    public void setPassword(String p) {
+        this.password = p;
+    }
 
 }

@@ -18,24 +18,31 @@ public class Consommation {
         this.list_produit.add(produit);
     }
 
-    /**
-     * 
-     */
-    public Sejour sejour;
+    private int id;
+    private Sejour sejour;
+    private int quantite;
+    private Vector<Produit> list_produit = new Vector<Produit>();
 
-    /**
-     * 
-     */
-    public int quantite;
+    public int getId() {
+        return this.id;
+    }
 
-    /**
-     * 
-     */
-    public Vector<Produit> list_produit = new Vector<Produit>();
+    public int getQuantite() {
+        return this.quantite;
+    }
+
+    public Sejour getSejour() {
+        return this.sejour;
+    }
+
+    public Vector<Produit> getLProduits() {
+        return this.list_produit;
+    }
 
     public void setProduit(Produit produit) {
         this.list_produit.add(produit);
     }
+
     public void setSejour(Sejour sejour) {
         this.sejour = sejour;
     }

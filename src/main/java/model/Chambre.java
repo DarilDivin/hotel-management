@@ -2,21 +2,18 @@ package model;
 
 import java.util.*;
 
+/*
+ * Créer les accesseurs pour les listes
+ */
 public class Chambre {
 
-    public int numero;
-
-    public float prix;
-
-    public float superficie;
-
-    public Vector<Reservation> list_reservation = new Vector<Reservation>();
-
-    public Etage etage;
-
-    public Vector<Intervention> list_intervention = new Vector<Intervention>();
-
-    public TypeChambre type_chambre;
+    private int numero;
+    private float prix;
+    private float superficie;
+    private Vector<Reservation> list_reservation = new Vector<Reservation>();
+    private Etage etage;
+    private Vector<Intervention> list_intervention = new Vector<Intervention>();
+    private TypeChambre type_chambre;
 
     public Chambre(Etage etage, TypeChambre type_chambre, int numero, float prix, float superficie) {
         this.numero = numero;
@@ -56,11 +53,10 @@ public class Chambre {
     public void setTypeChambre(TypeChambre type_chambre) {
         this.type_chambre = type_chambre;
     }
-
-    public void addReservation(Reservation r) {
-        list_reservation.add(r);
+    public Vector<Reservation> getList_reservation() {
+      return list_reservation;
     }
-    public void removeReservation(Reservation r) {
-        list_reservation.remove(r);
+    public Vector<Intervention> getList_intervention() {
+      return list_intervention;
     }
 }
