@@ -3,6 +3,8 @@ package view.system;
 import raven.modal.Drawer;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
+import view.auth.Login;
+import view.dashboard.menu.Stat;
 import view.utils.UndoRedo;
 //import raven.modal.demo.auth.Login;
 //import raven.modal.demo.component.About;
@@ -16,12 +18,12 @@ public class FormManager {
     protected static final UndoRedo<Form> FORMS = new UndoRedo<>();
     private static JFrame frame;
     private static MainForm mainForm;
-//    private static Login login;
+    private static Login login;
 
     public static void install(JFrame f) {
         frame = f;
         install();
-//        logout();
+        logout();
     }
 
     private static void install() {
@@ -65,26 +67,26 @@ public class FormManager {
         }
     }
 
-//    public static void login() {
-//        Drawer.setVisible(true);
-//        frame.getContentPane().removeAll();
-//        frame.getContentPane().add(getMainForm());
-//
-//        Drawer.setSelectedItemClass(FormDashboard.class);
-//        frame.repaint();
-//        frame.revalidate();
-//    }
+    public static void login() {
+        Drawer.setVisible(true);
+        frame.getContentPane().removeAll();
+        frame.getContentPane().add(getMainForm());
 
-//    public static void logout() {
-//        Drawer.setVisible(false);
-//        frame.getContentPane().removeAll();
-//        Form login = getLogin();
-//        login.formCheck();
-//        frame.getContentPane().add(login);
-//        FORMS.clear();
-//        frame.repaint();
-//        frame.revalidate();
-//    }
+        Drawer.setSelectedItemClass(Stat.class);
+        frame.repaint();
+        frame.revalidate();
+    }
+
+    public static void logout() {
+        Drawer.setVisible(false);
+        frame.getContentPane().removeAll();
+        Form login = getLogin();
+        login.formCheck();
+        frame.getContentPane().add(login);
+        FORMS.clear();
+        frame.repaint();
+        frame.revalidate();
+    }
 
     public static JFrame getFrame() {
         return frame;
@@ -97,12 +99,12 @@ public class FormManager {
         return mainForm;
     }
 
-//    private static Login getLogin() {
-//        if (login == null) {
-//            login = new Login();
-//        }
-//        return login;
-//    }
+    private static Login getLogin() {
+        if (login == null) {
+            login = new Login();
+        }
+        return login;
+    }
 
 //    public static void showAbout() {
 //        ModalDialog.showModal(frame, new SimpleModalBorder(new About(), "About"),
