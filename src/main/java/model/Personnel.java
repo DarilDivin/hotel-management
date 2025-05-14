@@ -5,6 +5,12 @@ package model;
  */
 public class Personnel {
 
+    private String nom;
+    private String prenom;
+    private String email;
+    private String password;
+    public Hotel hotel;
+
     /**
      * Default constructor
      */
@@ -16,29 +22,44 @@ public class Personnel {
         this.password = password;
     }
 
-    /**
-     * 
-     */
-    public String nom;
+    public String getNom () {
+        return nom;
+    }
 
-    /**
-     * 
-     */
-    public String prenom;
+    public String getPrenom () {
+        return prenom;
+    }
 
-    /**
-     * 
-     */
-    public String email;
+    public String getEmail () {
+        return email;
+    }
 
-    /**
-     * 
-     */
-    public String password;
+    public String getPassword() {
+        return password;
+    }
 
-    /**
-     * 
-     */
-    public Hotel hotel;
+    public Hotel getHotel() {
+        return hotel;
+    }
+
+    public void setNom(String newNom) {
+        this.nom = newNom;
+    }
+
+    public void setPrenom(String newPrenom) {
+        this.prenom = newPrenom;
+    }
+
+    public void setEmail(String newEmail) {
+        this.email = newEmail;
+    }
+
+    public void setPassword(String newPassword) {
+        this.password = newPassword;
+    }
+
+    public void setHotel(Hotel newHotel) {
+        this.hotel = newHotel;
+    }
 
 }

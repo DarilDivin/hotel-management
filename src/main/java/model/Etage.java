@@ -7,13 +7,10 @@ import java.util.*;
  */
 public class Etage {
 
-    public int numero_etage;
-
+    private int numero_etage;
+    private Hotel hotel;
     
-    public Vector<Chambre> list_chambre = new Vector<Chambre>();
-
-  
-    public Hotel hotel;
+    private Vector<Chambre> list_chambre = new Vector<Chambre>();
 
     
     public Etage( int numero_etage) {
@@ -32,13 +29,7 @@ public class Etage {
     public Hotel getHotel() {
         return hotel;
     }
-    public void addChambre(Chambre c) {
-        list_chambre.add(c);
-    }
-    public void removeChambre(Chambre c) {
-        list_chambre.remove(c);
-    }
-    public void removeChambre(int i) {
-        list_chambre.remove(i);
+    public Vector<Chambre> getList_chambre () {
+        return this.list_chambre;
     }
 }
