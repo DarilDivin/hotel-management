@@ -128,7 +128,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                 new Item.Label("OTHER"),
 //                new Item("Setting", "setting.svg" /*,FormSetting.class*/),
 //                new Item("About", "about.svg"),
-//                new Item("Logout", "logout.svg")
+                new Item("Logout", "log-out.svg")
         };
 
         simpleMenuOption.setMenuStyle(new MenuStyle() {
@@ -167,6 +167,11 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 //                    FormManager.logout();
 //                    return;
 //                }
+                if (i == 2) {
+                    action.consume();
+                    FormManager.logout();
+                    return;
+                }
                 if (itemClass == null || !Form.class.isAssignableFrom(itemClass)) {
                     System.out.println("No" + itemClass);
                     action.consume();

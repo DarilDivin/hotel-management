@@ -5,6 +5,7 @@ import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
 import view.auth.Login;
 import view.dashboard.menu.Stat;
+import view.landing.Hero;
 import view.utils.UndoRedo;
 //import raven.modal.demo.auth.Login;
 //import raven.modal.demo.component.About;
@@ -18,7 +19,7 @@ public class FormManager {
     protected static final UndoRedo<Form> FORMS = new UndoRedo<>();
     private static JFrame frame;
     private static MainForm mainForm;
-    private static Login login;
+    private static Hero hero;
 
     public static void install(JFrame f) {
         frame = f;
@@ -80,9 +81,9 @@ public class FormManager {
     public static void logout() {
         Drawer.setVisible(false);
         frame.getContentPane().removeAll();
-        Form login = getLogin();
-        login.formCheck();
-        frame.getContentPane().add(login);
+        Form hero = getHero();
+        hero.formCheck();
+        frame.getContentPane().add(hero);
         FORMS.clear();
         frame.repaint();
         frame.revalidate();
@@ -99,11 +100,11 @@ public class FormManager {
         return mainForm;
     }
 
-    private static Login getLogin() {
-        if (login == null) {
-            login = new Login();
+    private static Hero getHero() {
+        if (hero == null) {
+            hero = new Hero();
         }
-        return login;
+        return hero;
     }
 
 //    public static void showAbout() {

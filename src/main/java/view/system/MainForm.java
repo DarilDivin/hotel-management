@@ -24,17 +24,17 @@ public class MainForm extends JPanel {
         add(createHeader());
         add(createRefreshLine(), "height 3!");
         add(createMain());
-        add(new JSeparator(), "height 2!");
+//        add(new JSeparator(), "height 2!");
 //        add(createFooter());
     }
 
     private JPanel createHeader() {
         JPanel panel = new JPanel(new MigLayout("insets 3", "[]push[]push", "[fill]"));
         JToolBar toolBar = new JToolBar();
-        JButton buttonDrawer = new JButton(new FlatSVGIcon("raven/modal/demo/icons/menu.svg", 0.5f));
-        buttonUndo = new JButton(new FlatSVGIcon("raven/modal/demo/icons/undo.svg", 0.5f));
-        buttonRedo = new JButton(new FlatSVGIcon("raven/modal/demo/icons/redo.svg", 0.5f));
-        buttonRefresh = new JButton(new FlatSVGIcon("raven/modal/demo/icons/refresh.svg", 0.5f));
+        JButton buttonDrawer = new JButton(new FlatSVGIcon("images/menu.svg", 0.5f));
+        buttonUndo = new JButton(new FlatSVGIcon("images/undo.svg", 0.5f));
+        buttonRedo = new JButton(new FlatSVGIcon("images/redo.svg", 0.5f));
+        buttonRefresh = new JButton(new FlatSVGIcon("images/refresh.svg", 0.5f));
 
         // style
         buttonDrawer.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -62,7 +62,7 @@ public class MainForm extends JPanel {
         toolBar.add(buttonRedo);
         toolBar.add(buttonRefresh);
         panel.add(toolBar);
-        panel.add(createSearchBox(), "gapx n 135");
+//        panel.add(createSearchBox(), "gapx n 135");
         return panel;
     }
 

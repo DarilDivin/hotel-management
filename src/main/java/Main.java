@@ -19,32 +19,33 @@ import java.awt.*;
 public class Main extends JFrame{
     public Main() {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, true);
-        Drawer.installDrawer(this, MyDrawerBuilder.getInstance());
-        FormManager.install(this);
+        getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, false);
         setTitle("ZenHotel");
         setSize(new Dimension(1366, 768));
         setLocationRelativeTo(null);
-        setLayout(new MigLayout("wrap, fillx, insets 0 0 0 0", "[center]"));
+
+        setLayout(new MigLayout("wrap, fillx, insets 0 0 0 0", "[center,fill]"));
+
         FlatSVGIcon icon = new FlatSVGIcon("images/i5.svg", 1.5f);
         icon.setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#007bff")));
         setIconImage(icon.getImage());
 
-        Hero hero = new Hero();
-        Home home = new Home();
-        ShowHotel showHotel = new ShowHotel();
-        Dashboard dashboard = new Dashboard(this);
+        Drawer.installDrawer(this, MyDrawerBuilder.getInstance());
+        FormManager.install(this);
+
+//        Hero hero = new Hero();
+//        Home home = new Home();
+//        ShowHotel showHotel = new ShowHotel();
+//        Dashboard dashboard = new Dashboard(this);
 
 
 
-        JScrollPane scrollPane = new JScrollPane(hero);
-        scrollPane.putClientProperty(FlatClientProperties.SCROLL_PANE_SMOOTH_SCROLLING, true);
-        scrollPane.setBorder(null);
+//        JScrollPane scrollPane = new JScrollPane();
+//        scrollPane.putClientProperty(FlatClientProperties.SCROLL_PANE_SMOOTH_SCROLLING, true);
+//        scrollPane.setBorder(null);
 //        scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
-        add(scrollPane, "w 1366!");
-
-
+//        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
+//        add(scrollPane, "w 1366!");
     }
 
 
