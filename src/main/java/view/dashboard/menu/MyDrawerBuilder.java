@@ -1,6 +1,7 @@
 package view.dashboard.menu;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.ModelUser;
 import raven.modal.drawer.DrawerPanel;
 import raven.modal.drawer.item.Item;
 import raven.modal.drawer.item.MenuItem;

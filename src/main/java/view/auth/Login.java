@@ -1,6 +1,7 @@
 package view.auth;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.ModelUser;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.component.DropShadowBorder;
 import view.dashboard.menu.MyDrawerBuilder;

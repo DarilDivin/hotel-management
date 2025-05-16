@@ -2,6 +2,7 @@ package view.login_register;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.ModelUser;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
 import net.miginfocom.swing.MigLayout;
@@ -82,7 +83,7 @@ public class Login extends Form {
         cmdLogin.addActionListener(e -> {
             String userName = txtEmail.getText();
             String password = String.valueOf(txtPassword.getPassword());
-            ModelUser user = getUser(userName, password);
+            model.ModelUser user = getUser(userName, password);
             MyDrawerBuilder.getInstance().setUser(user);
             FormManager.login();
         });
