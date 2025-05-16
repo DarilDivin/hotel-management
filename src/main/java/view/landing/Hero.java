@@ -16,7 +16,7 @@ public class Hero extends Form {
         // Panel pour le contenu
         JPanel contentPanel = new JPanel();
         contentPanel.setLayout(new MigLayout("wrap, fillx", "[center]"));
-        contentPanel.setPreferredSize(new Dimension(1366, 1200)); // Forcer une hauteur minimum
+//        contentPanel.setPreferredSize(new Dimension(1300, 1200)); // Forcer une hauteur minimum
 
         Navigation navBar = new Navigation();
         navBar.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -53,7 +53,8 @@ public class Hero extends Form {
         JScrollPane scrollPane = new JScrollPane(contentPanel);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
         scrollPane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
-        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+//        scrollPane.setVerticalScrollBarPolicy(ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED);
+        scrollPane.getVerticalScrollBar().setPreferredSize(new Dimension(0, 0));
         scrollPane.getVerticalScrollBar().setUnitIncrement(16);
 
         add(scrollPane, BorderLayout.CENTER);

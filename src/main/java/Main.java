@@ -52,8 +52,8 @@ public class Main extends JFrame{
     public static void main(String[] args) {
         FlatRobotoFont.install();
         FlatLaf.registerCustomDefaultsSource("global.themes");
-//        FlatMacDarkLaf.setup();
-        FlatMacLightLaf.setup();
+        FlatMacDarkLaf.setup();
+//        FlatMacLightLaf.setup();
         UIManager.put("defaultFont", new Font(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
         EventQueue.invokeLater(() -> new Main().setVisible(true));
     }
