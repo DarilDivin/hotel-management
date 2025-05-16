@@ -1,7 +1,6 @@
 package view.login_register;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import model.ModelUser;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
 import net.miginfocom.swing.MigLayout;

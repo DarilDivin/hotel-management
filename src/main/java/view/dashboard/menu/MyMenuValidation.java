@@ -1,6 +1,5 @@
 package view.dashboard.menu;
 
-import model.ModelUser;
 import raven.modal.Drawer;
 //import raven.modal.demo.model.ModelUser;
 //import raven.modal.demo.system.Form;
