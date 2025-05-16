@@ -29,16 +29,12 @@ public class Produit {
         return this.consommation;
     }
 
-    public void setNom() {
-
+    public void setNom(String n) {
+        this.nom = n;
     }
     
-    public void setPrix() {
-
-    }
-
-    public void setConsommation() {
-
+    public void setPrix(int p) {
+        this.prix = p;
     }
 
 }

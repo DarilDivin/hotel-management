@@ -16,23 +16,18 @@ public class Sejour {
         this.reservation = reservation;
     }
 
-    /**
-     * 
-     */
-    public Reservation reservation;
+    private Reservation reservation;
+    private Vector<Consommation> list_consommation = new Vector<Consommation>();
 
-    /**
-     * 
-     */
-    public Vector<Consommation> list_consommation = new Vector<Consommation>();
-
-
-   
     public Reservation getReservation() {
         return reservation;
     }
 
-    public void setConsommation(Consommation consommation) {
-        this.list_consommation.add(consommation);
+    public Vector<Consommation> getListConsommation() {
+        return this.list_consommation;
+    }
+
+    public void setReservation(Reservation newReservation) {
+        this.reservation = newReservation;
     }
 }

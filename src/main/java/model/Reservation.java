@@ -4,16 +4,16 @@ import java.util.*;
 
 public class Reservation {
 
-    public Date date_debut;
-    public Date date_fin;
+    private Date date_debut;
+    private Date date_fin;
 
-    public Receptioniste receptioniste;
+    private Receptioniste receptioniste;
 
-    public Client client;
+    private Client client;
 
-    public Vector<Chambre> list_chambre = new Vector<Chambre>();
+    private Vector<Chambre> list_chambre = new Vector<Chambre>();
 
-    public Sejour sejour;
+    private Sejour sejour;
 
     public Reservation(Client client, Date date_debut, Date date_fin, Vector<Chambre> list_chambre) {
         this.client = client;
@@ -22,16 +22,48 @@ public class Reservation {
         this.list_chambre = list_chambre;
     }
 
-    public void setChambre(Chambre chambre) {
-        this.list_chambre.add(chambre);
+    public Client getClient() {
+        return this.client;
     }
 
-    public void setSejour(Sejour sejour) {
-        this.sejour = sejour;
+    public Date getDateDebut() {
+        return date_debut;
     }
 
-    public void setReceptioniste(Receptioniste receptioniste) {
-        this.receptioniste = receptioniste;
+    public Date getDateFin() {
+        return date_fin;
+    }
+
+    public Vector<Chambre> getListChambre() {
+        return this.list_chambre;
+    }
+
+    public Sejour getSejour() {
+        return this.sejour;
+    }
+
+    public Receptioniste getReceptionniste() {
+        return this.receptioniste;
+    }
+
+    public void setSejour(Sejour newSejour) {
+        this.sejour = newSejour;
+    }
+
+    public void setClient(Client newClient) {
+        this.client = newClient;
+    }
+
+    public void setDateDebut(Date newDateDebut) {
+        this.date_debut = newDateDebut;
+    }
+
+    public void setDateFin(Date newDateFin) {
+        this.date_fin = newDateFin;
+    }
+
+    public void setReceptionniste(Receptioniste newReceptionniste) {
+        this.receptioniste = newReceptionniste;
     }
 
 }
