@@ -15,13 +15,13 @@ public class Consommation {
     public Consommation(Sejour sejour, Produit produit, int quantite) {
         this.quantite = quantite;
         this.sejour = sejour;
-        this.list_produit.add(produit);
+        this.produit = produit;
     }
 
     private int id;
     private Sejour sejour;
     private int quantite;
-    private Vector<Produit> list_produit = new Vector<Produit>();
+    private Produit produit;
 
     public int getId() {
         return this.id;
@@ -35,8 +35,12 @@ public class Consommation {
         return this.sejour;
     }
 
-    public Vector<Produit> getLProduits() {
-        return this.list_produit;
+    public Produit getProduit() {
+        return this.produit;
+    }
+
+    public void setProduit(  Produit produit) {
+        this.produit = produit;
     }
 
     public void setId(int newId) {

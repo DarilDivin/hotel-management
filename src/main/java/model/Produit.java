@@ -16,7 +16,7 @@ public class Produit {
     private int id;
     private String nom;
     private int prix;
-    private Consommation consommation;
+    // private Consommation consommation;
 
     public int getId() {
         return id;
@@ -32,9 +32,9 @@ public class Produit {
         return this.prix;
     }
 
-    public Consommation getConsommation() {
+    /* public Consommation getConsommation() {
         return this.consommation;
-    }
+    }*/
 
     public void setNom(String n) {
         this.nom = n;

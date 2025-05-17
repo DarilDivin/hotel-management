@@ -1,15 +1,23 @@
 package model.DAO;
 
 import model.Hotel;
+import model.Chambre;
+import model.TypeChambre;
+
+import java.util.Vector;
 
 public class Test {
     public static void main(String[] args) {
-        Hotel hotel = new Hotel("Babalola","24 Rue du père André JALAND");
+        TypeChambre simple = new TypeChambre("Chambre simple");
+        simple.setId(1);
 
-        HotelDAO dao = new HotelDAO();
-        dao.ajouterHotel(hotel);
+        Chambre chambre = new Chambre(simple, "15AB200", 1516.16 , 10.5);
+        ChambreDAO chambreDAO = new ChambreDAO();
 
-        System.out.println(hotel.getId());
-        System.out.println("Insertion de l'Hotel avec succes!");
+        chambreDAO.addChambre(chambre);
+        System.out.println(chambre.getTypeChambre().getType());
+
+        chambre.setNumero("5525");
+        chambreDAO.updateChambre(chambre);
     }
 }

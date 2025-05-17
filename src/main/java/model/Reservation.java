@@ -10,18 +10,15 @@ public class Reservation {
     private Date date_fin;
 
     private Receptioniste receptioniste;
-
+    private Chambre chambre;
     private Client client;
 
-    private Vector<Chambre> list_chambre = new Vector<Chambre>();
-
-    private Sejour sejour;
-
-    public Reservation(Client client, Date date_debut, Date date_fin, Vector<Chambre> list_chambre) {
+    public Reservation(Client client, Date date_debut, Date date_fin, Receptioniste receptioniste, Chambre chambre) {
         this.client = client;
         this.date_debut = date_debut;
         this.date_fin = date_fin;
-        this.list_chambre = list_chambre;
+        this.receptioniste = receptioniste;
+        this.chambre = chambre;
     }
 
     public int getId() {
@@ -44,20 +41,12 @@ public class Reservation {
         return date_fin;
     }
 
-    public Vector<Chambre> getListChambre() {
-        return this.list_chambre;
-    }
-
-    public Sejour getSejour() {
-        return this.sejour;
+    public Chambre getChambre() {
+        return chambre;
     }
 
     public Receptioniste getReceptionniste() {
         return this.receptioniste;
-    }
-
-    public void setSejour(Sejour newSejour) {
-        this.sejour = newSejour;
     }
 
     public void setClient(Client newClient) {
@@ -76,4 +65,7 @@ public class Reservation {
         this.receptioniste = newReceptionniste;
     }
 
+    public void setChambre(Chambre chambre) {
+        this.chambre = chambre;
+    }
 }
