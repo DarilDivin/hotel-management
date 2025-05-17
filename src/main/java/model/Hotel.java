@@ -7,16 +7,19 @@ import java.util.*;
  */
 public class Hotel {
 
+    private int id;
     private String nom;
-
     private String adresse;
-
     private Vector<Personnel> list_personnel = new Vector<Personnel>();
-
     private Vector<Client> list_client = new Vector<Client>();
 
     public Hotel(String nom, String adresse) {
         this.nom = nom;
+        this.adresse = adresse;
+    }
+
+    public int getId() {
+        return id;
     }
 
     public String getNom() {
@@ -25,6 +28,10 @@ public class Hotel {
 
     public String getAdresse() {
         return this.adresse;
+    }
+
+    public void setId(int newId) {
+        this.id = newId;
     }
 
     public void setAdresse(String newAdresse) {

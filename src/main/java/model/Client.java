@@ -16,12 +16,19 @@ public class Client {
         this.email = email;
     }
 
+    private int id;
     private String nom;
     private String prenom;
     private String email;
     private Vector<Hotel> list_hotel = new Vector<Hotel>();
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
 
+    public int getId() {
+        return this.id;
+    }
+    public void setId(int newid) {
+        this.id = newid;
+    }
     public String getNom() {
         return this.nom;
     }

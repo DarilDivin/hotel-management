@@ -7,6 +7,7 @@ import java.util.*;
  */
 public class Intervention {
 
+    private int id;
     private Date date;
     private Chambre chambre;
     private AgentNettoyage agent_nettoyage;
@@ -20,6 +21,12 @@ public class Intervention {
         this.date = date;
     }
 
+    public int getId() {
+        return this.id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public Date getDate() {
         return this.date;
     }
@@ -33,11 +40,9 @@ public class Intervention {
     public void setDate(Date d) {
         this.date = d;
     }
-
     public void setChambre(Chambre c) {
         this.chambre = c;
     }
-
     public void setAgentNettoyage(AgentNettoyage ag) {
         this.agent_nettoyage = ag;
     }
