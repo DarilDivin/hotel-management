@@ -16,7 +16,7 @@ public class RoomCard extends JPanel{
 
         add(hotelImg, "w 100%, h 205!");
 
-        JLabel hotelName = new JLabel("Hotel Victor Hugo Paris Kléber");
+        JLabel hotelName = new JLabel("Chambre 2-115C");
         hotelName.setFont(new Font("", Font.BOLD, 15));
         add(hotelName, "gapbottom 0, top, leading");
 

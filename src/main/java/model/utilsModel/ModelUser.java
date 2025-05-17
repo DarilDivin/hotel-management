@@ -1,4 +1,4 @@
-package model;
+package model.utilsModel;
 
 public class ModelUser {
 

@@ -1,12 +1,17 @@
 package view.hotel;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.FlatLaf;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.util.FontUtils;
 import net.miginfocom.swing.MigLayout;
 import view.components.HotelCard;
 import view.components.HotelImagesPanel;
 import view.components.RoomCard;
 import view.components.SearchBar;
+import view.dashboard.Main;
 import view.home.RoundedImagePanel;
 import view.landing.Navigation;
 
@@ -74,5 +79,19 @@ public class ShowHotel extends JPanel {
                     "background:fade(@accentColor,5%);");
             add(card, "split 4, w 280!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10");
         }
+    }
+
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("ShowHotel");
+        FlatRobotoFont.install();
+        FlatMacLightLaf.setup();
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setContentPane(new ShowHotel());
+        frame.pack();
+        frame.setLocationRelativeTo(null);
+        FlatLaf.registerCustomDefaultsSource("global.themes");
+        UIManager.put("defaultFont", FontUtils.getCompositeFont(FlatRobotoFont.FAMILY, Font.PLAIN, 13));
+        frame.setVisible(true);
+
     }
 }
