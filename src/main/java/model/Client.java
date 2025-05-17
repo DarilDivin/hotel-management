@@ -14,13 +14,11 @@ public class Client {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
-        this.password = password;
     }
 
     private String nom;
     private String prenom;
     private String email;
-    private String password;
     private Vector<Hotel> list_hotel = new Vector<Hotel>();
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
 
@@ -32,9 +30,6 @@ public class Client {
     }
     public String getEmail() {
         return this.email;
-    }
-    public String getPassword() {
-        return this.password;
     }
     public Vector<Hotel> getList_hotel() {
       return this.list_hotel;
@@ -51,9 +46,6 @@ public class Client {
     }
     public void setEmail(String e) {
         this.email = e;
-    }
-    public void setPassword(String p) {
-        this.password = p;
     }
 
 }
