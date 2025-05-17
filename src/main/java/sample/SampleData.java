@@ -1,5 +1,6 @@
 package sample;
 
+import model.Hotel;
 import model.utilsModel.ModelEmployee;
 import model.utilsModel.ModelProfile;
 //import org.jfree.data.category.CategoryDataset;
@@ -32,6 +33,23 @@ public class SampleData {
         list.add(new ModelEmployee("10-June-2024", 1700, "Sales Representative", "Proven track record in sales and client relationship management.", new ModelProfile(getProfileIcon("profile_7.jpg", defaultIcon), "David Martinez", "Miami")));
         list.add(new ModelEmployee("30-June-2024", 1900, "Project Manager", "Organized leader skilled in managing cross-functional teams.", new ModelProfile(getProfileIcon("profile_8.jpg", defaultIcon), "Ryan Anderson", "Portland")));
         list.add(new ModelEmployee("20-June-2024", 1550, "UX/UI Designer", "Design thinker focused on creating intuitive user experiences.", new ModelProfile(getProfileIcon("profile_9.jpg", defaultIcon), "Daniel Wilson", "Austin")));
+        return list;
+    }
+    
+    
+    public static List<Hotel> getSampleHotelData() {
+        List<Hotel> list = new ArrayList<>();
+
+        list.add(new Hotel(1, "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris"));
+        list.add(new Hotel(2, "Seaside Resort", "456 Ocean Drive, Miami Beach"));
+        list.add(new Hotel(3, "Mountain Lodge", "789 Alpine Way, Breckenridge"));
+        list.add(new Hotel(4, "Desert Oasis", "321 Palm Springs Road, Palm Springs"));
+        list.add(new Hotel(5, "City Center Inn", "555 Downtown Avenue, New York"));
+        list.add(new Hotel(6, "Lake View Hotel", "777 Lakefront Drive, Chicago"));
+        list.add(new Hotel(7, "Royal London Hotel", "888 Westminster Way, London"));
+        list.add(new Hotel(8, "Tokyo Towers", "999 Shibuya Street, Tokyo"));
+        list.add(new Hotel(9, "Sydney Harbor Hotel", "111 Harbor Drive, Sydney"));
+        list.add(new Hotel(10, "Dubai Pearl", "222 Sheikh Zayed Road, Dubai"));
         return list;
     }
 
