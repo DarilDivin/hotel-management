@@ -14,7 +14,7 @@ import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-public class Login extends Form {
+public class Login extends JPanel {
     public static final String ID = "login_id";
 
     public Login() {
@@ -84,8 +84,12 @@ public class Login extends Form {
             String userName = txtEmail.getText();
             String password = String.valueOf(txtPassword.getPassword());
             model.ModelUser user = getUser(userName, password);
+
+            ModalDialog.closeModal(Login.ID);
+
             MyDrawerBuilder.getInstance().setUser(user);
             FormManager.login();
+
         });
     }
 

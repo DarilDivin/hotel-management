@@ -1,10 +1,7 @@
 package view.system;
 
 import raven.modal.Drawer;
-import raven.modal.ModalDialog;
-import raven.modal.component.SimpleModalBorder;
-import view.auth.Login;
-import view.dashboard.menu.Stat;
+import view.dashboard.forms.DashboardForm;
 import view.landing.Hero;
 import view.utils.UndoRedo;
 //import raven.modal.demo.auth.Login;
@@ -73,7 +70,7 @@ public class FormManager {
         frame.getContentPane().removeAll();
         frame.getContentPane().add(getMainForm());
 
-        Drawer.setSelectedItemClass(Stat.class);
+        Drawer.setSelectedItemClass(DashboardForm.class);
         frame.repaint();
         frame.revalidate();
     }
