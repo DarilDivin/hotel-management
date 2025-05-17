@@ -18,6 +18,8 @@ import raven.modal.drawer.simple.footer.SimpleFooterData;
 import raven.modal.drawer.simple.header.SimpleHeader;
 import raven.modal.drawer.simple.header.SimpleHeaderData;
 import raven.modal.option.Option;
+import view.dashboard.forms.ChambreForm;
+import view.dashboard.forms.DashboardForm;
 import view.dashboard.forms.FormInput;
 import view.system.AllForms;
 import view.system.Form;
@@ -107,15 +109,15 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         MenuOption simpleMenuOption = new MenuOption();
 
         MenuItem items[] = new MenuItem[]{
-                new Item.Label("MAIN"),
-                new Item("Dashboard", "dashboard.svg", Stat.class),
-                new Item.Label("SWING UI"),
-                new Item("Forms", "dashboard.svg")
-                        .subMenu("Input", FormInput.class),
+                new Item.Label("Principal"),
+                new Item("Dashboard", "dashboard.svg", DashboardForm.class),
+                new Item.Label("Hotel"),
+                new Item("Hotel", "dashboard.svg")
+                        .subMenu("Chambre", ChambreForm.class),
 //                        .subMenu("Table", FormTable.class)
 //                        .subMenu("Responsive Layout", FormResponsiveLayout.class),
-//                new Item("Components", "components.svg")
-//                        .subMenu("Modal", FormModal.class)
+                new Item("Réservation", "space.svg")
+                        .subMenu("Modal", FormInput.class),
 //                        .subMenu("Toast", FormToast.class)
 //                        .subMenu("Date Time", FormDateTime.class)
 //                        .subMenu("Avatar Icon", FormAvatarIcon.class)
@@ -123,10 +125,10 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 //                new Item("Email", "email.svg", FormInput.class),
 //                new Item("Chat", "chat.svg"),
 //                new Item("Calendar", "calendar.svg"),
-                new Item.Label("OTHER"),
+                new Item.Label("Autres"),
 //                new Item("Setting", "setting.svg" /*,FormSetting.class*/),
 //                new Item("About", "about.svg"),
-                new Item("Logout", "log-out.svg")
+                new Item("Se déconnecter", "log-out.svg")
         };
 
         simpleMenuOption.setMenuStyle(new MenuStyle() {
@@ -165,20 +167,18 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 //                    FormManager.logout();
 //                    return;
 //                }
-                if (i == 2) {
+                if (i == 3) {
                     action.consume();
                     FormManager.logout();
                     return;
                 }
                 if (itemClass == null || !Form.class.isAssignableFrom(itemClass)) {
-                    System.out.println("No" + itemClass);
                     action.consume();
                     return;
                 }
                 try {
                     Class<? extends Form> formClass = (Class<? extends Form>) itemClass;
                     Form form = AllForms.getForm(formClass);
-                    System.out.println("Formulaire créé : " + form);
                     FormManager.showForm(form);
                 } catch (Exception e) {
                     e.printStackTrace();

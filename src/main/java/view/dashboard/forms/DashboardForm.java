@@ -1,4 +1,4 @@
-package view.dashboard.menu;
+package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
@@ -11,9 +11,9 @@ import javax.swing.*;
 import java.awt.*;
 
 @SystemForm(name = "Dashboard", description = "dashboard form display some details")
-public class Stat extends Form {
+public class DashboardForm extends Form {
 
-    public Stat() {init();}
+    public DashboardForm() {init();}
 
     private void init() {
         setLayout(new MigLayout("wrap,fill", "[fill]", "[grow 0][fill]"));
