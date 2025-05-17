@@ -4,6 +4,8 @@ import java.util.*;
 
 public class Reservation {
 
+    private int id;
+
     private Date date_debut;
     private Date date_fin;
 
@@ -20,6 +22,14 @@ public class Reservation {
         this.date_debut = date_debut;
         this.date_fin = date_fin;
         this.list_chambre = list_chambre;
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public void setId(int id) {
+        this.id = id;
     }
 
     public Client getClient() {

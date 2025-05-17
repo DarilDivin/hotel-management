@@ -7,27 +7,32 @@ import java.util.*;
  */
 public class Chambre {
 
-    private int numero;
+    private int id;
+    private String numero;
     private float prix;
     private float superficie;
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
-    private Etage etage;
     private Vector<Intervention> list_intervention = new Vector<Intervention>();
     private TypeChambre type_chambre;
 
-    public Chambre(Etage etage, TypeChambre type_chambre, int numero, float prix, float superficie) {
+    public Chambre(TypeChambre type_chambre, String numero, float prix, float superficie) {
         this.numero = numero;
         this.prix = prix;
         this.superficie = superficie;
-        this.etage = etage;
         this.type_chambre = type_chambre;
     }
 
-    public int getNumero() {
+    public int getId() {
+        return this.id;
+    }
+    public void setId(int newid) {
+        this.id = newid;
+    }
+    public String getNumero() {
         return numero;
     }
-    public void setNumero(int numero) {
-        this.numero = numero;
+    public void setNumero(String newnumero) {
+        this.numero = newnumero;
     }
     public float getPrix() {
         return prix;
@@ -40,12 +45,6 @@ public class Chambre {
     }
     public void setSuperficie(float superficie) {
         this.superficie = superficie;
-    }
-    public void setEtage(Etage etage) {
-        this.etage = etage;
-    }
-    public Etage getEtage() {
-        return etage;
     }
     public TypeChambre getTypeChambre() {
         return type_chambre;

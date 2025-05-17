@@ -5,6 +5,7 @@ package model;
  */
 public class Personnel {
 
+    private int id;
     private String nom;
     private String prenom;
     private String email;
@@ -20,6 +21,13 @@ public class Personnel {
         this.prenom = prenom;
         this.email = email;
         this.password = password;
+    }
+
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
     }
 
     public String getNom () {

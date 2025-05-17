@@ -13,10 +13,17 @@ public class Produit {
         this.prix = prix;
     }
 
+    private int id;
     private String nom;
     private int prix;
     private Consommation consommation;
 
+    public int getId() {
+        return id;
+    }
+    public void setId(int id) {
+        this.id = id;
+    }
     public String getNom() {
         return this.nom;
     }
