@@ -4,6 +4,7 @@ import com.formdev.flatlaf.fonts.roboto.FlatRobotoFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
 import com.formdev.flatlaf.themes.FlatMacLightLaf;
 import com.formdev.flatlaf.FlatClientProperties;
+import model.DAO.DatabaseConnection;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.Drawer;
 import view.dashboard.menu.Dashboard;
@@ -16,8 +17,15 @@ import view.system.FormManager;
 import javax.swing.*;
 import java.awt.*;
 
+import model.DAO.DatabaseConnection;
+
 public class Main extends JFrame{
     public Main() {
+
+        //Initialisation de la base de données
+        DatabaseConnection.initializeDatabase();
+
+
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         getRootPane().putClientProperty(FlatClientProperties.FULL_WINDOW_CONTENT, false);
         setTitle("ZenHotel");
