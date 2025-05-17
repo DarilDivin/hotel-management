@@ -10,6 +10,7 @@ import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
+import view.forms.CreatePersonnel;
 import view.login_register.SignUp;
 import view.system.Form;
 import view.utils.table.*;
@@ -119,7 +120,19 @@ public class AdminUserForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
+                if (column == 5) {
+                    return SwingConstants.TRAILING;
+                }
                 return SwingConstants.LEADING;
+            }
+
+            @Override
+            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+                Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+                if (column == 5) {
+                    ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
+                }
+                return component;
             }
         });
 
@@ -184,10 +197,10 @@ public class AdminUserForm extends Form {
                 .setLocation(Location.TRAILING, Location.TOP)
                 .setAnimateDistance(0.7f, 0);
         ModalDialog.showModal(this, new SimpleModalBorder(
-                new SignUp(), "Create", SimpleModalBorder.YES_NO_OPTION,
+                new CreatePersonnel(), "Create", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
 
-                }), option);
+                }), option, CreatePersonnel.ID);
     }
 
 }

@@ -40,16 +40,16 @@ public class SampleData {
     public static List<Hotel> getSampleHotelData() {
         List<Hotel> list = new ArrayList<>();
 
-        list.add(new Hotel(1, "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris"));
-        list.add(new Hotel(2, "Seaside Resort", "456 Ocean Drive, Miami Beach"));
-        list.add(new Hotel(3, "Mountain Lodge", "789 Alpine Way, Breckenridge"));
-        list.add(new Hotel(4, "Desert Oasis", "321 Palm Springs Road, Palm Springs"));
-        list.add(new Hotel(5, "City Center Inn", "555 Downtown Avenue, New York"));
-        list.add(new Hotel(6, "Lake View Hotel", "777 Lakefront Drive, Chicago"));
-        list.add(new Hotel(7, "Royal London Hotel", "888 Westminster Way, London"));
-        list.add(new Hotel(8, "Tokyo Towers", "999 Shibuya Street, Tokyo"));
-        list.add(new Hotel(9, "Sydney Harbor Hotel", "111 Harbor Drive, Sydney"));
-        list.add(new Hotel(10, "Dubai Pearl", "222 Sheikh Zayed Road, Dubai"));
+        list.add(new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris"));
+        list.add(new Hotel( "Seaside Resort", "456 Ocean Drive, Miami Beach"));
+        list.add(new Hotel( "Mountain Lodge", "789 Alpine Way, Breckenridge"));
+        list.add(new Hotel( "Desert Oasis", "321 Palm Springs Road, Palm Springs"));
+        list.add(new Hotel( "City Center Inn", "555 Downtown Avenue, New York"));
+        list.add(new Hotel( "Lake View Hotel", "777 Lakefront Drive, Chicago"));
+        list.add(new Hotel( "Royal London Hotel", "888 Westminster Way, London"));
+        list.add(new Hotel( "Tokyo Towers", "999 Shibuya Street, Tokyo"));
+        list.add(new Hotel( "Sydney Harbor Hotel", "111 Harbor Drive, Sydney"));
+        list.add(new Hotel( "Dubai Pearl", "222 Sheikh Zayed Road, Dubai"));
         return list;
     }
 

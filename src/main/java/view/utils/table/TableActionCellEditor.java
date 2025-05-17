@@ -15,7 +15,7 @@ public class TableActionCellEditor extends AbstractCellEditor implements TableCe
     private TableButtonsListener listener;
 
     public TableActionCellEditor() {
-        panel = new JPanel(new MigLayout("insets 0, ay center"));
+        panel = new JPanel(new MigLayout("insets 0 20 0 20, ay center, ax trailing"));
 
         btnSupprimer = new JButton("Supprimer");
         btnModifier = new JButton("Modifier");

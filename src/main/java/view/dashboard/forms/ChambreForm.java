@@ -48,7 +48,8 @@ public class ChambreForm extends Form {
             card.putClientProperty(FlatClientProperties.STYLE, "" +
                     "border:8,8,8,8;" +
                     "arc:$Component.arc;"+
-                    "background:fade(@accentColor,5%);");
+                    "[dark]background:tint($Panel.background,5%);" +
+                    "[light]background:fade(@accentColor,5%);");
             panelCard.add(card, "split 3, w 320!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10");
         }
 

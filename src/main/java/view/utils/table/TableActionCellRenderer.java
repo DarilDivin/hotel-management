@@ -17,7 +17,7 @@ public class TableActionCellRenderer extends JPanel implements TableCellRenderer
     private JButton btnModifier;
 
     public TableActionCellRenderer() {
-        setLayout(new MigLayout("insets 0, ay center"));
+        setLayout(new MigLayout("insets 0 20 0 20, ay center, ax trailing"));
 
         btnModifier = new JButton("Modifier");
         btnSupprimer = new JButton("Supprimer");
