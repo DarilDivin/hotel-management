@@ -9,13 +9,13 @@ public class Hotel {
 
     private String nom;
 
-    private Vector<Personnel> list_personnel = new Vector<Personnel>();
+    private String adresse;
 
-    private Vector<Etage> list_etage = new Vector<Etage>();
+    private Vector<Personnel> list_personnel = new Vector<Personnel>();
 
     private Vector<Client> list_client = new Vector<Client>();
 
-    public Hotel(String nom) {
+    public Hotel(String nom, String adresse) {
         this.nom = nom;
     }
 
@@ -23,12 +23,16 @@ public class Hotel {
         return nom;
     }
 
-    public void setNom(String nom) {
-        this.nom = nom;
+    public String getAdresse() {
+        return this.adresse;
     }
 
-    public Vector<Etage> getList_etages() {
-        return list_etage;
+    public void setAdresse(String newAdresse) {
+        this.adresse = newAdresse;
+    }
+
+    public void setNom(String nom) {
+        this.nom = nom;
     }
 
     public Vector<Personnel> getList_personnel() {

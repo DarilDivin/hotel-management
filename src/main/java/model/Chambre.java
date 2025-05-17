@@ -11,15 +11,13 @@ public class Chambre {
     private float prix;
     private float superficie;
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
-    private Etage etage;
     private Vector<Intervention> list_intervention = new Vector<Intervention>();
     private TypeChambre type_chambre;
 
-    public Chambre(Etage etage, TypeChambre type_chambre, int numero, float prix, float superficie) {
+    public Chambre(TypeChambre type_chambre, int numero, float prix, float superficie) {
         this.numero = numero;
         this.prix = prix;
         this.superficie = superficie;
-        this.etage = etage;
         this.type_chambre = type_chambre;
     }
 
@@ -40,12 +38,6 @@ public class Chambre {
     }
     public void setSuperficie(float superficie) {
         this.superficie = superficie;
-    }
-    public void setEtage(Etage etage) {
-        this.etage = etage;
-    }
-    public Etage getEtage() {
-        return etage;
     }
     public TypeChambre getTypeChambre() {
         return type_chambre;
