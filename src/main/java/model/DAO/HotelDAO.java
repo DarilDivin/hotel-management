@@ -74,6 +74,28 @@ public class HotelDAO {
         return hotel;
     }
 
+    public Hotel getHotelByNom(String nom) {
+        String sql = "SELECT * FROM Hotel WHERE nom = ?";
+        Hotel hotel = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, nom);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                hotel = new Hotel(rs.getString("nom"), rs.getString("adresse"));
+                hotel.setId(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return hotel;
+    }
+
     public void supprimerHotel(int id) {
         String sql = "DELETE FROM Hotel WHERE id = ?";
 

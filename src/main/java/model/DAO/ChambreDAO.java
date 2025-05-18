@@ -68,6 +68,37 @@ public class ChambreDAO {
         return chambre;
     }
 
+    public Chambre getChambreByNumero(String numero) {
+        String sql = "SELECT * FROM Chambre WHERE numero = ?";
+        Chambre chambre = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, numero);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                TypeChambreDAO typeChambreDAO = new TypeChambreDAO();
+                HotelDAO hotelDAO = new HotelDAO();
+                chambre = new Chambre(
+                        typeChambreDAO.getTypeChambreById(rs.getInt("type_id")),
+                        rs.getString("numero"),
+                        rs.getString("image"),
+                        rs.getFloat("prix"),
+                        rs.getFloat("superficie"),
+                        hotelDAO.getHotelById(rs.getInt("hotel_id"))
+                );
+                chambre.setId(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return chambre;
+    }
+
     public void deleteChambre(int id) {
         String sql = "DELETE FROM Chambre WHERE id = ?";
 

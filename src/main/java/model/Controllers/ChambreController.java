@@ -64,4 +64,8 @@ public class ChambreController {
     public static Vector<Chambre> getTousLesChambres() {
         return chambreDAO.getAllChambres();
     }
+
+    public static Chambre getChambreByNumero(String numero) {
+        return chambreDAO.getChambreByNumero(numero);
+    }
 }
