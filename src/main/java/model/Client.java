@@ -63,4 +63,8 @@ public class Client {
         this.hotel = h;
     }
 
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{false, row, nom, prenom, email};
+    }
+
 }

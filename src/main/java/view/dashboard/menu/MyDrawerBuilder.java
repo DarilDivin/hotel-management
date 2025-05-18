@@ -1,12 +1,10 @@
 package view.dashboard.menu;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import model.ModelUser;
+import model.utilsModel.ModelUser;
 import raven.modal.drawer.DrawerPanel;
 import raven.modal.drawer.item.Item;
 import raven.modal.drawer.item.MenuItem;
-//import raven.modal.drawer.menu.MenuAction;
-//import raven.modal.drawer.menu.MenuEvent;
 import raven.modal.drawer.menu.MenuAction;
 import raven.modal.drawer.menu.MenuEvent;
 import raven.modal.drawer.menu.MenuOption;
@@ -18,9 +16,7 @@ import raven.modal.drawer.simple.footer.SimpleFooterData;
 import raven.modal.drawer.simple.header.SimpleHeader;
 import raven.modal.drawer.simple.header.SimpleHeaderData;
 import raven.modal.option.Option;
-import view.dashboard.forms.ChambreForm;
-import view.dashboard.forms.DashboardForm;
-import view.dashboard.forms.FormInput;
+import view.dashboard.forms.*;
 import view.system.AllForms;
 import view.system.Form;
 import view.system.FormManager;
@@ -28,7 +24,6 @@ import view.system.FormManager;
 import javax.swing.*;
 import java.awt.*;
 import java.util.Arrays;
-//import java.util.Arrays;
 
 public class MyDrawerBuilder extends SimpleDrawerBuilder {
     private static MyDrawerBuilder instance;
@@ -109,25 +104,21 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         MenuOption simpleMenuOption = new MenuOption();
 
         MenuItem items[] = new MenuItem[]{
-                new Item.Label("Principal"),
+                new Item.Label("Administrateur"),
                 new Item("Dashboard", "dashboard.svg", DashboardForm.class),
-                new Item.Label("Hotel"),
-                new Item("Hotel", "dashboard.svg")
-                        .subMenu("Chambre", ChambreForm.class),
-//                        .subMenu("Table", FormTable.class)
-//                        .subMenu("Responsive Layout", FormResponsiveLayout.class),
-                new Item("Réservation", "space.svg")
-                        .subMenu("Modal", FormInput.class),
-//                        .subMenu("Toast", FormToast.class)
-//                        .subMenu("Date Time", FormDateTime.class)
-//                        .subMenu("Avatar Icon", FormAvatarIcon.class)
-//                        .subMenu("Slide Pane", FormSlidePane.class),
-//                new Item("Email", "email.svg", FormInput.class),
-//                new Item("Chat", "chat.svg"),
-//                new Item("Calendar", "calendar.svg"),
+                new Item("Gestion d'Hotel", "dashboard.svg")
+                        .subMenu("Hotels", HotelForm.class)
+                        .subMenu("Utilisateurs", AdminUserForm.class)
+                        .subMenu("Etage"),
+                new Item.Label("Personnel"),
+                new Item("Réceptionniste", "dashboard.svg")
+                        .subMenu("Client", ClientForm.class)
+                        .subMenu("Chambre", ChambreForm.class)
+                        .subMenu("Réservation", ReservationForm.class)
+                        .subMenu("Séjour", SejourForm.class),
+                new Item("Personnel de chambre", "space.svg")
+                        .subMenu("Intervention", InterventionForm.class),
                 new Item.Label("Autres"),
-//                new Item("Setting", "setting.svg" /*,FormSetting.class*/),
-//                new Item("About", "about.svg"),
                 new Item("Se déconnecter", "log-out.svg")
         };
 
@@ -137,7 +128,6 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
             public void styleMenuItem(JButton menu, int[] index, boolean isMainItem) {
                 boolean isTopLevel = index.length == 1;
                 if (isTopLevel) {
-                    // adjust item menu at the top level because it's contain icon
                     menu.putClientProperty(FlatClientProperties.STYLE, "" +
                             "margin:-1,0,-1,0;");
                 }
@@ -158,16 +148,8 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                 System.out.println("Drawer menu selected " + Arrays.toString(index));
                 Class<?> itemClass = action.getItem().getItemClass();
                 int i = index[0];
-//                if (i == 8) {
-//                    action.consume();
-//                    FormManager.showAbout();
-//                    return;
-//                } else if (i == 9) {
-//                    action.consume();
-//                    FormManager.logout();
-//                    return;
-//                }
-                if (i == 3) {
+
+                if (i == 5) {
                     action.consume();
                     FormManager.logout();
                     return;

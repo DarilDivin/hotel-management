@@ -2,12 +2,11 @@ package view.login_register;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
-import model.ModelUser;
+import model.utilsModel.ModelUser;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
-import view.system.Form;
 import view.system.FormManager;
 
 import javax.swing.*;
@@ -83,7 +82,7 @@ public class Login extends JPanel {
         cmdLogin.addActionListener(e -> {
             String userName = txtEmail.getText();
             String password = String.valueOf(txtPassword.getPassword());
-            model.ModelUser user = getUser(userName, password);
+            model.utilsModel.ModelUser user = getUser(userName, password);
 
             ModalDialog.closeModal(Login.ID);
 

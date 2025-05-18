@@ -1,8 +1,8 @@
 package view.dashboard.menu;
 
-import model.ModelUser;
+import model.utilsModel.ModelUser;
 import raven.modal.Drawer;
-//import raven.modal.demo.model.ModelUser;
+//import raven.modal.demo.model.utilsModel.ModelUser;
 //import raven.modal.demo.system.Form;
 import raven.modal.drawer.menu.MenuValidation;
 import view.system.Form;

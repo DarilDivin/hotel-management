@@ -1,5 +1,7 @@
 package model;
 
+import java.text.DecimalFormat;
+import java.text.NumberFormat;
 import java.util.*;
 
 /**
@@ -49,6 +51,8 @@ public class Hotel {
     public Vector<Client> getList_client() {
         return this.list_client;
     }
-    
 
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{false, row, nom, adresse};
+    }
 }

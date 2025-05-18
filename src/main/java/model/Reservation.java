@@ -68,4 +68,8 @@ public class Reservation {
     public void setChambre(Chambre chambre) {
         this.chambre = chambre;
     }
+
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{false, row, client, chambre, date_debut, date_fin};
+    }
 }
