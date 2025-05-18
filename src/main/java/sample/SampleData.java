@@ -1,7 +1,6 @@
 package sample;
 
-import model.Client;
-import model.Hotel;
+import model.*;
 import model.utilsModel.ModelEmployee;
 import model.utilsModel.ModelProfile;
 //import org.jfree.data.category.CategoryDataset;
@@ -69,6 +68,20 @@ public class SampleData {
         list.add(new Client("Davis", "Jennifer", "j.davis@email.com", hotel));
         list.add(new Client("Rodriguez", "Carlos", "c.rodriguez@email.com", hotel));
         list.add(new Client("Martinez", "Ana", "a.martinez@email.com", hotel));
+
+        return list;
+    }
+
+    public static List <Reservation> getSampleReservationData() {
+        List <Reservation> list = new ArrayList<>();
+        Client client = getSampleClientData().getFirst();
+        Chambre chambre = new Chambre(new TypeChambre("Double"), "A-103", 450, 46);
+        Hotel hotel = getSampleHotelData().getFirst();
+        Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
+
+
+        list.add(new Reservation(client, new Date(), new Date(), receptioniste, chambre));
+        list.add(new Reservation(client, new Date(), new Date(), receptioniste, chambre));
 
         return list;
     }

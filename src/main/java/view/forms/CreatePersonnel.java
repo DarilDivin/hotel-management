@@ -1,13 +1,8 @@
 package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import model.utilsModel.ModelUser;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
-import view.dashboard.menu.MyDrawerBuilder;
-import view.login_register.Login;
-import view.login_register.components.ButtonLink;
-import view.system.FormManager;
 
 import javax.swing.*;
 

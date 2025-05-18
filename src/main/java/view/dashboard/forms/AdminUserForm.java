@@ -11,7 +11,6 @@ import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
 import view.forms.CreatePersonnel;
-import view.login_register.SignUp;
 import view.system.Form;
 import view.utils.table.*;
 
@@ -94,7 +93,7 @@ public class AdminUserForm extends Form {
 
         // apply action button cell renderer
         table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRenderer());
-//        table.getColumnModel().getColumn(5).setCellEditor(new TableActionCellEditor());
+//
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
@@ -177,7 +176,7 @@ public class AdminUserForm extends Form {
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("raven/modal/demo/icons/search.svg", 0.4f));
-        JButton cmdCreate = new JButton("Create");
+        JButton cmdCreate = new JButton("Créer");
 //        JButton cmdEdit = new JButton("Edit");
 //        JButton cmdDelete = new JButton("Delete");
 
@@ -197,7 +196,7 @@ public class AdminUserForm extends Form {
                 .setLocation(Location.TRAILING, Location.TOP)
                 .setAnimateDistance(0.7f, 0);
         ModalDialog.showModal(this, new SimpleModalBorder(
-                new CreatePersonnel(), "Create", SimpleModalBorder.DEFAULT_OPTION,
+                new CreatePersonnel(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
 
                 }), option, CreatePersonnel.ID);

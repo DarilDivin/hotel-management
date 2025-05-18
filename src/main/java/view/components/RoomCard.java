@@ -11,7 +11,10 @@ import raven.modal.option.Location;
 import raven.modal.option.Option;
 import view.forms.CreateChambre;
 import view.forms.CreateHotel;
+import view.forms.CreateReservation;
 import view.home.RoundedImagePanel;
+import view.login_register.CustomModalBorder;
+import view.login_register.Login;
 
 import javax.swing.*;
 import java.awt.*;
@@ -126,6 +129,22 @@ public class RoomCard extends JPanel{
         cmdModifier.addActionListener((e) -> {
             showCreateChambreDialog();
         });
+
+        bookBtn.addActionListener((e) -> {
+            showCreateReservationDialog();
+        });
+    }
+
+    private void showCreateReservationDialog() {
+        Option option = ModalDialog.createOption()
+                .setCloseOnPressedEscape(true)
+                .setBackgroundClickType(Option.BackgroundClickType.CLOSE_MODAL)
+                .setAnimationEnabled(true)
+                .setOpacity(0.5f);
+        ModalDialog.showModal(this, new SimpleModalBorder(new CreateReservation(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
+                (controller, action) -> {
+
+                }), option, CreateReservation.ID);
     }
 
     public RoomCard() {
