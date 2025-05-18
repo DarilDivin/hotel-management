@@ -19,7 +19,7 @@ public class Chambre {
     public Chambre(TypeChambre type_chambre, String numero, String image, double prix, double superficie) {
         this.numero = numero;
         this.prix = prix;
-        this.image = image;
+        this.image = "/images/chambre/" + image;
         this.superficie = superficie;
         this.type_chambre = type_chambre;
     }
