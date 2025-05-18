@@ -2,20 +2,22 @@ package model.DAO;
 import java.sql.*;
 import java.util.*;
 import model.Chambre;
+import model.Hotel;
 import model.TypeChambre;
 
 public class ChambreDAO {
     public void addChambre(Chambre chambre) {
-        String sql = "INSERT INTO Chambre (numero, image, prix, superficie, type_id) VALUES (?, ?, ?, ?)";
+        String sql = "INSERT INTO Chambre (numero, image, prix, superficie, type_id, hotel_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
             stmt.setString(1, chambre.getNumero());
-            stmt.setString(1, chambre.getImage());
+            stmt.setString(2, chambre.getImage());
             stmt.setDouble(3, chambre.getPrix());
             stmt.setDouble(4, chambre.getSuperficie());
             stmt.setInt(5, chambre.getTypeChambre().getId());
+            stmt.setInt(6, chambre.getHotel().getId());
             stmt.executeUpdate();
 
             TypeChambreDAO typeChambreDAO = new TypeChambreDAO();
@@ -47,12 +49,14 @@ public class ChambreDAO {
 
             if (rs.next()) {
                 TypeChambreDAO typeChambreDAO = new TypeChambreDAO();
+                HotelDAO hotelDAO = new HotelDAO();
                 chambre = new Chambre(
                         typeChambreDAO.getTypeChambreById(rs.getInt("type_id")),
                         rs.getString("numero"),
                         rs.getString("image"),
                         rs.getFloat("prix"),
-                        rs.getFloat("superficie")
+                        rs.getFloat("superficie"),
+                        hotelDAO.getHotelById(rs.getInt("hotel_id"))
                 );
                 chambre.setId(rs.getInt("id"));
             }
@@ -79,7 +83,7 @@ public class ChambreDAO {
     }
 
     public void updateChambre(Chambre chambre) {
-        String sql = "UPDATE Chambre SET numero = ?, image = ? , prix = ?, superficie = ?, type_id = ? WHERE id = ?";
+        String sql = "UPDATE Chambre SET numero = ?, image = ? , prix = ?, superficie = ?, type_id = ?, hotel_id = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -89,7 +93,8 @@ public class ChambreDAO {
             stmt.setDouble(3, chambre.getPrix());
             stmt.setDouble(4, chambre.getSuperficie());
             stmt.setInt(5, chambre.getTypeChambre().getId());
-            stmt.setInt(6, chambre.getId());
+            stmt.setInt(6, chambre.getHotel().getId());
+            stmt.setInt(7, chambre.getId());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -106,6 +111,7 @@ public class ChambreDAO {
              ResultSet rs = stmt.executeQuery(sql)) {
 
             TypeChambreDAO typeChambreDAO = new TypeChambreDAO();
+            HotelDAO hotelDAO = new HotelDAO();
 
             while (rs.next()) {
                 Chambre chambre = new Chambre(
@@ -113,7 +119,8 @@ public class ChambreDAO {
                         rs.getString("numero"),
                         rs.getString("image"),
                         rs.getFloat("prix"),
-                        rs.getFloat("superficie")
+                        rs.getFloat("superficie"),
+                        hotelDAO.getHotelById(rs.getInt("id"))
                 );
                 chambre.setId(rs.getInt("id"));
                 chambres.add(chambre);
