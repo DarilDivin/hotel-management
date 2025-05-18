@@ -10,16 +10,18 @@ public class Client {
     /**
      * Default constructor
      */
-    public Client(String nom, String prenom, String email/*, String password*/) {
+    public Client(String nom, String prenom, String email, Hotel hotel) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
+        this.hotel = hotel;
     }
 
     private int id;
     private String nom;
     private String prenom;
     private String email;
+    private Hotel hotel;
     private Vector<Hotel> list_hotel = new Vector<Hotel>();
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
 
@@ -54,8 +56,15 @@ public class Client {
     public void setEmail(String e) {
         this.email = e;
     }
+    public Hotel getHotel() {
+        return this.hotel;
+    }
+    public void setHotel(Hotel h) {
+        this.hotel = h;
+    }
 
     public Object[] toTableRowCustom(int row) {
         return new Object[]{false, row, nom, prenom, email};
     }
+
 }

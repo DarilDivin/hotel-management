@@ -183,7 +183,7 @@ public class ClientForm extends Form {
         String prenom = (String) model.getValueAt(row, 3);
         String email = (String) model.getValueAt(row, 4);
 
-        return new Client(nom, prenom, email);
+        return new Client(nom, prenom, email, SampleData.getSampleHotelData().getFirst());
     }
 
     private Component createHeaderAction() {

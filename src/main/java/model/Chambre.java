@@ -9,13 +9,13 @@ public class Chambre {
 
     private int id;
     private String numero;
-    private float prix;
-    private float superficie;
+    private double prix;
+    private double superficie;
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
     private Vector<Intervention> list_intervention = new Vector<Intervention>();
     private TypeChambre type_chambre;
 
-    public Chambre(TypeChambre type_chambre, String numero, float prix, float superficie) {
+    public Chambre(TypeChambre type_chambre, String numero, double prix, double superficie) {
         this.numero = numero;
         this.prix = prix;
         this.superficie = superficie;
@@ -34,13 +34,13 @@ public class Chambre {
     public void setNumero(String newnumero) {
         this.numero = newnumero;
     }
-    public float getPrix() {
+    public double getPrix() {
         return prix;
     }
     public void setPrix(float prix) {
         this.prix = prix;
     }
-    public float getSuperficie() {
+    public double getSuperficie() {
         return superficie;
     }
     public void setSuperficie(float superficie) {

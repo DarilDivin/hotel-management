@@ -57,16 +57,18 @@ public class SampleData {
     public static List <Client> getSampleClientData() {
         List <Client> list = new ArrayList<>();
 
-        list.add(new Client("Smith", "John", "john.smith@email.com"));
-        list.add(new Client("Johnson", "Emma", "emma.j@email.com"));
-        list.add(new Client("Williams", "Michael", "m.williams@email.com"));
-        list.add(new Client("Brown", "Sarah", "sarah.b@email.com"));
-        list.add(new Client("Jones", "David", "david.jones@email.com"));
-        list.add(new Client("Garcia", "Maria", "m.garcia@email.com"));
-        list.add(new Client("Miller", "James", "james.m@email.com"));
-        list.add(new Client("Davis", "Jennifer", "j.davis@email.com"));
-        list.add(new Client("Rodriguez", "Carlos", "c.rodriguez@email.com"));
-        list.add(new Client("Martinez", "Ana", "a.martinez@email.com"));
+        Hotel hotel = getSampleHotelData().getFirst();
+
+        list.add(new Client("Smith", "John", "john.smith@email.com", hotel));
+        list.add(new Client("Johnson", "Emma", "emma.j@email.com", hotel));
+        list.add(new Client("Williams", "Michael", "m.williams@email.com", hotel));
+        list.add(new Client("Brown", "Sarah", "sarah.b@email.com", hotel));
+        list.add(new Client("Jones", "David", "david.jones@email.com", hotel));
+        list.add(new Client("Garcia", "Maria", "m.garcia@email.com", hotel));
+        list.add(new Client("Miller", "James", "james.m@email.com", hotel));
+        list.add(new Client("Davis", "Jennifer", "j.davis@email.com", hotel));
+        list.add(new Client("Rodriguez", "Carlos", "c.rodriguez@email.com", hotel));
+        list.add(new Client("Martinez", "Ana", "a.martinez@email.com", hotel));
 
         return list;
     }
