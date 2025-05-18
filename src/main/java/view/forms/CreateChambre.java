@@ -3,6 +3,8 @@ package view.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import jnafilechooser.api.JnaFileChooser;
 import model.Chambre;
+import model.Controllers.ChambreController;
+import model.Controllers.TypeChambreController;
 import model.TypeChambre;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
@@ -10,12 +12,14 @@ import raven.modal.Toast;
 import view.utils.ToastManager;
 
 import javax.swing.*;
+import java.io.File;
 
 public class CreateChambre extends JPanel {
     
     public static final String ID = "create_chambre_id";
     
     private Chambre chambre;
+    private File imageFile;
     
     public CreateChambre() {
         init();
@@ -71,10 +75,13 @@ public class CreateChambre extends JPanel {
                 "font:bold;");
         add(lbTypeChambre);
 
-        JComboBox<TypeChambre> cboTypeChambre = new JComboBox<TypeChambre>();
+        JComboBox<String> cboTypeChambre = new JComboBox<String>();
         // Ajouter les types de chambre disponibles
-        cboTypeChambre.addItem(new TypeChambre("Chambre Simple"));
-        cboTypeChambre.addItem(new TypeChambre("Chambre Double"));
+        for(TypeChambre tc : TypeChambreController.getTousLesTypesChambre()) {
+            cboTypeChambre.addItem(tc.getType());
+        }
+        cboTypeChambre.addItem(new TypeChambre("Chambre Simple").getType());
+        cboTypeChambre.addItem(new TypeChambre("Chambre Double").getType());
         cboTypeChambre.addActionListener(e -> {
             TypeChambre selectedType = (TypeChambre) cboTypeChambre.getSelectedItem();
             // Traiter la sélection
@@ -105,16 +112,6 @@ public class CreateChambre extends JPanel {
         cmdCreate.putClientProperty(FlatClientProperties.STYLE, "" +
                 "foreground:#FFFFFF;");
         add(cmdCreate);
-        
-        // formulaire de modification
-        if(chambre != null) {
-            txtNumero.setText(this.chambre.getNumero());
-            txtPrix.setText(String.valueOf(this.chambre.getPrix()));
-            txtSuperficie.setText(String.valueOf(this.chambre.getSuperficie()));
-            cboTypeChambre.setSelectedItem(this.chambre.getTypeChambre());
-            cmdCreate.setText("Modifier");
-        }
-
 
         // evenement
         cmdChooseImage.addActionListener((e) -> {
@@ -124,14 +121,41 @@ public class CreateChambre extends JPanel {
             boolean action = fileChooser.showOpenDialog(SwingUtilities.getWindowAncestor(this) );
             if(action) {
                 System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
+                imageFile = fileChooser.getSelectedFile();
                 ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Simple swing toast notification");
             }
         });
 
+        // formulaire de modification
+        if(chambre != null) {
+            txtNumero.setText(this.chambre.getNumero());
+            txtPrix.setText(String.valueOf(this.chambre.getPrix()));
+            txtSuperficie.setText(String.valueOf(this.chambre.getSuperficie()));
+            cboTypeChambre.setSelectedItem(this.chambre.getTypeChambre().getType());
+            cmdCreate.setText("Modifier");
+        }
+
         cmdCreate.addActionListener((e) -> {
             if (chambre != null) {
+                chambre.setNumero(txtNumero.getText().trim());
+                chambre.setPrix(Float.parseFloat(txtPrix.getText().trim()));
+                chambre.setSuperficie(Float.parseFloat(txtSuperficie.getText().trim()));
+//                chambre.setTypeChambre(TypeChambreController.getTypeChambreByType(cboTypeChambre.getSelectedItem()));
+
+                ChambreController.modifierChambre(chambre);
                 System.out.println("Modifier");
+            } else {
+//                Chambre newChambre = new Chambre(
+//                        TypeChambreController.getTypeChambreByType(cboTypeChambre.getSelectedItem()),
+//                        txtNumero.getText().trim(),
+//                        Float.parseFloat(txtPrix.getText().trim()),
+//                        Float.parseFloat(txtSuperficie.getText().trim())
+//                );
+//
+//                ChambreController.ajouterChambre(newChambre, imageFile);
             }
+
+
             ModalDialog.closeModal(CreateHotel.ID);
         });
     }

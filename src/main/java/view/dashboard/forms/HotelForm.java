@@ -102,7 +102,8 @@ public class HotelForm extends Form {
         editor.setTableButtonsListener(new TableButtonsListener() {
             @Override
             public void onModifier(int row) {
-                Hotel hotelToEdit = getHotelFromRow(row);
+                int id = getHotelIdFromRow(row);
+                Hotel hotelToEdit = HotelController.getHotelById(id);
 
                 Option option = ModalDialog.createOption();
                 option.getLayoutOption().setSize(-1, 1f)
@@ -114,16 +115,17 @@ public class HotelForm extends Form {
                 ModalDialog.showModal(parent, new SimpleModalBorder(
                         new CreateHotel(hotelToEdit), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
                         (controller, action) -> {
-                            refreshTableData();
+                            if(action==SimpleModalBorder.OK_OPTION) {
+                                System.out.println("OK");
+                                refreshTableData();
+                            }
                         }), option, CreateHotel.ID);
 
-                System.out.println("Modification de la ligne " + row);
             }
 
             @Override
             public void onSupprimer(int row) {
-                DefaultTableModel model = (DefaultTableModel) table.getModel();
-                int id = (int) model.getValueAt(row, 2);
+                int id = getHotelIdFromRow(row);
 
                 Option option = ModalDialog.createOption()
                         .setAnimationEnabled(true);
@@ -149,13 +151,11 @@ public class HotelForm extends Form {
                                     if(action==SimpleModalBorder.YES_OPTION) {
                                         HotelController.supprimerHotel(id);
                                         refreshTableData();
-                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Image sélectionnée avec succès");
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Hotel supprimé avec succès");
                                     }
                                 }),
                         option
                 );
-                // Votre code pour la suppression
-                System.out.println("Suppression de la ligne " + row);
             }
         });
         table.getColumnModel().getColumn(5).setCellEditor(editor);
@@ -167,7 +167,7 @@ public class HotelForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 4) {
+                if (column == 5) {
                     return SwingConstants.TRAILING;
                     
                 }
@@ -177,7 +177,7 @@ public class HotelForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 4) {
+                if (column == 5) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -244,6 +244,13 @@ public class HotelForm extends Form {
         return new Hotel(nom, adresse);
     }
 
+    private int getHotelIdFromRow(int row) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        int id = (int) model.getValueAt(row, 2);
+
+        return id;
+    }
+
     private Component createHeaderAction() {
         JPanel panel = new JPanel(new MigLayout("insets 5 20 5 20", "[fill,230]push[][]"));
 
@@ -274,7 +281,6 @@ public class HotelForm extends Form {
                         System.out.println("OK");
                         refreshTableData();
                     }
-                    refreshTableData();
                 }), option, CreateHotel.ID);
     }
     

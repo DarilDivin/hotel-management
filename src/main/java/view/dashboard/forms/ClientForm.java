@@ -3,15 +3,20 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Client;
+import model.Controllers.ClientController;
+import model.Controllers.HotelController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
+import view.components.SimpleMessageModal;
 import view.forms.CreateClient;
 import view.forms.CreatePersonnel;
 import view.system.Form;
+import view.utils.ToastManager;
 import view.utils.table.*;
 
 import javax.swing.*;
@@ -24,6 +29,14 @@ public class ClientForm extends Form {
 
     public ClientForm() {
         init();
+    }
+
+    private void refreshTableData() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Client client : ClientController.getTousLesClients()) {
+            model.addRow(client.toTableRowCustom(table.getRowCount() + 1));
+        }
     }
 
     private void init() {
@@ -49,11 +62,11 @@ public class ClientForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         /* creer le modele de table */
-        Object[] columns = new Object[]{"Sélection", "#", "Nom", "Prenoms", "Email", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#", "Id", "Nom", "Prenoms", "Email", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 0 || column == 5;
+                return column == 0 || column == 6;
             }
 
             @Override
@@ -74,10 +87,11 @@ public class ClientForm extends Form {
         // table option
         table.getColumnModel().getColumn(0).setMaxWidth(50);
         table.getColumnModel().getColumn(1).setMaxWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setMaxWidth(50);
         table.getColumnModel().getColumn(3).setPreferredWidth(150);
         table.getColumnModel().getColumn(4).setPreferredWidth(150);
-        table.getColumnModel().getColumn(5).setPreferredWidth(300);
+        table.getColumnModel().getColumn(5).setPreferredWidth(150);
+        table.getColumnModel().getColumn(6).setPreferredWidth(300);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -86,14 +100,14 @@ public class ClientForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRenderer());
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
             @Override
             public void onModifier(int row) {
-
-                Client clientToEdit = getClientFromRow(row);
+                int id = getClientIdFromRow(row);
+                Client clientToEdit = ClientController.getClientById(id);
 
                 Option option = ModalDialog.createOption();
                 option.getLayoutOption().setSize(-1, 1f)
@@ -105,18 +119,48 @@ public class ClientForm extends Form {
                 ModalDialog.showModal(parent, new SimpleModalBorder(
                         new CreateClient(clientToEdit), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
                         (controller, action) -> {
+                            if (action == SimpleModalBorder.OK_OPTION) {
+                                System.out.println("OK");
+                                refreshTableData();
+                            }
 
                         }), option, CreatePersonnel.ID);
             }
 
             @Override
             public void onSupprimer(int row) {
-                // Votre code pour la suppression
-                System.out.println("Suppression de la ligne " + row);
+                int id = getClientIdFromRow(row);
+
+                Option option = ModalDialog.createOption()
+                        .setAnimationEnabled(true);
+                option.getLayoutOption()
+                        .setLocation(Location.CENTER, Location.CENTER);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+
+
+                String titre = "Suppression Client";
+                String message = "Voulez vous vraiment supprimer cet élément ??";
+
+                ModalDialog.showModal(
+                        parent,
+                        new SimpleMessageModal(
+                                SimpleMessageModal.Type.WARNING,
+                                message, titre,
+                                SimpleModalBorder.YES_NO_OPTION,
+                                (controller, action) -> {
+                                    if(action==SimpleModalBorder.YES_OPTION) {
+                                        ClientController.supprimerClient(id);
+                                        refreshTableData();
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Client supprimé avec succès");
+                                    }
+                                }),
+                        option
+                );
             }
         });
-        table.getColumnModel().getColumn(5).setCellEditor(editor);
-
+        table.getColumnModel().getColumn(6).setCellEditor(editor);
 
         // alignment table header
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table) {
@@ -125,7 +169,7 @@ public class ClientForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 5) {
+                if (column == 6) {
                     return SwingConstants.TRAILING;
                 }
                 return SwingConstants.LEADING;
@@ -134,7 +178,7 @@ public class ClientForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 5) {
+                if (column == 6) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -170,8 +214,12 @@ public class ClientForm extends Form {
         panel.add(scrollPane);
 
 
-        for (Client d : SampleData.getSampleClientData()) {
-            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+//        for (Client d : SampleData.getSampleClientData()) {
+//            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+//        }
+
+        for (Client cl : ClientController.getTousLesClients()) {
+            model.addRow(cl.toTableRowCustom(table.getRowCount() + 1));
         }
         return panel;
     }
@@ -179,11 +227,16 @@ public class ClientForm extends Form {
     private Client getClientFromRow(int row) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        String nom = (String) model.getValueAt(row, 2);
-        String prenom = (String) model.getValueAt(row, 3);
-        String email = (String) model.getValueAt(row, 4);
+        String nom = (String) model.getValueAt(row, 3);
+        String prenom = (String) model.getValueAt(row, 4);
+        String email = (String) model.getValueAt(row, 5);
 
         return new Client(nom, prenom, email, SampleData.getSampleHotelData().getFirst());
+    }
+
+    private int getClientIdFromRow(int row) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        return (int) model.getValueAt(row, 2);
     }
 
     private Component createHeaderAction() {
@@ -210,6 +263,10 @@ public class ClientForm extends Form {
         ModalDialog.showModal(this, new SimpleModalBorder(
                 new CreateClient(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
+                    if (action == SimpleModalBorder.OK_OPTION) {
+                        System.out.println("OK");
+                        refreshTableData();
+                    }
 
                 }), option, CreateClient.ID);
     }

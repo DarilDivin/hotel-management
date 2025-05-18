@@ -1,6 +1,8 @@
 package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.Chambre;
+import model.Controllers.ChambreController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
@@ -14,14 +16,34 @@ import view.utils.SystemForm;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Vector;
 
 @SystemForm(name = "Liste des chambres d'un Hotel", description = "Il s'agit de la liste des chambres d'un Hotel")
 public class ChambreForm extends Form {
 
     private JPanel panelLayout;
+    private Vector<Chambre> chambres;
 
     public ChambreForm() {
         init();
+    }
+
+    public void refreshChambreList() {
+        chambres = ChambreController.getTousLesChambres();
+        panelCard.removeAll();
+
+        for (Chambre chambre : chambres) {
+            RoomCard card = new RoomCard();
+            card.putClientProperty(FlatClientProperties.STYLE, "" +
+                    "border:8,8,8,8;" +
+                    "arc:$Component.arc;" +
+                    "[dark]background:tint($Panel.background,5%);" +
+                    "[light]background:fade(@accentColor,5%);");
+            panelCard.add(card, "");
+        }
+
+        panelCard.revalidate();
+        panelCard.repaint();
     }
 
     private void init() {
@@ -57,6 +79,18 @@ public class ChambreForm extends Form {
                     "[light]background:fade(@accentColor,5%);");
             panelCard.add(card, "");
         }
+
+//        chambres = ChambreController.getTousLesChambres();
+//
+//        for (Chambre c : chambres) {
+//            RoomCard card = new RoomCard();
+//            card.putClientProperty(FlatClientProperties.STYLE, "" +
+//                    "border:8,8,8,8;" +
+//                    "arc:$Component.arc;"+
+//                    "[dark]background:tint($Panel.background,5%);" +
+//                    "[light]background:fade(@accentColor,5%);");
+//            panelCard.add(card, "");
+//        }
 
         //split 2, w 280!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10
 

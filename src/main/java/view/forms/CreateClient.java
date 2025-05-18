@@ -2,8 +2,14 @@ package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import model.Client;
+import model.Controllers.ClientController;
+import model.Controllers.HotelController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
+import raven.modal.component.ModalBorderAction;
+import raven.modal.component.SimpleModalBorder;
+import view.utils.ToastManager;
 
 import javax.swing.*;
 
@@ -84,10 +90,34 @@ public class CreateClient extends JPanel{
         // evenement
 
         cmdCreate.addActionListener((e) -> {
-            if (client != null) {
-                System.out.println("Modifier");
+            if (txtNom.getText().trim().isEmpty() || txtPrenom.getText().trim().isEmpty() || txtEmail.getText().trim().isEmpty()) {
+                ToastManager.getInstance().showToast(this, Toast.Type.ERROR, "Veuillez remplir tous les champs obligatoires");
+                return;
             }
-            ModalDialog.closeModal(CreatePersonnel.ID);
+
+            if (client != null) {
+                client.setNom(txtNom.getText().trim());
+                client.setPrenom(txtPrenom.getText().trim());
+                client.setEmail(txtEmail.getText().trim());
+
+                ClientController.modifierClient(client);
+
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Client modifié avec succès");
+            } else {
+                Client newClient = new Client(
+                        txtNom.getText().trim(),
+                        txtPrenom.getText().trim(),
+                        txtEmail.getText().trim(),
+                        HotelController.getHotelById(1)
+                );
+
+                ClientController.ajouterClient(newClient);
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Client créé avec succès");
+            }
+
+            ModalDialog.closeModal(CreateClient.ID);
         });
     }
 }

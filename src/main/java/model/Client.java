@@ -64,7 +64,7 @@ public class Client {
     }
 
     public Object[] toTableRowCustom(int row) {
-        return new Object[]{false, row, nom, prenom, email};
+        return new Object[]{false, row, id, nom, prenom, email};
     }
 
 }

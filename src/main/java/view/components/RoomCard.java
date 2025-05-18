@@ -3,9 +3,12 @@ package view.components;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Chambre;
+import model.Controllers.ChambreController;
+import model.Controllers.HotelController;
 import model.Hotel;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
@@ -15,6 +18,7 @@ import view.forms.CreateReservation;
 import view.home.RoundedImagePanel;
 import view.login_register.CustomModalBorder;
 import view.login_register.Login;
+import view.utils.ToastManager;
 
 import javax.swing.*;
 import java.awt.*;
@@ -22,6 +26,10 @@ import java.awt.*;
 public class RoomCard extends JPanel{
 
     private Chambre chambre;
+
+    public RoomCard() {
+        init();
+    }
 
     public RoomCard(Chambre chambre) {
         this.chambre = chambre;
@@ -35,7 +43,7 @@ public class RoomCard extends JPanel{
 
         add(hotelImg, "w 100%, h 205!");
 
-        JLabel hotelName = new JLabel("Chambre 2-115C");
+        JLabel hotelName = new JLabel("Chambre" + chambre.getNumero());
         hotelName.setFont(new Font("", Font.BOLD, 15));
         add(hotelName, "gapbottom 0, top, leading");
 
@@ -59,7 +67,7 @@ public class RoomCard extends JPanel{
 //        add(hotelAdress, "span 3,gapy n 5, top, leading");
 
 
-        JLabel roomSpace = new JLabel("56 m²");
+        JLabel roomSpace = new JLabel(chambre.getSuperficie() + " m²");
         roomSpace.setIcon(new FlatSVGIcon("images/space.svg", 15, 15).setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#000000"))));
         roomSpace.setFont(new Font("", Font.PLAIN, 14));
         roomSpace.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -90,7 +98,7 @@ public class RoomCard extends JPanel{
 
         add(new JSeparator(), "gapy 5 5, w 100%, h 10!");
 
-        JLabel roomPrice = new JLabel("450 €");
+        JLabel roomPrice = new JLabel(chambre.getPrix() + " €");
         roomPrice.setFont(new Font("", Font.BOLD, 20));
 //        roomPrice.putClientProperty(FlatClientProperties.STYLE, "" +
 //                "foreground:#007bff");
@@ -133,6 +141,37 @@ public class RoomCard extends JPanel{
         bookBtn.addActionListener((e) -> {
             showCreateReservationDialog();
         });
+
+        cmdSupprimer.addActionListener((e) -> {
+
+            Option option = ModalDialog.createOption()
+                    .setAnimationEnabled(true);
+            option.getLayoutOption()
+                    .setLocation(Location.CENTER, Location.CENTER);
+
+            Component parent = SwingUtilities.getWindowAncestor(this);
+            JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, this);
+
+
+            String titre = "Suppression Chambre";
+            String message = "Voulez vous vraiment supprimer cette Chambre ??";
+
+            ModalDialog.showModal(
+                    parent,
+                    new SimpleMessageModal(
+                            SimpleMessageModal.Type.WARNING,
+                            message, titre,
+                            SimpleModalBorder.YES_NO_OPTION,
+                            (controller, action) -> {
+                                if(action==SimpleModalBorder.YES_OPTION) {
+                                    ChambreController.supprimerChambre(chambre.getId());
+                                    // Mettre à jour l'affichage de la liste des chambres
+                                    ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Image sélectionnée avec succès");
+                                }
+                            }),
+                    option
+            );
+        });
     }
 
     private void showCreateReservationDialog() {
@@ -146,11 +185,6 @@ public class RoomCard extends JPanel{
 
                 }), option, CreateReservation.ID);
     }
-
-    public RoomCard() {
-        init();
-    }
-
 
     public void showCreateChambreDialog() {
         Option option = ModalDialog.createOption();

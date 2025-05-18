@@ -111,9 +111,9 @@ public class CreateHotel extends JPanel {
             if (hotel != null) {
                 hotel.setNom(txtNom.getText().trim());
                 hotel.setAdresse(txtAdresse.getText().trim());
-//                if (selectedImagePath != null) {
-//                    hotel.setImage(selectedImagePath);
-//                }
+//
+                HotelController.modifierHotel(hotel);
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
                 ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Hôtel modifié avec succès");
             } else {
                 Hotel newHotel = new Hotel(
@@ -125,7 +125,6 @@ public class CreateHotel extends JPanel {
                 ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
                 ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Hôtel créé avec succès");
             }
-
 
             ModalDialog.closeModal(CreateHotel.ID);
         });

@@ -23,6 +23,13 @@ public class Chambre {
         this.superficie = superficie;
         this.type_chambre = type_chambre;
     }
+    public Chambre(TypeChambre type_chambre, String numero, double prix, double superficie) {
+        this.numero = numero;
+        this.prix = prix;
+//        this.image = image;
+        this.superficie = superficie;
+        this.type_chambre = type_chambre;
+    }
 
     public int getId() {
         return this.id;
