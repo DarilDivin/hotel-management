@@ -37,6 +37,7 @@ public class DatabaseConnection {
         String createChambresTable = "CREATE TABLE IF NOT EXISTS Chambre (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    numero TEXT NOT NULL,\n" +
+                "    image TEXT NOT NULL,\n" +
                 "    prix FLOAT NOT NULL,\n" +
                 "    superficie FLOAT NOT NULL,\n" +
                 "    type_id INTEGER NOT NULL,\n" +

@@ -11,13 +11,15 @@ public class Chambre {
     private String numero;
     private double prix;
     private double superficie;
+    private String image;
     private Vector<Reservation> list_reservation = new Vector<Reservation>();
     private Vector<Intervention> list_intervention = new Vector<Intervention>();
     private TypeChambre type_chambre;
 
-    public Chambre(TypeChambre type_chambre, String numero, double prix, double superficie) {
+    public Chambre(TypeChambre type_chambre, String numero, String image, double prix, double superficie) {
         this.numero = numero;
         this.prix = prix;
+        this.image = image;
         this.superficie = superficie;
         this.type_chambre = type_chambre;
     }
@@ -33,6 +35,12 @@ public class Chambre {
     }
     public void setNumero(String newnumero) {
         this.numero = newnumero;
+    }
+    public String getImage() {
+        return image;
+    }
+    public void setImage(String newimage) {
+        this.image = newimage;
     }
     public double getPrix() {
         return prix;

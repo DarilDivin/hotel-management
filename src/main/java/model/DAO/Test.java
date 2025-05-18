@@ -1,6 +1,9 @@
 package model.DAO;
 
 import model.Hotel;
+import model.Reservation;
+import java.util.Date;
+import model.Receptioniste;
 import model.Chambre;
 import model.TypeChambre;
 import model.Client;
@@ -11,12 +14,11 @@ import java.util.Vector;
 public class Test {
     public static void main(String[] args) {
 
-        ClientDAO clientDAO = new ClientDAO();
+        Hotel hotel = new Hotel("La bastille", "12 rue du vernillon");
+        HotelController.ajouterHotel(hotel);
 
-        ClientController clientController = new ClientController(clientDAO);
-
-        Client client = new Client("Mathis", "ALIDJINOU", "Mathias.alidjinou@gmail.com", new Hotel("Hôtel Hêviosso", "123 Rue A"));
-        clientController.ajouterClient(client);
+        Client client = new Client("Castemberry","Jean-Pierre","jp@gmail.com", hotel);
+        ClientController.ajouterClient(client);
 
     }
 }

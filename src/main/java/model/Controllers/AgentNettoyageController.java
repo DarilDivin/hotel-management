@@ -5,29 +5,25 @@ import model.DAO.AgentNettoyageDAO;
 import java.util.Vector;
 
 public class AgentNettoyageController {
-    private AgentNettoyageDAO agentNettoyageDAO;
+    private static AgentNettoyageDAO agentNettoyageDAO = new AgentNettoyageDAO();
 
-    public AgentNettoyageController(AgentNettoyageDAO agentNettoyageDAO) {
-        this.agentNettoyageDAO = agentNettoyageDAO;
-    }
-
-    public void ajouterAgentNettoyage(AgentNettoyage agentNettoyage) {
+    public static void ajouterAgentNettoyage(AgentNettoyage agentNettoyage) {
         agentNettoyageDAO.ajouterAgentNettoyage(agentNettoyage);
     }
 
-    public AgentNettoyage getAgentNettoyageById(int id) {
+    public static AgentNettoyage getAgentNettoyageById(int id) {
         return agentNettoyageDAO.getAgentNettoyageById(id);
     }
 
-    public void supprimerAgentNettoyage(int id) {
+    public static void supprimerAgentNettoyage(int id) {
         agentNettoyageDAO.supprimerAgentNettoyage(id);
     }
 
-    public void modifierAgentNettoyage(AgentNettoyage agentNettoyage) {
+    public static void modifierAgentNettoyage(AgentNettoyage agentNettoyage) {
         agentNettoyageDAO.modifierAgentNettoyage(agentNettoyage);
     }
 
-    public Vector<AgentNettoyage> getTousLesAgentsNettoyage() {
+    public static Vector<AgentNettoyage> getTousLesAgentsNettoyage() {
         return agentNettoyageDAO.getTousLesAgentsNettoyage();
     }
 }

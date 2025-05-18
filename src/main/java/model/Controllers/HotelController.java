@@ -5,29 +5,25 @@ import model.DAO.HotelDAO;
 import java.util.Vector;
 
 public class HotelController {
-    private HotelDAO hotelDAO;
+    private static HotelDAO hotelDAO = new HotelDAO();
 
-    public HotelController(HotelDAO hotelDAO) {
-        this.hotelDAO = hotelDAO;
-    }
-
-    public void ajouterHotel(Hotel hotel) {
+    public static void ajouterHotel(Hotel hotel) {
         hotelDAO.ajouterHotel(hotel);
     }
 
-    public Hotel getHotelById(int id) {
+    public static Hotel getHotelById(int id) {
         return hotelDAO.getHotelById(id);
     }
 
-    public void supprimerHotel(int id) {
+    public static void supprimerHotel(int id) {
         hotelDAO.supprimerHotel(id);
     }
 
-    public void modifierHotel(Hotel hotel) {
+    public static void modifierHotel(Hotel hotel) {
         hotelDAO.modifierHotel(hotel);
     }
 
-    public Vector<Hotel> getTousLesHotels() {
+    public static Vector<Hotel> getTousLesHotels() {
         return hotelDAO.getAllHotels();
     }
 }
