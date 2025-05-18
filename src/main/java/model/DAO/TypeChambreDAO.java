@@ -49,6 +49,28 @@ public class TypeChambreDAO {
         return typeChambre;
     }
 
+    public TypeChambre getTypeChambreByType(String type) {
+        String sql = "SELECT * FROM TypeChambre WHERE type = ?";
+        TypeChambre typeChambre = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, type);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                typeChambre = new TypeChambre(rs.getString("type"));
+                typeChambre.setId(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return typeChambre;
+    }
+
     public void supprimerTypeChambre(int id) {
         String sql = "DELETE FROM TypeChambre WHERE id = ?";
 

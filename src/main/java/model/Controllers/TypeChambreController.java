@@ -26,4 +26,8 @@ public class TypeChambreController {
     public static Vector<TypeChambre> getTousLesTypesChambre() {
         return typeChambreDAO.getTousLesTypesChambre();
     }
+
+    public static TypeChambre getTypeChambreByType(String type) {
+        return typeChambreDAO.getTypeChambreByType(type);
+    }
 }

@@ -41,7 +41,9 @@ public class DatabaseConnection {
                 "    prix FLOAT NOT NULL,\n" +
                 "    superficie FLOAT NOT NULL,\n" +
                 "    type_id INTEGER NOT NULL,\n" +
+                "    hotel_id INTEGER NOT NULL, \n" +
                 "    FOREIGN KEY (type_id) REFERENCES TypeChambre(id)\n" +
+                "    FOREIGN KEY (hotel_id) REFERENCES Hotel(id)\n" +
                 ");";
 
         String createClientsTable = "CREATE TABLE IF NOT EXISTS Client (\n" +

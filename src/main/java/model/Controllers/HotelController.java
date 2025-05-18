@@ -26,4 +26,8 @@ public class HotelController {
     public static Vector<Hotel> getTousLesHotels() {
         return hotelDAO.getAllHotels();
     }
+
+    public static Hotel getHotelByNom(String nom) {
+        return hotelDAO.getHotelByNom(nom);
+    }
 }
