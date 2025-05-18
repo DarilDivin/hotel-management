@@ -5,29 +5,25 @@ import model.DAO.ProduitDAO;
 import java.util.Vector;
 
 public class ProduitController {
-    private ProduitDAO produitDAO;
+    private static ProduitDAO produitDAO = new ProduitDAO();
 
-    public ProduitController(ProduitDAO produitDAO) {
-        this.produitDAO = produitDAO;
-    }
-
-    public void ajouterProduit(Produit produit) {
+    public static void ajouterProduit(Produit produit) {
         produitDAO.addProduit(produit);
     }
 
-    public Produit getProduitById(int id) {
+    public static Produit getProduitById(int id) {
         return produitDAO.getProduitById(id);
     }
 
-    public void supprimerProduit(int id) {
+    public static void supprimerProduit(int id) {
         produitDAO.deleteProduit(id);
     }
 
-    public void modifierProduit(Produit produit) {
+    public static void modifierProduit(Produit produit) {
         produitDAO.updateProduit(produit);
     }
 
-    public Vector<Produit> getTousLesProduits() {
+    public static Vector<Produit> getTousLesProduits() {
         return produitDAO.getAllProduits();
     }
 }

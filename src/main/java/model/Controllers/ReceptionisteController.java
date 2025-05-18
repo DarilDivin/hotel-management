@@ -5,29 +5,25 @@ import model.DAO.ReceptionisteDAO;
 import java.util.Vector;
 
 public class ReceptionisteController {
-    private ReceptionisteDAO receptionisteDAO;
+    private static ReceptionisteDAO receptionisteDAO = new ReceptionisteDAO();
 
-    public ReceptionisteController(ReceptionisteDAO receptionisteDAO) {
-        this.receptionisteDAO = receptionisteDAO;
-    }
-
-    public void ajouterReceptioniste(Receptioniste receptioniste) {
+    public static void ajouterReceptioniste(Receptioniste receptioniste) {
         receptionisteDAO.ajouterReceptioniste(receptioniste);
     }
 
-    public Receptioniste getReceptionisteById(int id) {
+    public static Receptioniste getReceptionisteById(int id) {
         return receptionisteDAO.getReceptionisteById(id);
     }
 
-    public void supprimerReceptioniste(int id) {
+    public static void supprimerReceptioniste(int id) {
         receptionisteDAO.supprimerReceptioniste(id);
     }
 
-    public void modifierReceptioniste(Receptioniste receptioniste) {
+    public static void modifierReceptioniste(Receptioniste receptioniste) {
         receptionisteDAO.modifierReceptioniste(receptioniste);
     }
 
-    public Vector<Receptioniste> getTousLesReceptionistes() {
+    public static Vector<Receptioniste> getTousLesReceptionistes() {
         return receptionisteDAO.getTousLesReceptionistes();
     }
 }

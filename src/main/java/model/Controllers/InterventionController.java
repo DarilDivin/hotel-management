@@ -5,29 +5,25 @@ import model.DAO.InterventionDAO;
 import java.util.Vector;
 
 public class InterventionController {
-    private InterventionDAO interventionDAO;
+    private static InterventionDAO interventionDAO = new InterventionDAO();
 
-    public InterventionController(InterventionDAO interventionDAO) {
-        this.interventionDAO = interventionDAO;
-    }
-
-    public void ajouterIntervention(Intervention intervention) {
+    public static void ajouterIntervention(Intervention intervention) {
         interventionDAO.ajouterIntervention(intervention);
     }
 
-    public Intervention getInterventionById(int id) {
+    public static Intervention getInterventionById(int id) {
         return interventionDAO.getInterventionById(id);
     }
 
-    public void supprimerIntervention(int id) {
+    public static void supprimerIntervention(int id) {
         interventionDAO.supprimerIntervention(id);
     }
 
-    public void modifierIntervention(Intervention intervention) {
+    public static void modifierIntervention(Intervention intervention) {
         interventionDAO.modifierIntervention(intervention);
     }
 
-    public Vector<Intervention> getTousLesInterventions() {
+    public static Vector<Intervention> getTousLesInterventions() {
         return interventionDAO.getTousLesInterventions();
     }
 }

@@ -5,29 +5,25 @@ import model.DAO.ConsommationDAO;
 import java.util.Vector;
 
 public class ConsommationController {
-    private ConsommationDAO consommationDAO;
+    private static ConsommationDAO consommationDAO = new ConsommationDAO();
 
-    public ConsommationController(ConsommationDAO consommationDAO) {
-        this.consommationDAO = consommationDAO;
-    }
-
-    public void ajouterConsommation(Consommation consommation) {
+    public static void ajouterConsommation(Consommation consommation) {
         consommationDAO.ajouterConsommation(consommation);
     }
 
-    public Consommation getConsommationById(int id) {
+    public static Consommation getConsommationById(int id) {
         return consommationDAO.getConsommationById(id);
     }
 
-    public void supprimerConsommation(int id) {
+    public static void supprimerConsommation(int id) {
         consommationDAO.supprimerConsommation(id);
     }
 
-    public void modifierConsommation(Consommation consommation) {
+    public static void modifierConsommation(Consommation consommation) {
         consommationDAO.modifierConsommation(consommation);
     }
 
-    public Vector<Consommation> getTousLesConsommations() {
+    public static Vector<Consommation> getTousLesConsommations() {
         return consommationDAO.getTousLesConsommations();
     }
 }

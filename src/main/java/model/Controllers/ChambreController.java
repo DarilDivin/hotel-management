@@ -5,29 +5,25 @@ import model.DAO.ChambreDAO;
 import java.util.Vector;
 
 public class ChambreController {
-    private ChambreDAO chambreDAO;
+    private static ChambreDAO chambreDAO = new ChambreDAO();
 
-    public ChambreController(ChambreDAO chambreDAO) {
-        this.chambreDAO = chambreDAO;
-    }
-
-    public void ajouterChambre(Chambre chambre) {
+    public static void ajouterChambre(Chambre chambre) {
         chambreDAO.addChambre(chambre);
     }
 
-    public Chambre getChambreById(int id) {
+    public static Chambre getChambreById(int id) {
         return chambreDAO.getChambreById(id);
     }
 
-    public void supprimerChambre(int id) {
+    public static void supprimerChambre(int id) {
         chambreDAO.deleteChambre(id);
     }
 
-    public void modifierChambre(Chambre chambre) {
+    public static void modifierChambre(Chambre chambre) {
         chambreDAO.updateChambre(chambre);
     }
 
-    public Vector<Chambre> getTousLesChambres() {
+    public static Vector<Chambre> getTousLesChambres() {
         return chambreDAO.getAllChambres();
     }
 }

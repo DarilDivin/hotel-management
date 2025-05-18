@@ -5,29 +5,25 @@ import model.DAO.PersonnelDAO;
 import java.util.Vector;
 
 public class PersonnelController {
-    private PersonnelDAO personnelDAO;
+    private static PersonnelDAO personnelDAO = new PersonnelDAO();
 
-    public PersonnelController(PersonnelDAO personnelDAO) {
-        this.personnelDAO = personnelDAO;
-    }
-
-    public void ajouterPersonnel(Personnel personnel) {
+    public static void ajouterPersonnel(Personnel personnel) {
         personnelDAO.ajouterPersonnel(personnel);
     }
 
-    public Personnel getPersonnelById(int id) {
+    public static Personnel getPersonnelById(int id) {
         return personnelDAO.getPersonnelById(id);
     }
 
-    public void supprimerPersonnel(int id) {
+    public static void supprimerPersonnel(int id) {
         personnelDAO.supprimerPersonnel(id);
     }
 
-    public void modifierPersonnel(Personnel personnel) {
+    public static void modifierPersonnel(Personnel personnel) {
         personnelDAO.modifierPersonnel(personnel);
     }
 
-    public Vector<Personnel> getTousLesPersonnels() {
+    public static Vector<Personnel> getTousLesPersonnels() {
         return personnelDAO.getTousLesPersonnels();
     }
 }

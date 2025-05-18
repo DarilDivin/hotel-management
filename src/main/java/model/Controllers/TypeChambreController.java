@@ -5,29 +5,25 @@ import model.DAO.TypeChambreDAO;
 import java.util.Vector;
 
 public class TypeChambreController {
-    private TypeChambreDAO typeChambreDAO;
+    private static TypeChambreDAO typeChambreDAO = new TypeChambreDAO();
 
-    public TypeChambreController(TypeChambreDAO typeChambreDAO) {
-        this.typeChambreDAO = typeChambreDAO;
-    }
-
-    public void ajouterTypeChambre(TypeChambre typeChambre) {
+    public static void ajouterTypeChambre(TypeChambre typeChambre) {
         typeChambreDAO.ajouterTypeChambre(typeChambre);
     }
 
-    public TypeChambre getTypeChambreById(int id) {
+    public static TypeChambre getTypeChambreById(int id) {
         return typeChambreDAO.getTypeChambreById(id);
     }
 
-    public void supprimerTypeChambre(int id) {
+    public static void supprimerTypeChambre(int id) {
         typeChambreDAO.supprimerTypeChambre(id);
     }
 
-    public void modifierTypeChambre(TypeChambre typeChambre) {
+    public static void modifierTypeChambre(TypeChambre typeChambre) {
         typeChambreDAO.modifierTypeChambre(typeChambre);
     }
 
-    public Vector<TypeChambre> getTousLesTypesChambre() {
+    public static Vector<TypeChambre> getTousLesTypesChambre() {
         return typeChambreDAO.getTousLesTypesChambre();
     }
 }
