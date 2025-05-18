@@ -26,6 +26,14 @@ public class Chambre {
         this.hotel = hotel;
     }
 
+    public Chambre(TypeChambre type_chambre, String numero, double prix, double superficie, Hotel hotel) {
+        this.numero = numero;
+        this.prix = prix;
+        this.superficie = superficie;
+        this.type_chambre = type_chambre;
+        this.hotel = hotel;
+    }
+
     public int getId() {
         return this.id;
     }
