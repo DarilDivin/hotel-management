@@ -2,15 +2,19 @@ package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.Controllers.HotelController;
 import model.Hotel;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
+import view.components.SimpleMessageModal;
 import view.forms.CreateHotel;
 import view.system.Form;
+import view.utils.ToastManager;
 import view.utils.table.*;
 
 import javax.swing.*;
@@ -22,6 +26,14 @@ public class HotelForm extends Form {
 
     public HotelForm() {
         init();
+    }
+
+    private void refreshTableData() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Hotel hotel : HotelController.getTousLesHotels()) {
+            model.addRow(hotel.toTableRowCustom(table.getRowCount() + 1));
+        }
     }
 
     private void init() {
@@ -47,11 +59,11 @@ public class HotelForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         // Définition des colonnes
-        Object[] columns = new Object[]{"Sélection", "#", "Nom", "Adresse", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#","Id", "Nom", "Adresse", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
-                return column == 0 || column == 4; // Seule la colonne Actions est éditable
+                return column == 0 || column == 5; // Seule la colonne Actions est éditable
             }
 
             @Override
@@ -72,9 +84,10 @@ public class HotelForm extends Form {
         // Configuration des colonnes
         table.getColumnModel().getColumn(0).setMaxWidth(50);
         table.getColumnModel().getColumn(1).setMaxWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(300);
+        table.getColumnModel().getColumn(2).setMaxWidth(50);
         table.getColumnModel().getColumn(3).setPreferredWidth(300);
-        table.getColumnModel().getColumn(4).setPreferredWidth(200);
+        table.getColumnModel().getColumn(4).setPreferredWidth(300);
+        table.getColumnModel().getColumn(5).setPreferredWidth(200);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -83,7 +96,7 @@ public class HotelForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(4).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRenderer());
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
@@ -101,7 +114,7 @@ public class HotelForm extends Form {
                 ModalDialog.showModal(parent, new SimpleModalBorder(
                         new CreateHotel(hotelToEdit), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
                         (controller, action) -> {
-
+                            refreshTableData();
                         }), option, CreateHotel.ID);
 
                 System.out.println("Modification de la ligne " + row);
@@ -109,11 +122,43 @@ public class HotelForm extends Form {
 
             @Override
             public void onSupprimer(int row) {
+                DefaultTableModel model = (DefaultTableModel) table.getModel();
+                int id = (int) model.getValueAt(row, 2);
+
+                Option option = ModalDialog.createOption()
+                        .setAnimationEnabled(true);
+                option.getLayoutOption()
+//                        .setSize(-1, 1f)
+                        .setLocation(Location.CENTER, Location.CENTER);
+//                        .setAnimateDistance(0.7f, 0);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+
+
+                String titre = "Suppression Hotel";
+                String message = "Voulez vous vraiment supprimer cet élément ??";
+
+                ModalDialog.showModal(
+                        parent,
+                        new SimpleMessageModal(
+                                SimpleMessageModal.Type.WARNING,
+                                message, titre,
+                                SimpleModalBorder.YES_NO_OPTION,
+                                (controller, action) -> {
+                                    if(action==SimpleModalBorder.YES_OPTION) {
+                                        HotelController.supprimerHotel(id);
+                                        refreshTableData();
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Image sélectionnée avec succès");
+                                    }
+                                }),
+                        option
+                );
                 // Votre code pour la suppression
                 System.out.println("Suppression de la ligne " + row);
             }
         });
-        table.getColumnModel().getColumn(4).setCellEditor(editor);
+        table.getColumnModel().getColumn(5).setCellEditor(editor);
 
         // alignment table header
         table.getTableHeader().setDefaultRenderer(new TableHeaderAlignment(table) {
@@ -179,7 +224,11 @@ public class HotelForm extends Form {
         panel.add(createHeaderAction());
         panel.add(scrollPane);
 
-        for (Hotel d : SampleData.getSampleHotelData()) {
+//        for (Hotel d : SampleData.getSampleHotelData()) {
+//            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+//        }
+
+        for (Hotel d : HotelController.getTousLesHotels()) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
         return panel;
@@ -189,8 +238,8 @@ public class HotelForm extends Form {
     private Hotel getHotelFromRow(int row) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        String nom = (String) model.getValueAt(row, 2);
-        String adresse = (String) model.getValueAt(row, 3);
+        String nom = (String) model.getValueAt(row, 3);
+        String adresse = (String) model.getValueAt(row, 4);
 
         return new Hotel(nom, adresse);
     }
@@ -201,7 +250,7 @@ public class HotelForm extends Form {
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Rechercher un hôtel...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON,
-                new FlatSVGIcon("raven/modal/demo/icons/search.svg", 0.4f));
+                new FlatSVGIcon("images/search.svg", 0.4f));
 
         JButton cmdCreate = new JButton("Nouvel Hôtel");
         cmdCreate.addActionListener(e -> showCreateHotelDialog());
@@ -221,7 +270,13 @@ public class HotelForm extends Form {
         ModalDialog.showModal(this, new SimpleModalBorder(
                 new CreateHotel(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
-
+                    if(action==SimpleModalBorder.OK_OPTION) {
+                        System.out.println("OK");
+                        refreshTableData();
+                    }
+                    refreshTableData();
                 }), option, CreateHotel.ID);
     }
+    
+    
 }

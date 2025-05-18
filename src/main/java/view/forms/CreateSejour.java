@@ -1,18 +1,14 @@
 package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
-import jnafilechooser.api.JnaFileChooser;
 import model.Chambre;
-import model.Reservation;
-import model.Chambre;
+import model.Sejour;
 import model.TypeChambre;
 import net.miginfocom.swing.MigLayout;
 import raven.datetime.DatePicker;
 import raven.datetime.event.DateSelectionEvent;
 import raven.datetime.event.DateSelectionListener;
 import raven.modal.ModalDialog;
-import raven.modal.Toast;
-import view.utils.ToastManager;
 
 import javax.swing.*;
 import java.time.LocalDate;
@@ -20,23 +16,24 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 
-public class CreateReservation extends JPanel {
-    public static final String ID = "create_reservation_id";
-    private Reservation reservation;
+public class CreateSejour extends JPanel {
+    public static final String ID = "create_sejour_id";
+
+    private Sejour sejour;
 
     private Date dateDebut;
     private Date dateFin;
 
-    public CreateReservation(Reservation reservation) {
-        this.reservation = reservation;
+    public CreateSejour(Sejour sejour) {
+        this.sejour = sejour;
         init();
     }
 
-    public CreateReservation() {
+    public CreateSejour() {
         init();
     }
 
-    public void init() {
+    private void init() {
         setLayout(new MigLayout("insets n 20 n 20,fillx,wrap,width 380", "[fill]"));
 
         JTextArea text = new JTextArea("Lorem ipsum");
@@ -49,7 +46,7 @@ public class CreateReservation extends JPanel {
 
         add(new JSeparator(), "gapy 15 15");
 
-        JLabel lbdateDebut = new JLabel("Période de résevation");
+        JLabel lbdateDebut = new JLabel("Période de Séjour");
         lbdateDebut.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold;");
         add(lbdateDebut);
@@ -86,14 +83,14 @@ public class CreateReservation extends JPanel {
 
         JComboBox<String> cboChambre = new JComboBox<String>();
         // Ajouter les types de chambre disponibles
-        cboChambre.addItem(new Chambre(new TypeChambre("Simple"), "A-102", 400, 12.5).getNumero());
-        cboChambre.addItem(new Chambre(new TypeChambre("Double"), "A-105", 600, 12.5).getNumero());
+        cboChambre.addItem((new Chambre(new TypeChambre("Simple"), "A-102", 400, 12.5)).getNumero());
+        cboChambre.addItem((new Chambre(new TypeChambre("Double"), "A-105", 600, 12.5)).getNumero());
         cboChambre.addActionListener(e -> {
             String selectedType = (String) cboChambre.getSelectedItem();
             // Traiter la sélection
         });
 
-        if(reservation != null) {
+        if(sejour != null) {
             add(lbChambre);
             add(cboChambre);
         }
@@ -109,9 +106,9 @@ public class CreateReservation extends JPanel {
         add(cmdCreate);
 
         // formulaire pour modification
-        if(reservation != null) {
-            dateDebut = this.reservation.getDateDebut();
-            dateFin = this.reservation.getDateFin();
+        if(sejour != null) {
+//            dateDebut = this.sejour.getDateDebut();
+//            dateFin = this.sejour.getDateFin();
             cmdCreate.setText("Modifier");
         }
 
@@ -119,7 +116,7 @@ public class CreateReservation extends JPanel {
         // evenement
 
         cmdCreate.addActionListener((e) -> {
-            if (reservation != null) {
+            if (sejour != null) {
                 System.out.println("Modifier");
             }
             ModalDialog.closeModal(CreateHotel.ID);

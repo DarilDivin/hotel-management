@@ -3,16 +3,12 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
-import model.utilsModel.ModelEmployee;
-import model.utilsModel.ModelProfile;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
-import view.forms.CreateHotel;
-import view.forms.CreatePersonnel;
 import view.forms.CreateReservation;
 import view.system.Form;
 import view.utils.table.*;
@@ -107,7 +103,6 @@ public class ReservationForm extends Form {
 
         // apply action button cell renderer
         table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRenderer());
-//
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
@@ -218,7 +213,7 @@ public class ReservationForm extends Form {
 
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
-        txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("raven/modal/demo/icons/search.svg", 0.4f));
+        txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("images/search.svg", 0.4f));
         JButton cmdCreate = new JButton("Create");
 //        JButton cmdEdit = new JButton("Edit");
 //        JButton cmdDelete = new JButton("Delete");
