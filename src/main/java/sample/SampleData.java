@@ -1,5 +1,6 @@
 package sample;
 
+import model.Client;
 import model.Hotel;
 import model.utilsModel.ModelEmployee;
 import model.utilsModel.ModelProfile;
@@ -50,6 +51,23 @@ public class SampleData {
         list.add(new Hotel( "Tokyo Towers", "999 Shibuya Street, Tokyo"));
         list.add(new Hotel( "Sydney Harbor Hotel", "111 Harbor Drive, Sydney"));
         list.add(new Hotel( "Dubai Pearl", "222 Sheikh Zayed Road, Dubai"));
+        return list;
+    }
+    
+    public static List <Client> getSampleClientData() {
+        List <Client> list = new ArrayList<>();
+
+        list.add(new Client("Smith", "John", "john.smith@email.com"));
+        list.add(new Client("Johnson", "Emma", "emma.j@email.com"));
+        list.add(new Client("Williams", "Michael", "m.williams@email.com"));
+        list.add(new Client("Brown", "Sarah", "sarah.b@email.com"));
+        list.add(new Client("Jones", "David", "david.jones@email.com"));
+        list.add(new Client("Garcia", "Maria", "m.garcia@email.com"));
+        list.add(new Client("Miller", "James", "james.m@email.com"));
+        list.add(new Client("Davis", "Jennifer", "j.davis@email.com"));
+        list.add(new Client("Rodriguez", "Carlos", "c.rodriguez@email.com"));
+        list.add(new Client("Martinez", "Ana", "a.martinez@email.com"));
+
         return list;
     }
 

@@ -2,14 +2,30 @@ package view.components;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.Chambre;
+import model.Hotel;
 import net.miginfocom.swing.MigLayout;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import raven.modal.option.Location;
+import raven.modal.option.Option;
+import view.forms.CreateChambre;
+import view.forms.CreateHotel;
 import view.home.RoundedImagePanel;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class RoomCard extends JPanel{
-    public RoomCard() {
+
+    private Chambre chambre;
+
+    public RoomCard(Chambre chambre) {
+        this.chambre = chambre;
+        init();
+    }
+
+    public void init() {
         setLayout(new MigLayout("insets 0, wrap, fillx", "leading", "top"));
 
         RoundedImagePanel hotelImg = new RoundedImagePanel("/images/hotel1.jpg", 15);
@@ -83,10 +99,51 @@ public class RoomCard extends JPanel{
                 "font:bold;" +
                 "foreground: #ffffff;" +
                 "background: #007bff;");
-        add(bookBtn, "span,gapy n 10, top, w 100%");
+        add(bookBtn, "span, split 3,gapy n 10, top, w 100%");
+
+        JButton cmdModifier = new JButton();
+        cmdModifier.setIcon(new FlatSVGIcon("images/pencil.svg", 15, 15)
+                .setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#ffffff"))));
+        cmdModifier.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;" +
+                "foreground: #ffffff;" +
+                "background: #F77A00;");
+        add(cmdModifier, "w 40!");
 
 
+        JButton cmdSupprimer = new JButton();
+        cmdSupprimer.setIcon(new FlatSVGIcon("images/trash-2.svg", 15, 15)
+                .setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#ffffff"))));
+        cmdSupprimer.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;" +
+                "foreground: #ffffff;" +
+                "background: #dc3545;");
+        add(cmdSupprimer, "w 40!");
 
 
+        // evenement
+
+        cmdModifier.addActionListener((e) -> {
+            showCreateChambreDialog();
+        });
+    }
+
+    public RoomCard() {
+        init();
+    }
+
+
+    public void showCreateChambreDialog() {
+        Option option = ModalDialog.createOption();
+        option.getLayoutOption()
+                .setSize(WIDTH, 1f)
+                .setLocation(Location.TRAILING, Location.TOP)
+                .setAnimateDistance(0.7f, 0);
+
+        ModalDialog.showModal(this.getParent(), new SimpleModalBorder(
+                new CreateChambre(this.chambre), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
+                (controller, action) -> {
+                    // Ajouter la logique de traitement ici
+                }), option, CreateChambre.ID);
     }
 }

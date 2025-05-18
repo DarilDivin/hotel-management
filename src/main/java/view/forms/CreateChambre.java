@@ -2,7 +2,8 @@ package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import jnafilechooser.api.JnaFileChooser;
-import model.Hotel;
+import model.Chambre;
+import model.TypeChambre;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.Toast;
@@ -10,17 +11,20 @@ import view.utils.ToastManager;
 
 import javax.swing.*;
 
-public class CreateHotel extends JPanel {
-    public static final String ID = "create_hotel_id";
-    private Hotel hotel;
-
-    public CreateHotel() {
+public class CreateChambre extends JPanel {
+    
+    public static final String ID = "create_chambre_id";
+    
+    private Chambre chambre;
+    
+    public CreateChambre() {
         init();
     }
-    public CreateHotel(Hotel hotel) {
-        this.hotel = hotel;
-        init();
+    
+    public CreateChambre(Chambre chambre) {
+        this.chambre = chambre;
     }
+    
 
     public void init() {
         setLayout(new MigLayout("insets n 20 n 20,fillx,wrap,width 380", "[fill]"));
@@ -35,23 +39,47 @@ public class CreateHotel extends JPanel {
 
         add(new JSeparator(), "gapy 15 15");
 
-        JLabel lbNom = new JLabel("Nom");
-        lbNom.putClientProperty(FlatClientProperties.STYLE, "" +
+        JLabel lbNumero = new JLabel("Numero de chambre");
+        lbNumero.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold;");
-        add(lbNom);
+        add(lbNumero);
 
-        JTextField txtNom = new JTextField();
-        txtNom.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Royal London Hotel");
-        add(txtNom);
+        JTextField txtNumero = new JTextField();
+        txtNumero.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "A-102");
+        add(txtNumero);
 
-        JLabel lbAdresse = new JLabel("Adresse");
-        lbAdresse.putClientProperty(FlatClientProperties.STYLE, "" +
+        JLabel lbPrix = new JLabel("Prix");
+        lbPrix.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold;");
-        add(lbAdresse);
+        add(lbPrix);
 
-        JTextField txtAdresse = new JTextField();
-        txtAdresse.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "888 Westminster Way, London");
-        add(txtAdresse);
+        JTextField txtPrix = new JTextField();
+        txtPrix.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "$100");
+        add(txtPrix);
+
+        JLabel lbSuperficie = new JLabel("Superficie");
+        lbSuperficie.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;");
+        add(lbSuperficie);
+
+        JTextField txtSuperficie = new JTextField();
+        txtSuperficie.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "100m²");
+        add(txtSuperficie);
+
+        JLabel lbTypeChambre = new JLabel("Type de chambre");
+        lbTypeChambre.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;");
+        add(lbTypeChambre);
+
+        JComboBox<TypeChambre> cboTypeChambre = new JComboBox<TypeChambre>();
+        // Ajouter les types de chambre disponibles
+        cboTypeChambre.addItem(new TypeChambre("Chambre Simple"));
+        cboTypeChambre.addItem(new TypeChambre("Chambre Double"));
+        cboTypeChambre.addActionListener(e -> {
+            TypeChambre selectedType = (TypeChambre) cboTypeChambre.getSelectedItem();
+            // Traiter la sélection
+        });
+        add(cboTypeChambre);
 
         JLabel lbImage = new JLabel("Image");
         lbImage.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -77,11 +105,13 @@ public class CreateHotel extends JPanel {
         cmdCreate.putClientProperty(FlatClientProperties.STYLE, "" +
                 "foreground:#FFFFFF;");
         add(cmdCreate);
-
-        // formulaire pour modification
-        if(hotel != null) {
-            txtNom.setText(this.hotel.getNom());
-            txtAdresse.setText(this.hotel.getAdresse());
+        
+        // formulaire de modification
+        if(chambre != null) {
+            txtNumero.setText(this.chambre.getNumero());
+            txtPrix.setText(String.valueOf(this.chambre.getPrix()));
+            txtSuperficie.setText(String.valueOf(this.chambre.getSuperficie()));
+            cboTypeChambre.setSelectedItem(this.chambre.getTypeChambre());
             cmdCreate.setText("Modifier");
         }
 
@@ -99,7 +129,7 @@ public class CreateHotel extends JPanel {
         });
 
         cmdCreate.addActionListener((e) -> {
-            if (hotel != null) {
+            if (chambre != null) {
                 System.out.println("Modifier");
             }
             ModalDialog.closeModal(CreateHotel.ID);

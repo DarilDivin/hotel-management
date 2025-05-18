@@ -2,7 +2,13 @@ package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
+import raven.modal.ModalDialog;
+import raven.modal.component.SimpleModalBorder;
+import raven.modal.option.Location;
+import raven.modal.option.Option;
 import view.components.RoomCard;
+import view.forms.CreateChambre;
+import view.forms.CreateHotel;
 import view.layout.ResponsiveLayout;
 import view.system.Form;
 import view.utils.SystemForm;
@@ -24,8 +30,9 @@ public class ChambreForm extends Form {
 //        setLayout(new MigLayout("wrap, fillx", "[center]"));
         setLayout(new BorderLayout(0, 0));
         createPanelLayout();
+        headerPanel();
 
-        responsiveLayout = new ResponsiveLayout(ResponsiveLayout.JustifyContent.FIT_CONTENT, new Dimension(300, 515), 10, 10);
+        responsiveLayout = new ResponsiveLayout(ResponsiveLayout.JustifyContent.FIT_CONTENT, new Dimension(280, 515), 10, 10);
         panelCard = new JPanel(responsiveLayout);
         panelCard.putClientProperty(FlatClientProperties.STYLE, "" +
                 "border:10,10,10,10;");
@@ -50,9 +57,25 @@ public class ChambreForm extends Form {
                     "arc:$Component.arc;"+
                     "[dark]background:tint($Panel.background,5%);" +
                     "[light]background:fade(@accentColor,5%);");
-            panelCard.add(card, "split 3, w 320!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10");
+            panelCard.add(card, "split 2, w 280!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10");
         }
 
+    }
+
+    private void headerPanel() {
+        JPanel panel = new JPanel(new MigLayout("wrap,fillx", "[center]"));
+        JLabel title = new JLabel("Liste des chambres");
+        title.setFont(new Font("", Font.BOLD, 28));
+        panel.add(title, "split 2, gapbefore 10, gapafter 10, gapy 10, w 950!");
+
+        JButton cmdCreate = new JButton("Créer une chambre");
+        panel.add(cmdCreate, "al right, gapbefore 10, gapafter 10, gapy 10");
+        add(panel, BorderLayout.NORTH);
+
+        // evenement
+        cmdCreate.addActionListener((e) -> {
+            showCreateChambreDialog();
+        });
     }
 
     private void createPanelLayout() {
@@ -67,6 +90,18 @@ public class ChambreForm extends Form {
                 "trackInsets:0,0,0,0;" +
                 "thumbInsets:0,0,0,0;");
         add(scrollPane);
+    }
+
+    private void showCreateChambreDialog() {
+        Option option = ModalDialog.createOption();
+        option.getLayoutOption().setSize(-1, 1f)
+                .setLocation(Location.TRAILING, Location.TOP)
+                .setAnimateDistance(0.7f, 0);
+        ModalDialog.showModal(this, new SimpleModalBorder(
+                new CreateChambre(), "Create", SimpleModalBorder.DEFAULT_OPTION,
+                (controller, action) -> {
+
+                }), option, CreateChambre.ID);
     }
 
     private JPanel panelCard;

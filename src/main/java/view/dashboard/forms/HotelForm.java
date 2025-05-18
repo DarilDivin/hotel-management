@@ -3,7 +3,6 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Hotel;
-import model.utilsModel.ModelProfile;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
@@ -11,16 +10,15 @@ import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
 import view.forms.CreateHotel;
-import view.forms.CreatePersonnel;
 import view.system.Form;
 import view.utils.table.*;
 
 import javax.swing.*;
-import javax.swing.table.DefaultTableCellRenderer;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
 
 public class HotelForm extends Form {
+    private JTable table;
 
     public HotelForm() {
         init();
@@ -66,7 +64,7 @@ public class HotelForm extends Form {
         };
 
         // Création de la table
-        JTable table = new JTable(model);
+        this.table = new JTable(model);
 
         JScrollPane scrollPane = new JScrollPane(table);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
@@ -91,7 +89,21 @@ public class HotelForm extends Form {
         editor.setTableButtonsListener(new TableButtonsListener() {
             @Override
             public void onModifier(int row) {
-                // Votre code pour la modification
+                Hotel hotelToEdit = getHotelFromRow(row);
+
+                Option option = ModalDialog.createOption();
+                option.getLayoutOption().setSize(-1, 1f)
+                        .setLocation(Location.TRAILING, Location.TOP)
+                        .setAnimateDistance(0.7f, 0);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+
+                ModalDialog.showModal(parent, new SimpleModalBorder(
+                        new CreateHotel(hotelToEdit), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
+                        (controller, action) -> {
+
+                        }), option, CreateHotel.ID);
+
                 System.out.println("Modification de la ligne " + row);
             }
 
@@ -164,17 +176,24 @@ public class HotelForm extends Form {
         title.putClientProperty(FlatClientProperties.STYLE, "font:bold +2");
         panel.add(title, "gapx 20");
 
-        // En-tête avec recherche et bouton création
         panel.add(createHeaderAction());
         panel.add(scrollPane);
 
-        // sample data
         for (Hotel d : SampleData.getSampleHotelData()) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
         return panel;
     }
 
+
+    private Hotel getHotelFromRow(int row) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        String nom = (String) model.getValueAt(row, 2);
+        String adresse = (String) model.getValueAt(row, 3);
+
+        return new Hotel(nom, adresse);
+    }
 
     private Component createHeaderAction() {
         JPanel panel = new JPanel(new MigLayout("insets 5 20 5 20", "[fill,230]push[][]"));
@@ -195,15 +214,12 @@ public class HotelForm extends Form {
     }
 
     private void showCreateHotelDialog() {
-        // À implémenter : Afficher une boîte de dialogue pour créer un nouvel hôtel
-//        JOptionPane.showMessageDialog(this, "Fonctionnalité à implémenter");
-
         Option option = ModalDialog.createOption();
         option.getLayoutOption().setSize(-1, 1f)
                 .setLocation(Location.TRAILING, Location.TOP)
                 .setAnimateDistance(0.7f, 0);
         ModalDialog.showModal(this, new SimpleModalBorder(
-                new CreateHotel(), "Create", SimpleModalBorder.DEFAULT_OPTION,
+                new CreateHotel(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
 
                 }), option, CreateHotel.ID);

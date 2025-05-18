@@ -10,7 +10,7 @@ public class Client {
     /**
      * Default constructor
      */
-    public Client(String nom, String prenom, String email, String password) {
+    public Client(String nom, String prenom, String email/*, String password*/) {
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
@@ -55,4 +55,7 @@ public class Client {
         this.email = e;
     }
 
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{false, row, nom, prenom, email};
+    }
 }
