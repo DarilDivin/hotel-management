@@ -53,6 +53,6 @@ public class Hotel {
     }
 
     public Object[] toTableRowCustom(int row) {
-        return new Object[]{false, row, nom, adresse};
+        return new Object[]{false,row, id, nom, adresse};
     }
 }

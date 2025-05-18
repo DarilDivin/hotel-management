@@ -84,12 +84,12 @@ public class CreateReservation extends JPanel {
         lbChambre.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold;");
 
-        JComboBox<Chambre> cboChambre = new JComboBox<Chambre>();
+        JComboBox<String> cboChambre = new JComboBox<String>();
         // Ajouter les types de chambre disponibles
-        cboChambre.addItem(new Chambre(new TypeChambre("Simple"), "A-102", 400, 12.5));
-        cboChambre.addItem(new Chambre(new TypeChambre("Double"), "A-105", 600, 12.5));
+        cboChambre.addItem(new Chambre(new TypeChambre("Simple"), "A-102", 400, 12.5).getNumero());
+        cboChambre.addItem(new Chambre(new TypeChambre("Double"), "A-105", 600, 12.5).getNumero());
         cboChambre.addActionListener(e -> {
-            Chambre selectedType = (Chambre) cboChambre.getSelectedItem();
+            String selectedType = (String) cboChambre.getSelectedItem();
             // Traiter la sélection
         });
 
