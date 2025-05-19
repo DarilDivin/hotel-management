@@ -26,4 +26,16 @@ public class PersonnelController {
     public static Vector<Personnel> getTousLesPersonnels() {
         return personnelDAO.getTousLesPersonnels();
     }
+
+    public static Personnel getPersonnelByEmailAndPassword(String email, String password) {
+        return personnelDAO.getPersonnelByEmailAndPassword(email, password);
+    }
+
+    public static Personnel getReceptionisteById(int id) {
+        return personnelDAO.getReceptionisteById(id);
+    }
+
+    public static Personnel getAgentNettoyageById(int id) {
+        return personnelDAO.getAgentNettoyageById(id);
+    }
 }
