@@ -76,8 +76,14 @@ public class Personnel {
         this.hotel = newHotel;
     }
 
+<<<<<<< HEAD
     public void setRole(String newRole) {
         this.role = newRole;
     }
 
+=======
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{false, row, id, nom, prenom, email, hotel.getNom()};
+    }
+>>>>>>> 2be42a83ffefea2ccce5b2d6a326ab80f015e3de
 }

@@ -4,15 +4,19 @@ import com.formdev.flatlaf.FlatClientProperties;
 import jnafilechooser.api.JnaFileChooser;
 import model.Chambre;
 import model.Controllers.ChambreController;
+import model.Controllers.HotelController;
 import model.Controllers.TypeChambreController;
 import model.TypeChambre;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.Toast;
+import raven.modal.component.ModalBorderAction;
+import raven.modal.component.SimpleModalBorder;
 import view.utils.ToastManager;
 
 import javax.swing.*;
 import java.io.File;
+import java.util.Objects;
 
 public class CreateChambre extends JPanel {
     
@@ -80,10 +84,10 @@ public class CreateChambre extends JPanel {
         for(TypeChambre tc : TypeChambreController.getTousLesTypesChambre()) {
             cboTypeChambre.addItem(tc.getType());
         }
-        cboTypeChambre.addItem(new TypeChambre("Chambre Simple").getType());
-        cboTypeChambre.addItem(new TypeChambre("Chambre Double").getType());
+//        cboTypeChambre.addItem(new TypeChambre("Chambre Simple").getType());
+//        cboTypeChambre.addItem(new TypeChambre("Chambre Double").getType());
         cboTypeChambre.addActionListener(e -> {
-            TypeChambre selectedType = (TypeChambre) cboTypeChambre.getSelectedItem();
+            TypeChambre selectedType = (TypeChambre) TypeChambreController.getTypeChambreByType(Objects.requireNonNull(cboTypeChambre.getSelectedItem()).toString());
             // Traiter la sélection
         });
         add(cboTypeChambre);
@@ -122,7 +126,7 @@ public class CreateChambre extends JPanel {
             if(action) {
                 System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
                 imageFile = fileChooser.getSelectedFile();
-                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Simple swing toast notification");
+//                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Image uploadé avec succès");
             }
         });
 
@@ -140,23 +144,29 @@ public class CreateChambre extends JPanel {
                 chambre.setNumero(txtNumero.getText().trim());
                 chambre.setPrix(Float.parseFloat(txtPrix.getText().trim()));
                 chambre.setSuperficie(Float.parseFloat(txtSuperficie.getText().trim()));
-//                chambre.setTypeChambre(TypeChambreController.getTypeChambreByType(cboTypeChambre.getSelectedItem()));
+                chambre.setTypeChambre(TypeChambreController.getTypeChambreByType(Objects.requireNonNull(cboTypeChambre.getSelectedItem()).toString()));
 
                 ChambreController.modifierChambre(chambre);
-                System.out.println("Modifier");
+
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Chambre modifié avec succès");
             } else {
-//                Chambre newChambre = new Chambre(
-//                        TypeChambreController.getTypeChambreByType(cboTypeChambre.getSelectedItem()),
-//                        txtNumero.getText().trim(),
-//                        Float.parseFloat(txtPrix.getText().trim()),
-//                        Float.parseFloat(txtSuperficie.getText().trim())
-//                );
-//
-//                ChambreController.ajouterChambre(newChambre, imageFile);
+                Chambre newChambre = new Chambre(
+                        TypeChambreController.getTypeChambreByType(Objects.requireNonNull(cboTypeChambre.getSelectedItem()).toString()),
+                        txtNumero.getText().trim(),
+                        Float.parseFloat(txtPrix.getText().trim()),
+                        Float.parseFloat(txtSuperficie.getText().trim()),
+                        HotelController.getHotelById(1)
+                );
+
+                ChambreController.ajouterChambre(newChambre, imageFile);
+
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Chambre créé avec succès");
             }
 
 
-            ModalDialog.closeModal(CreateHotel.ID);
+            ModalDialog.closeModal(CreateChambre.ID);
         });
     }
 }

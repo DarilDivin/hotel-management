@@ -2,16 +2,22 @@ package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.Controllers.ClientController;
+import model.Controllers.PersonnelController;
+import model.Personnel;
 import model.utilsModel.ModelEmployee;
 import model.utilsModel.ModelProfile;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
+import view.components.SimpleMessageModal;
 import view.forms.CreatePersonnel;
 import view.system.Form;
+import view.utils.ToastManager;
 import view.utils.table.*;
 
 import javax.swing.*;
@@ -22,6 +28,15 @@ public class AdminUserForm extends Form {
     public AdminUserForm() {
         init();
     }
+
+    private void refreshTableData() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Personnel p : PersonnelController.getTousLesPersonnels()) {
+            model.addRow(p.toTableRowCustom(table.getRowCount() + 1));
+        }
+    }
+    private JTable table;
 
     private void init() {
         setLayout(new MigLayout("fillx,wrap", "[fill]", "[][fill,grow]"));
@@ -46,12 +61,12 @@ public class AdminUserForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         /* creer le modele de table */
-        Object[] columns = new Object[]{"Sélection", "#", "Nom", "Prenoms", "Email", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#", "Id", "Nom", "Prenoms", "Email", "Hotel", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // autoriser la modification des cellules uniquement dans la colonne 0 pour la case à cocher
-                return column == 0 || column == 5;
+                return column == 0 || column == 7;
             }
 
             @Override
@@ -59,16 +74,16 @@ public class AdminUserForm extends Form {
                 // use boolean type at column 0 for a checkbox
                 if (columnIndex == 0)
                     return Boolean.class;
-                // use profile class
-                if (columnIndex == 2) {
-                    return ModelProfile.class;
-                }
+//                // use profile class
+//                if (columnIndex == 2) {
+//                    return ModelProfile.class;
+//                }
                 return super.getColumnClass(columnIndex);
             }
         };
 
         // create table
-        JTable table = new JTable(model);
+        this.table = new JTable(model);
 
         // table scroll
         JScrollPane scrollPane = new JScrollPane(table);
@@ -77,39 +92,83 @@ public class AdminUserForm extends Form {
         // table option
         table.getColumnModel().getColumn(0).setMaxWidth(50);
         table.getColumnModel().getColumn(1).setMaxWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(150);
+        table.getColumnModel().getColumn(2).setMaxWidth(50);
         table.getColumnModel().getColumn(3).setPreferredWidth(150);
         table.getColumnModel().getColumn(4).setPreferredWidth(150);
-        table.getColumnModel().getColumn(5).setPreferredWidth(300);
+        table.getColumnModel().getColumn(5).setPreferredWidth(150);
+        table.getColumnModel().getColumn(6).setPreferredWidth(150);
+        table.getColumnModel().getColumn(7).setPreferredWidth(300);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
 
         // apply profile cell renderer
-        table.setDefaultRenderer(ModelProfile.class, new TableProfileCellRenderer(table));
+//        table.setDefaultRenderer(ModelProfile.class, new TableProfileCellRenderer(table));
 
         // apply checkbox custom to the table header
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(5).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
 //
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
             @Override
             public void onModifier(int row) {
-                // Votre code pour la modification
-                System.out.println("Modification de la ligne " + row);
+                int id = getPersonnelId(row);
+                Personnel p = PersonnelController.getPersonnelById(id);
+
+                Option option = ModalDialog.createOption();
+                option.getLayoutOption().setSize(-1, 1f)
+                        .setLocation(Location.TRAILING, Location.TOP)
+                        .setAnimateDistance(0.7f, 0);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+
+                ModalDialog.showModal(parent, new SimpleModalBorder(
+                        new CreatePersonnel(p), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
+                        (controller, action) -> {
+                            if (action == SimpleModalBorder.OK_OPTION) {
+                                refreshTableData();
+                            }
+                        }), option, CreatePersonnel.ID);
             }
 
             @Override
             public void onSupprimer(int row) {
-                // Votre code pour la suppression
-                System.out.println("Suppression de la ligne " + row);
+                int id = getPersonnelId(row);
+
+                Option option = ModalDialog.createOption()
+                        .setAnimationEnabled(true);
+                option.getLayoutOption()
+                        .setLocation(Location.CENTER, Location.CENTER);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+
+
+                String titre = "Suppression Personnel";
+                String message = "Voulez vous vraiment supprimer cet élément ??";
+
+                ModalDialog.showModal(
+                        parent,
+                        new SimpleMessageModal(
+                                SimpleMessageModal.Type.WARNING,
+                                message, titre,
+                                SimpleModalBorder.YES_NO_OPTION,
+                                (controller, action) -> {
+                                    if(action==SimpleModalBorder.YES_OPTION) {
+                                        PersonnelController.supprimerPersonnel(id);
+                                        refreshTableData();
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Client supprimé avec succès");
+                                    }
+                                }),
+                        option
+                );
             }
         });
-        table.getColumnModel().getColumn(5).setCellEditor(editor);
+        table.getColumnModel().getColumn(7).setCellEditor(editor);
 
 
         // alignment table header
@@ -119,7 +178,7 @@ public class AdminUserForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 5) {
+                if (column == 7) {
                     return SwingConstants.TRAILING;
                 }
                 return SwingConstants.LEADING;
@@ -128,7 +187,7 @@ public class AdminUserForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 5) {
+                if (column == 7) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -163,11 +222,16 @@ public class AdminUserForm extends Form {
         panel.add(createHeaderAction());
         panel.add(scrollPane);
 
-        // sample data
-        for (ModelEmployee d : SampleData.getSampleEmployeeData(false)) {
+
+        for (Personnel d : PersonnelController.getTousLesPersonnels() ) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
         return panel;
+    }
+
+    private int getPersonnelId(int row) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        return (int) model.getValueAt(row, 2);
     }
 
     private Component createHeaderAction() {
@@ -175,16 +239,12 @@ public class AdminUserForm extends Form {
 
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
-        txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("raven/modal/demo/icons/search.svg", 0.4f));
+        txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("images/search.svg", 0.4f));
         JButton cmdCreate = new JButton("Créer");
-//        JButton cmdEdit = new JButton("Edit");
-//        JButton cmdDelete = new JButton("Delete");
 
         cmdCreate.addActionListener(e -> showModal());
         panel.add(txtSearch);
         panel.add(cmdCreate);
-//        panel.add(cmdEdit);
-//        panel.add(cmdDelete);
 
         panel.putClientProperty(FlatClientProperties.STYLE, "background:null;");
         return panel;

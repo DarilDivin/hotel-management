@@ -124,7 +124,7 @@ public class ClientForm extends Form {
                                 refreshTableData();
                             }
 
-                        }), option, CreatePersonnel.ID);
+                        }), option, CreateClient.ID);
             }
 
             @Override

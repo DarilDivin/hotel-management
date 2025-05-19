@@ -2,16 +2,19 @@ package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import jnafilechooser.api.JnaFileChooser;
+import model.*;
 import model.Chambre;
-import model.Reservation;
-import model.Chambre;
-import model.TypeChambre;
+import model.Controllers.ClientController;
+import model.Controllers.ReceptionisteController;
+import model.Controllers.ReservationController;
 import net.miginfocom.swing.MigLayout;
 import raven.datetime.DatePicker;
 import raven.datetime.event.DateSelectionEvent;
 import raven.datetime.event.DateSelectionListener;
 import raven.modal.ModalDialog;
 import raven.modal.Toast;
+import raven.modal.component.ModalBorderAction;
+import raven.modal.component.SimpleModalBorder;
 import view.utils.ToastManager;
 
 import javax.swing.*;
@@ -24,6 +27,9 @@ public class CreateReservation extends JPanel {
     public static final String ID = "create_reservation_id";
     private Reservation reservation;
 
+    private Receptioniste receptioniste;
+    private Chambre chambre;
+
     private Date dateDebut;
     private Date dateFin;
 
@@ -32,7 +38,7 @@ public class CreateReservation extends JPanel {
         init();
     }
 
-    public CreateReservation() {
+    public CreateReservation(Receptioniste r, Chambre c) {
         init();
     }
 
@@ -93,10 +99,21 @@ public class CreateReservation extends JPanel {
             // Traiter la sélection
         });
 
-        if(reservation != null) {
-            add(lbChambre);
-            add(cboChambre);
+//        if(reservation != null) {
+//            add(lbChambre);
+//            add(cboChambre);
+//        }
+
+        JComboBox<String> cboClient = new JComboBox<String>();
+        // Ajouter les types de chambre disponibles
+        for (Client c : ClientController.getTousLesClients()) {
+            cboClient.addItem(c.getId() + " - " + c.getNom() + " " + c.getPrenom() + " (" + c.getEmail() + ")" );
         }
+        cboChambre.addActionListener(e -> {
+            String selectedType = (String) cboChambre.getSelectedItem();
+            // Traiter la sélection
+        });
+        
 
         JButton cmdCreate = new JButton("Créer") {
             @Override
@@ -120,9 +137,30 @@ public class CreateReservation extends JPanel {
 
         cmdCreate.addActionListener((e) -> {
             if (reservation != null) {
+                reservation.setDateDebut(dateDebut);
+                reservation.setDateFin(dateFin);
+
+                ReservationController.modifierReservation(reservation);
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Réservation modifier avec succès");
                 System.out.println("Modifier");
+            } else {
+                String selectedClient = (String) cboClient.getSelectedItem();
+                int clientId = Integer.parseInt(selectedClient.substring(0, selectedClient.indexOf(" -")));
+                Reservation newReservation = new Reservation(
+                        ClientController.getClientById(clientId),
+                        dateDebut,
+                        dateFin,
+                        ReceptionisteController.getReceptionisteById(1),
+                        chambre
+                );
+
+                ReservationController.ajouterReservation(newReservation);
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Réservation ajoutée avec succès");
             }
-            ModalDialog.closeModal(CreateHotel.ID);
+
+            ModalDialog.closeModal(CreateReservation.ID);
         });
     }
 }
