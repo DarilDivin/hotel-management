@@ -10,17 +10,19 @@ public class Personnel {
     private String prenom;
     private String email;
     private String password;
+    private String role;
     public Hotel hotel;
 
     /**
      * Default constructor
      */
-    public Personnel(String nom, String prenom, String email, String password, Hotel hotel) {
+    public Personnel(String nom, String prenom, String email, String password, String role, Hotel hotel) {
         this.hotel = hotel;
         this.nom = nom;
         this.prenom = prenom;
         this.email = email;
         this.password = password;
+        this.role = role;
     }
 
     public int getId() {
@@ -46,6 +48,10 @@ public class Personnel {
         return password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
     public Hotel getHotel() {
         return hotel;
     }
@@ -68,6 +74,10 @@ public class Personnel {
 
     public void setHotel(Hotel newHotel) {
         this.hotel = newHotel;
+    }
+
+    public void setRole(String newRole) {
+        this.role = newRole;
     }
 
 }

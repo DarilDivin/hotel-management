@@ -62,6 +62,7 @@ public class DatabaseConnection {
                 "    email TEXT NOT NULL,\n" +
                 "    password TEXT NOT NULL,\n" +
                 "    hotel_id INTEGER NOT NULL,\n" +
+                "    `role` TEXT NOT NULL,\n" +
                 "    FOREIGN KEY (hotel_id) REFERENCES Hotel(id)\n" +
                 ");";
 

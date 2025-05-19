@@ -6,7 +6,7 @@ import model.Hotel;
 
 public class PersonnelDAO {
     public void ajouterPersonnel(Personnel personnel) {
-        String sql = "INSERT INTO Personnel (nom, prenom, email, password, hotel_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Personnel (nom, prenom, email, password, role , hotel_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
@@ -15,7 +15,8 @@ public class PersonnelDAO {
             stmt.setString(2, personnel.getPrenom());
             stmt.setString(3, personnel.getEmail());
             stmt.setString(4, personnel.getPassword());
-            stmt.setInt(5, personnel.getHotel().getId()); // Utiliser l'ID de l'hôtel
+            stmt.setString(5, personnel.getRole());
+            stmt.setInt(6, personnel.getHotel().getId()); // Utiliser l'ID de l'hôtel
             stmt.executeUpdate();
 
             HotelDAO hotelDAO = new HotelDAO();
@@ -51,6 +52,7 @@ public class PersonnelDAO {
                         rs.getString("prenom"),
                         rs.getString("email"),
                         rs.getString("password"),
+                        rs.getString("role"),
                         hotel
                 );
                 personnel.setId(rs.getInt("id"));
@@ -62,6 +64,98 @@ public class PersonnelDAO {
 
         return personnel;
     }
+
+    public Personnel getReceptionisteById(int id) {
+        String sql = "SELECT * FROM Personnel WHERE id = ? AND role = 'receptioniste'";
+        Personnel personnel = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Hotel hotel = new HotelDAO().getHotelById(rs.getInt("hotel_id"));
+                personnel = new Personnel(
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        hotel
+                );
+                personnel.setId(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return personnel;
+    }
+
+    public Personnel getAgentNettoyageById(int id) {
+        String sql = "SELECT * FROM Personnel WHERE id = ? AND role = 'agent de nettoyage'";
+        Personnel personnel = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, id);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Hotel hotel = new HotelDAO().getHotelById(rs.getInt("hotel_id"));
+                personnel = new Personnel(
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        hotel
+                );
+                personnel.setId(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return personnel;
+    }
+
+    public Personnel getPersonnelByEmailAndPassword(String email, String password) {
+        String sql = "SELECT * FROM Personnel WHERE email = ? AND password = ?";
+        Personnel personnel = null;
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setString(1, email);
+            stmt.setString(2, password);
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                Hotel hotel = new HotelDAO().getHotelById(rs.getInt("hotel_id"));
+                personnel = new Personnel(
+                        rs.getString("nom"),
+                        rs.getString("prenom"),
+                        rs.getString("email"),
+                        rs.getString("password"),
+                        rs.getString("role"),
+                        hotel
+                );
+                personnel.setId(rs.getInt("id"));
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return personnel;
+    }
+
 
     public void supprimerPersonnel(int id) {
         String sql = "DELETE FROM Personnel WHERE id = ?";
@@ -78,7 +172,7 @@ public class PersonnelDAO {
     }
 
     public void modifierPersonnel(Personnel personnel) {
-        String sql = "UPDATE Personnel SET nom = ?, prenom = ?, email = ?, password = ?, hotel_id = ? WHERE id = ?";
+        String sql = "UPDATE Personnel SET nom = ?, prenom = ?, email = ?, password = ?, role = ?, hotel_id = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
@@ -87,8 +181,9 @@ public class PersonnelDAO {
             stmt.setString(2, personnel.getPrenom());
             stmt.setString(3, personnel.getEmail());
             stmt.setString(4, personnel.getPassword());
-            stmt.setInt(5, personnel.getHotel().getId()); // Utiliser l'ID de l'hôtel
-            stmt.setInt(6, personnel.getId());
+            stmt.setString(5, personnel.getRole());
+            stmt.setInt(6, personnel.getHotel().getId()); // Utiliser l'ID de l'hôtel
+            stmt.setInt(7, personnel.getId());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -111,6 +206,7 @@ public class PersonnelDAO {
                         rs.getString("prenom"),
                         rs.getString("email"),
                         rs.getString("password"),
+                        rs.getString("role"),
                         hotel
                 );
                 personnel.setId(rs.getInt("id"));

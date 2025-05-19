@@ -14,9 +14,13 @@ public class Receptioniste extends Personnel {
     /**
      * Default constructor
      */
-    public Receptioniste(String nom, String prenom, String email, String password, Hotel hotel) {
+    public Receptioniste(String nom, String prenom, String email, String password, String role, Hotel hotel) {
         // Faire une vérification de la présence de l'email dans la base de données avant de l'ajouter (Avec un try - catch)
-        super(nom, prenom, email, password, hotel);
+        super(nom, prenom, email, password, role, hotel);
+    }
+
+    public Receptioniste(Personnel personnel) {
+        super(personnel.getNom(), personnel.getPrenom(), personnel.getEmail(), personnel.getPassword(), personnel.getRole(), personnel.getHotel());
     }
     
     /**
