@@ -5,11 +5,13 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Controllers.PersonnelController;
 import model.Personnel;
 import model.utilsModel.ModelUser;
+import raven.modal.Toast;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import view.system.FormManager;
+import view.utils.ToastManager;
 
 import javax.swing.*;
 import java.awt.event.ActionEvent;
@@ -87,11 +89,11 @@ public class Login extends JPanel {
             model.utilsModel.ModelUser user = getUser(userName, password);
             Personnel personnel = getPersonnel(userName, password);
 
-            ModalDialog.closeModal(Login.ID);
-
-            MyDrawerBuilder.getInstance().setPersonnel(personnel);
-            FormManager.login();
-
+            if (personnel != null) {
+                ModalDialog.closeModal(Login.ID);
+                MyDrawerBuilder.getInstance().setPersonnel(personnel);
+                FormManager.login();
+            }
         });
     }
 
@@ -138,9 +140,10 @@ public class Login extends JPanel {
     }
 
     private Personnel getPersonnel(String email, String password) {
-//        if (PersonnelController.getPersonnelbyEmailAndPassword(email, password)) {
-//            return PersonnelController.getPersonnelbyEmailAndPassword(email, password)
-//        }
+        if (PersonnelController.getPersonnelByEmailAndPassword(email, password) != null) {
+            return PersonnelController.getPersonnelByEmailAndPassword(email, password);
+        }
+        ToastManager.getInstance().showToast(this, Toast.Type.ERROR, "Email ou mot de passe incorrect");
         return null;
     }
 }
