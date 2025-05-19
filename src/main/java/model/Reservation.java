@@ -70,6 +70,6 @@ public class Reservation {
     }
 
     public Object[] toTableRowCustom(int row) {
-        return new Object[]{false, row, client, chambre, date_debut, date_fin};
+        return new Object[]{false, row, id, client, chambre, date_debut, date_fin};
     }
 }

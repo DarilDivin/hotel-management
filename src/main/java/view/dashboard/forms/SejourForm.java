@@ -178,7 +178,7 @@ public class SejourForm extends Form {
                 "background:$Table.background;");
 
         // create title
-        JLabel title = new JLabel("Table Utilisateur");
+        JLabel title = new JLabel("Table Séjours");
         title.putClientProperty(FlatClientProperties.STYLE, "font:bold +2");
         panel.add(title, "gapx 20");
 

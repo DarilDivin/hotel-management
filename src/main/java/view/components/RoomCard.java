@@ -5,6 +5,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Chambre;
 import model.Controllers.ChambreController;
 import model.Controllers.HotelController;
+import model.Controllers.ReceptionisteController;
 import model.Hotel;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
@@ -43,7 +44,7 @@ public class RoomCard extends JPanel{
 
         add(hotelImg, "w 100%, h 205!");
 
-        JLabel hotelName = new JLabel("Chambre" + chambre.getNumero());
+        JLabel hotelName = new JLabel("Chambre " + chambre.getNumero());
         hotelName.setFont(new Font("", Font.BOLD, 15));
         add(hotelName, "gapbottom 0, top, leading");
 
@@ -180,7 +181,7 @@ public class RoomCard extends JPanel{
                 .setBackgroundClickType(Option.BackgroundClickType.CLOSE_MODAL)
                 .setAnimationEnabled(true)
                 .setOpacity(0.5f);
-        ModalDialog.showModal(this, new SimpleModalBorder(new CreateReservation(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
+        ModalDialog.showModal(this, new SimpleModalBorder(new CreateReservation(ReceptionisteController.getReceptionisteById(1), ChambreController.getChambreById(chambre.getId())), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
 
                 }), option, CreateReservation.ID);
@@ -196,7 +197,9 @@ public class RoomCard extends JPanel{
         ModalDialog.showModal(this.getParent(), new SimpleModalBorder(
                 new CreateChambre(this.chambre), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
-                    // Ajouter la logique de traitement ici
+                    if (action == SimpleModalBorder.OK_OPTION) {
+                        this.getParent().revalidate();
+                    }
                 }), option, CreateChambre.ID);
     }
 }

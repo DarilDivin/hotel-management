@@ -33,7 +33,7 @@ public class ChambreForm extends Form {
         panelCard.removeAll();
 
         for (Chambre chambre : chambres) {
-            RoomCard card = new RoomCard();
+            RoomCard card = new RoomCard(chambre);
             card.putClientProperty(FlatClientProperties.STYLE, "" +
                     "border:8,8,8,8;" +
                     "arc:$Component.arc;" +
@@ -70,19 +70,7 @@ public class ChambreForm extends Form {
         //scrollPane.setBorder(new TitledBorder("Example"));
         add(scrollPane, "gapx 7 7, spany, growy");
 
-        for (int i = 0; i < 8; i++) {
-            RoomCard card = new RoomCard();
-            card.putClientProperty(FlatClientProperties.STYLE, "" +
-                    "border:8,8,8,8;" +
-                    "arc:$Component.arc;"+
-                    "[dark]background:tint($Panel.background,5%);" +
-                    "[light]background:fade(@accentColor,5%);");
-            panelCard.add(card, "");
-        }
-
-//        chambres = ChambreController.getTousLesChambres();
-//
-//        for (Chambre c : chambres) {
+//        for (int i = 0; i < 8; i++) {
 //            RoomCard card = new RoomCard();
 //            card.putClientProperty(FlatClientProperties.STYLE, "" +
 //                    "border:8,8,8,8;" +
@@ -91,6 +79,18 @@ public class ChambreForm extends Form {
 //                    "[light]background:fade(@accentColor,5%);");
 //            panelCard.add(card, "");
 //        }
+
+        chambres = ChambreController.getTousLesChambres();
+
+        for (Chambre c : chambres) {
+            RoomCard card = new RoomCard(c);
+            card.putClientProperty(FlatClientProperties.STYLE, "" +
+                    "border:8,8,8,8;" +
+                    "arc:$Component.arc;"+
+                    "[dark]background:tint($Panel.background,5%);" +
+                    "[light]background:fade(@accentColor,5%);");
+            panelCard.add(card, "");
+        }
 
         //split 2, w 280!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10
 
@@ -134,7 +134,9 @@ public class ChambreForm extends Form {
         ModalDialog.showModal(this, new SimpleModalBorder(
                 new CreateChambre(), "Create", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
-
+                    if (action == SimpleModalBorder.OK_OPTION) {
+                        refreshChambreList();
+                    }
                 }), option, CreateChambre.ID);
     }
 

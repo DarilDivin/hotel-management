@@ -3,6 +3,7 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
+import model.Controllers.ReservationController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
@@ -23,6 +24,14 @@ public class ReservationForm extends Form {
     private JTable table;
     public ReservationForm() {
         init();
+    }
+
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Reservation d : ReservationController.getTousLesReservations()) {
+            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+        }
     }
 
     private void init() {
@@ -48,7 +57,7 @@ public class ReservationForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         /* creer le modele de table */
-        Object[] columns = new Object[]{"Sélection", "#", "Client", "Chambre", "Date de Début", "Date de Fin", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#", "Id", "Client", "Chambre", "Date de Début", "Date de Fin", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
@@ -83,11 +92,12 @@ public class ReservationForm extends Form {
         // table option
         table.getColumnModel().getColumn(0).setMaxWidth(50);
         table.getColumnModel().getColumn(1).setMaxWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(100);
-        table.getColumnModel().getColumn(3).setPreferredWidth(50);
-        table.getColumnModel().getColumn(4).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setMaxWidth(50);
+        table.getColumnModel().getColumn(3).setPreferredWidth(100);
+        table.getColumnModel().getColumn(4).setPreferredWidth(50);
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
-        table.getColumnModel().getColumn(6).setMinWidth(250);
+        table.getColumnModel().getColumn(6).setPreferredWidth(100);
+        table.getColumnModel().getColumn(7).setMinWidth(250);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -102,13 +112,14 @@ public class ReservationForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
             @Override
             public void onModifier(int row) {
-                Reservation r = getReservationFromRow(row);
+                int id = getReservationIdFromRow(row);
+                Reservation r = ReservationController.getReservationById(id);
 
                 Option option = ModalDialog.createOption();
                 option.getLayoutOption().setSize(-1, 1f)
@@ -120,6 +131,9 @@ public class ReservationForm extends Form {
                 ModalDialog.showModal(parent, new SimpleModalBorder(
                         new CreateReservation(r), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
                         (controller, action) -> {
+                            if(action == SimpleModalBorder.OK_OPTION) {
+                                refreshTable();
+                            }
 
                         }), option, CreateReservation.ID);
 
@@ -132,7 +146,7 @@ public class ReservationForm extends Form {
                 System.out.println("Suppression de la ligne " + row);
             }
         });
-        table.getColumnModel().getColumn(6).setCellEditor(editor);
+        table.getColumnModel().getColumn(7).setCellEditor(editor);
 
 
         // alignment table header
@@ -142,7 +156,7 @@ public class ReservationForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 6) {
+                if (column == 7) {
                     return SwingConstants.TRAILING;
                 }
                 return SwingConstants.LEADING;
@@ -151,7 +165,7 @@ public class ReservationForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 6) {
+                if (column == 7) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -187,7 +201,7 @@ public class ReservationForm extends Form {
         panel.add(scrollPane);
 
         // sample data
-        for (Reservation d : SampleData.getSampleReservationData()) {
+        for (Reservation d : ReservationController.getTousLesReservations()) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
         return panel;
@@ -196,10 +210,10 @@ public class ReservationForm extends Form {
     private Reservation getReservationFromRow(int row) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
-        Client client = (Client) model.getValueAt(row, 2);
-        Chambre chambre = (Chambre) model.getValueAt(row, 3);
-        Date dateDebut = (Date) model.getValueAt(row, 4);
-        Date dateFin = (Date) model.getValueAt(row, 5);
+        Client client = (Client) model.getValueAt(row, 3);
+        Chambre chambre = (Chambre) model.getValueAt(row, 4);
+        Date dateDebut = (Date) model.getValueAt(row, 5);
+        Date dateFin = (Date) model.getValueAt(row, 6);
 
         Hotel hotel = new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris");
         Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
@@ -208,19 +222,25 @@ public class ReservationForm extends Form {
         return new Reservation(client, dateDebut, dateFin, receptioniste, chambre);
     }
 
+    private int getReservationIdFromRow(int row) {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+
+        return (int) model.getValueAt(row, 2);
+    }
+
     private Component createHeaderAction() {
         JPanel panel = new JPanel(new MigLayout("insets 5 20 5 20", "[fill,230]push[][]"));
 
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("images/search.svg", 0.4f));
-        JButton cmdCreate = new JButton("Create");
+//        JButton cmdCreate = new JButton("Create");
 //        JButton cmdEdit = new JButton("Edit");
 //        JButton cmdDelete = new JButton("Delete");
 
-        cmdCreate.addActionListener(e -> showModal());
-        panel.add(txtSearch);
-        panel.add(cmdCreate);
+//        cmdCreate.addActionListener(e -> showModal());
+//        panel.add(txtSearch);
+//        panel.add(cmdCreate);
 //        panel.add(cmdEdit);
 //        panel.add(cmdDelete);
 
@@ -228,15 +248,15 @@ public class ReservationForm extends Form {
         return panel;
     }
 
-    private void showModal() {
-        Option option = ModalDialog.createOption();
-        option.getLayoutOption().setSize(-1, 1f)
-                .setLocation(Location.TRAILING, Location.TOP)
-                .setAnimateDistance(0.7f, 0);
-        ModalDialog.showModal(this, new SimpleModalBorder(
-                new CreateReservation(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
-                (controller, action) -> {
-
-                }), option, CreateReservation.ID);
-    }
+//    private void showModal() {
+//        Option option = ModalDialog.createOption();
+//        option.getLayoutOption().setSize(-1, 1f)
+//                .setLocation(Location.TRAILING, Location.TOP)
+//                .setAnimateDistance(0.7f, 0);
+//        ModalDialog.showModal(this, new SimpleModalBorder(
+//                new CreateReservation(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
+//                (controller, action) -> {
+//
+//                }), option, CreateReservation.ID);
+//    }
 }

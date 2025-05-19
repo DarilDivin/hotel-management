@@ -1,14 +1,27 @@
 package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.Controllers.HotelController;
+import model.Controllers.PersonnelController;
+import model.Personnel;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
+import raven.modal.component.ModalBorderAction;
+import raven.modal.component.SimpleModalBorder;
+import view.utils.ToastManager;
 
 import javax.swing.*;
 
 public class CreatePersonnel extends JPanel {
 
     public static final String ID = "create_personnel_id";
+    private Personnel personnel;
+
+    public CreatePersonnel(Personnel personnel) {
+        this.personnel = personnel;
+        init();
+    }
 
     public CreatePersonnel() {
         init();
@@ -74,10 +87,45 @@ public class CreatePersonnel extends JPanel {
                 "foreground:#FFFFFF;");
         add(cmdCreate);
 
+        //formulaire pour modification
+        if(personnel != null) {
+            txtNom.setText(this.personnel.getNom());
+            txtPrenom.setText(this.personnel.getPrenom());
+            txtEmail.setText(this.personnel.getEmail());
+            cmdCreate.setText("Modifier");
+        }
+
 
         // evenement
 
         cmdCreate.addActionListener((e) -> {
+            if (txtNom.getText().trim().isEmpty() || txtPrenom.getText().trim().isEmpty() || txtEmail.getText().trim().isEmpty()) {
+                ToastManager.getInstance().showToast(this, Toast.Type.ERROR, "Veuillez remplir tous les champs obligatoires");
+                return;
+            }
+
+            if (personnel != null) {
+                personnel.setNom(txtNom.getText().trim());
+                personnel.setPrenom(txtPrenom.getText().trim());
+                personnel.setEmail(txtEmail.getText().trim());
+
+                PersonnelController.modifierPersonnel(personnel);
+
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Personnel modifié avec succès");
+            } else {
+                Personnel newPersonnel = new Personnel(
+                        txtNom.getText().trim(),
+                        txtPrenom.getText().trim(),
+                        txtEmail.getText().trim(),
+                        "Abcd1234",
+                        HotelController.getHotelById(1)
+                );
+
+                PersonnelController.ajouterPersonnel(newPersonnel);
+                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Personnel créé avec succès");
+            }
             ModalDialog.closeModal(CreatePersonnel.ID);
         });
 

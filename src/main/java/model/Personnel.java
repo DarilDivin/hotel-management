@@ -70,4 +70,7 @@ public class Personnel {
         this.hotel = newHotel;
     }
 
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{false, row, id, nom, prenom, email, hotel.getNom()};
+    }
 }
