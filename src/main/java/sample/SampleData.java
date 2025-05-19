@@ -1,6 +1,7 @@
 package sample;
 
 import model.*;
+import model.Controllers.ReceptionisteController;
 import model.utilsModel.ModelEmployee;
 import model.utilsModel.ModelProfile;
 //import org.jfree.data.category.CategoryDataset;
@@ -77,7 +78,7 @@ public class SampleData {
         Client client = getSampleClientData().getFirst();
         Chambre chambre = new Chambre(new TypeChambre("Double"), "A-103", 450, 46);
         Hotel hotel = getSampleHotelData().getFirst();
-        Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
+        Receptioniste receptioniste = ReceptionisteController.getReceptionisteById(1);
 
 
         list.add(new Reservation(client, new Date(), new Date(), receptioniste, chambre));

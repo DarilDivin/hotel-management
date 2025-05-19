@@ -14,8 +14,28 @@ public class Sejour {
      */
     private int id;
 
+    private Date date_debut;
+    private Date date_fin;
+
+    private Receptioniste receptioniste;
+    private Chambre chambre;
+    private Client client;
+
     public Sejour(Reservation reservation) {
         this.reservation = reservation;
+        this.client = reservation.getClient();
+        this.date_debut = reservation.getDateDebut();
+        this.date_fin = reservation.getDateFin();
+        this.receptioniste = reservation.getReceptionniste();
+        this.chambre = reservation.getChambre();
+    }
+
+    public Sejour(Client client, Date date_debut, Date date_fin, Receptioniste receptioniste, Chambre chambre) {
+        this.client = client;
+        this.date_debut = date_debut;
+        this.date_fin = date_fin;
+        this.receptioniste = receptioniste;
+        this.chambre = chambre;
     }
 
     private Reservation reservation;
@@ -39,5 +59,17 @@ public class Sejour {
 
     public void setReservation(Reservation newReservation) {
         this.reservation = newReservation;
+    }
+
+    public Object[] toTableRowCustom(int row) {
+        return new Object[]{
+                false,
+                row,
+                id,
+                client.getPrenom() + " " + client.getNom(),
+                chambre.getNumero(),
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_debut),
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_fin)
+        };
     }
 }

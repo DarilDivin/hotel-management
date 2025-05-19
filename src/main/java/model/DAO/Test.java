@@ -20,7 +20,7 @@ public class Test {
         Client client = new Client("Castemberry","Jean-Pierre","jp@gmail.com", hotel);
         ClientController.ajouterClient(client);
 
-        Receptioniste receptioniste = new Receptioniste("G.", "Métus", "metus@gmail.com", "Abcd1234", HotelController.getHotelById(1));
+        Receptioniste receptioniste = new Receptioniste("G.", "Métus", "metus@gmail.com", "Abcd1234", "receptioniste", HotelController.getHotelById(1));
         ReceptionisteController.ajouterReceptioniste(receptioniste);
 
     }

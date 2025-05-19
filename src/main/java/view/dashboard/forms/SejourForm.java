@@ -3,13 +3,15 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
+import model.Controllers.ReceptionisteController;
+import model.Controllers.ReservationController;
+import model.Controllers.SejourController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
-import view.forms.CreateReservation;
 import view.forms.CreateSejour;
 import view.system.Form;
 import view.utils.table.*;
@@ -23,6 +25,14 @@ public class SejourForm extends Form {
     private JTable table;
     public SejourForm() {
         init();
+    }
+
+    private void refreshTable() {
+        DefaultTableModel model = (DefaultTableModel) table.getModel();
+        model.setRowCount(0);
+        for (Sejour d : SejourController.getTousLesSejours()) {
+            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+        }
     }
 
     private void init() {
@@ -48,12 +58,12 @@ public class SejourForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         /* creer le modele de table */
-        Object[] columns = new Object[]{"Sélection", "#", "Client", "Chambre", "Date de Début", "Date de Fin", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#", "Id", "Client", "Chambre", "Date de Début", "Date de Fin", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // autoriser la modification des cellules uniquement dans la colonne 0 pour la case à cocher
-                return column == 0 || column == 6;
+                return column == 0 || column == 7;
             }
 
             @Override
@@ -62,13 +72,13 @@ public class SejourForm extends Form {
                 if (columnIndex == 0)
                     return Boolean.class;
 
-                if (columnIndex == 2) {
-                    return Client.class;
-                }
-
-                if (columnIndex == 3) {
-                    return Chambre.class;
-                }
+//                if (columnIndex == 2) {
+//                    return Client.class;
+//                }
+//
+//                if (columnIndex == 3) {
+//                    return Chambre.class;
+//                }
                 return super.getColumnClass(columnIndex);
             }
         };
@@ -87,7 +97,8 @@ public class SejourForm extends Form {
         table.getColumnModel().getColumn(3).setPreferredWidth(50);
         table.getColumnModel().getColumn(4).setPreferredWidth(100);
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
-        table.getColumnModel().getColumn(6).setMinWidth(250);
+        table.getColumnModel().getColumn(6).setPreferredWidth(100);
+        table.getColumnModel().getColumn(7).setMinWidth(250);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -102,13 +113,14 @@ public class SejourForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(6).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
 
         TableActionCellEditor editor = new TableActionCellEditor();
         editor.setTableButtonsListener(new TableButtonsListener() {
             @Override
             public void onModifier(int row) {
-                Sejour r = getSejourFromRow(row);
+                int id = getSejourIdFromRow(row);
+                Sejour r = SejourController.getSejourById(id);
 
                 Option option = ModalDialog.createOption();
                 option.getLayoutOption().setSize(-1, 1f)
@@ -120,10 +132,11 @@ public class SejourForm extends Form {
                 ModalDialog.showModal(parent, new SimpleModalBorder(
                         new CreateSejour(r), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
                         (controller, action) -> {
-
+                            if(action == SimpleModalBorder.OK_OPTION) {
+                                refreshTable();
+                            }
                         }), option, CreateSejour.ID);
 
-                System.out.println("Modification de la ligne " + row);
             }
 
             @Override
@@ -132,7 +145,7 @@ public class SejourForm extends Form {
                 System.out.println("Suppression de la ligne " + row);
             }
         });
-        table.getColumnModel().getColumn(6).setCellEditor(editor);
+        table.getColumnModel().getColumn(7).setCellEditor(editor);
 
 
         // alignment table header
@@ -142,7 +155,7 @@ public class SejourForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 6) {
+                if (column == 7) {
                     return SwingConstants.TRAILING;
                 }
                 return SwingConstants.LEADING;
@@ -151,7 +164,7 @@ public class SejourForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 6) {
+                if (column == 7) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -187,27 +200,31 @@ public class SejourForm extends Form {
         panel.add(scrollPane);
 
         // sample data
-        for (Reservation d : SampleData.getSampleReservationData()) {
+        for (Sejour d : SejourController.getTousLesSejours() ) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
         return panel;
     }
 
-    private Sejour getSejourFromRow(int row) {
+//    private Sejour getSejourFromRow(int row) {
+//        DefaultTableModel model = (DefaultTableModel) table.getModel();
+//
+//        Client client = (Client) model.getValueAt(row, 2);
+//        Chambre chambre = (Chambre) model.getValueAt(row, 3);
+//        Date dateDebut = (Date) model.getValueAt(row, 4);
+//        Date dateFin = (Date) model.getValueAt(row, 5);
+//
+//        Hotel hotel = new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris");
+//        Receptioniste receptioniste = ReceptionisteController.getReceptionisteById(1);
+//
+//
+//        return new Sejour(new Reservation(client, dateDebut, dateFin, receptioniste, chambre));
+//    }
+
+    private int getSejourIdFromRow(int row) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-        Client client = (Client) model.getValueAt(row, 2);
-        Chambre chambre = (Chambre) model.getValueAt(row, 3);
-        Date dateDebut = (Date) model.getValueAt(row, 4);
-        Date dateFin = (Date) model.getValueAt(row, 5);
-
-        Hotel hotel = new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris");
-        Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
-
-
-        return new Sejour(new Reservation(client, dateDebut, dateFin, receptioniste, chambre));
+        return (int) model.getValueAt(row, 2);
     }
-
     private Component createHeaderAction() {
         JPanel panel = new JPanel(new MigLayout("insets 5 20 5 20", "[fill,230]push[][]"));
 
@@ -232,7 +249,9 @@ public class SejourForm extends Form {
         ModalDialog.showModal(this, new SimpleModalBorder(
                 new CreateSejour(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
-
+                    if(action == SimpleModalBorder.OK_OPTION) {
+                        refreshTable();
+                    }
                 }), option, CreateSejour.ID);
     }
 }

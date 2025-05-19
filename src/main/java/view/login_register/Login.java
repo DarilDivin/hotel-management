@@ -2,6 +2,8 @@ package view.login_register;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.Controllers.PersonnelController;
+import model.Personnel;
 import model.utilsModel.ModelUser;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
@@ -83,10 +85,11 @@ public class Login extends JPanel {
             String userName = txtEmail.getText();
             String password = String.valueOf(txtPassword.getPassword());
             model.utilsModel.ModelUser user = getUser(userName, password);
+            Personnel personnel = getPersonnel(userName, password);
 
             ModalDialog.closeModal(Login.ID);
 
-            MyDrawerBuilder.getInstance().setUser(user);
+            MyDrawerBuilder.getInstance().setPersonnel(personnel);
             FormManager.login();
 
         });
@@ -122,15 +125,22 @@ public class Login extends JPanel {
         txt.putClientProperty(FlatClientProperties.TEXT_FIELD_TRAILING_COMPONENT, toolBar);
     }
 
-    private ModelUser getUser(String user, String password) {
+    private ModelUser getUser(String email, String password) {
 
         // just testing.
         // input any user and password is admin by default
         // user='staff' password='123' if we want to test validation menu for role staff
 
-        if (user.equals("staff") && password.equals("123")) {
+        if (email.equals("staff") && password.equals("123")) {
             return new ModelUser("Justin White", "justinwhite@gmail.com", ModelUser.Role.STAFF);
         }
         return new ModelUser("Ra Ven", "raven@gmail.com", ModelUser.Role.ADMIN);
+    }
+
+    private Personnel getPersonnel(String email, String password) {
+//        if (PersonnelController.getPersonnelbyEmailAndPassword(email, password)) {
+//            return PersonnelController.getPersonnelbyEmailAndPassword(email, password)
+//        }
+        return null;
     }
 }

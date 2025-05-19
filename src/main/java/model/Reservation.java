@@ -70,6 +70,14 @@ public class Reservation {
     }
 
     public Object[] toTableRowCustom(int row) {
-        return new Object[]{false, row, id, client, chambre, date_debut, date_fin};
+        return new Object[]{
+                false,
+                row,
+                id,
+                client.getPrenom() + " " + client.getNom(),
+                chambre.getNumero(),
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_debut),
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_fin)
+        };
     }
 }

@@ -1,5 +1,6 @@
 package view.dashboard.menu;
 
+import model.Personnel;
 import model.utilsModel.ModelUser;
 import raven.modal.Drawer;
 //import raven.modal.demo.model.utilsModel.ModelUser;
@@ -7,13 +8,20 @@ import raven.modal.Drawer;
 import raven.modal.drawer.menu.MenuValidation;
 import view.system.Form;
 
+import java.util.Objects;
+
 public class MyMenuValidation extends MenuValidation {
 
     public static void setUser(ModelUser user) {
         MyMenuValidation.user = user;
     }
+
+    public static void setPersonnel(Personnel personnel) {
+        MyMenuValidation.personnel = personnel;
+    }
 //
     public static ModelUser user;
+    public static Personnel personnel;
 
     @Override
     public boolean menuValidation(int[] index) {
@@ -41,10 +49,17 @@ public class MyMenuValidation extends MenuValidation {
     }
 
     public static boolean validation(int[] index) {
-        if (user == null) {
+//        if (user == null) {
+//            return false;
+//        }
+//        if (user.getRole() == ModelUser.Role.ADMIN) {
+//            return true;
+//        }
+
+        if (personnel == null) {
             return false;
         }
-        if (user.getRole() == ModelUser.Role.ADMIN) {
+        if (Objects.equals(personnel.getRole(), "receptioniste") || Objects.equals(personnel.getRole(), "agent de nettoyage") || Objects.equals(personnel.getRole(), "admin")) {
             return true;
         }
 

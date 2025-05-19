@@ -39,6 +39,8 @@ public class CreateReservation extends JPanel {
     }
 
     public CreateReservation(Receptioniste r, Chambre c) {
+        this.receptioniste = r;
+        this.chambre = c;
         init();
     }
 
@@ -151,7 +153,8 @@ public class CreateReservation extends JPanel {
                         ClientController.getClientById(clientId),
                         dateDebut,
                         dateFin,
-                        ReceptionisteController.getReceptionisteById(1),
+//                        ReceptionisteController.getReceptionisteById(1),
+                        receptioniste,
                         chambre
                 );
 

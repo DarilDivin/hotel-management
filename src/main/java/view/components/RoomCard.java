@@ -13,6 +13,7 @@ import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
+import view.dashboard.forms.ReservationForm;
 import view.forms.CreateChambre;
 import view.forms.CreateHotel;
 import view.forms.CreateReservation;
@@ -27,6 +28,7 @@ import java.awt.*;
 public class RoomCard extends JPanel{
 
     private Chambre chambre;
+    private ReservationForm reservationForm;
 
     public RoomCard() {
         init();
@@ -35,6 +37,10 @@ public class RoomCard extends JPanel{
     public RoomCard(Chambre chambre) {
         this.chambre = chambre;
         init();
+    }
+
+    public void setReservationForm(ReservationForm form) {
+        this.reservationForm = form;
     }
 
     public void init() {
@@ -183,7 +189,12 @@ public class RoomCard extends JPanel{
                 .setOpacity(0.5f);
         ModalDialog.showModal(this, new SimpleModalBorder(new CreateReservation(ReceptionisteController.getReceptionisteById(1), ChambreController.getChambreById(chambre.getId())), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
-
+                    if (action == SimpleModalBorder.OK_OPTION) {
+                        this.getParent().revalidate();
+                        if (reservationForm != null) {
+                            reservationForm.revalidate();
+                        }
+                    }
                 }), option, CreateReservation.ID);
     }
 

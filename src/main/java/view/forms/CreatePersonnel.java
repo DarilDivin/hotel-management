@@ -1,9 +1,11 @@
 package view.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.Chambre;
 import model.Controllers.HotelController;
 import model.Controllers.PersonnelController;
 import model.Personnel;
+import model.TypeChambre;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.Toast;
@@ -76,6 +78,15 @@ public class CreatePersonnel extends JPanel {
 //        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Minimum 8 caractères");
 //        add(txtPassword);
 
+        JComboBox<String> cboRole = new JComboBox<String>();
+        // Ajouter les types de chambre disponibles
+        cboRole.addItem("receptioniste");
+        cboRole.addItem("agent de nettoyage");
+        cboRole.addActionListener(e -> {
+            String selectedType = (String) cboRole.getSelectedItem();
+            // Traiter la sélection
+        });
+
 
         JButton cmdCreate = new JButton("Créer") {
             @Override
@@ -92,6 +103,7 @@ public class CreatePersonnel extends JPanel {
             txtNom.setText(this.personnel.getNom());
             txtPrenom.setText(this.personnel.getPrenom());
             txtEmail.setText(this.personnel.getEmail());
+            cboRole.setSelectedItem(this.personnel.getRole());
             cmdCreate.setText("Modifier");
         }
 
@@ -108,6 +120,7 @@ public class CreatePersonnel extends JPanel {
                 personnel.setNom(txtNom.getText().trim());
                 personnel.setPrenom(txtPrenom.getText().trim());
                 personnel.setEmail(txtEmail.getText().trim());
+                personnel.setRole((String) cboRole.getSelectedItem());
 
                 PersonnelController.modifierPersonnel(personnel);
 
@@ -119,6 +132,7 @@ public class CreatePersonnel extends JPanel {
                         txtPrenom.getText().trim(),
                         txtEmail.getText().trim(),
                         "Abcd1234",
+                        (String) cboRole.getSelectedItem(),
                         HotelController.getHotelById(1)
                 );
 

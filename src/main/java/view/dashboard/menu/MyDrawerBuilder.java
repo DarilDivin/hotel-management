@@ -1,6 +1,7 @@
 package view.dashboard.menu;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.Personnel;
 import model.utilsModel.ModelUser;
 import raven.modal.drawer.DrawerPanel;
 import raven.modal.drawer.item.Item;
@@ -28,6 +29,7 @@ import java.util.Arrays;
 public class MyDrawerBuilder extends SimpleDrawerBuilder {
     private static MyDrawerBuilder instance;
     private ModelUser user;
+    private Personnel personnel;
 
     public static MyDrawerBuilder getInstance() {
         if (instance == null) {
@@ -38,6 +40,13 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 
     public ModelUser getUser() {
         return user;
+    }
+    public Personnel getPersonnel() {
+        return personnel;
+    }
+
+    public boolean isAdmin() {
+        return user != null && user.getRole() == ModelUser.Role.ADMIN;
     }
 
     public void setUser(ModelUser user) {
@@ -62,6 +71,26 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         if (updateMenuItem) {
             rebuildMenu();
         }
+    }
+    public void setPersonnel(Personnel personnel) {
+        boolean updateMenuItem = this.personnel == null || this.personnel.getRole() != personnel.getRole();
+
+        this.personnel = personnel;
+
+        // set user to menu validation
+        MyMenuValidation.setPersonnel(personnel);
+
+        // setup drawer header
+        SimpleHeader header = (SimpleHeader) getHeader();
+        SimpleHeaderData data = header.getSimpleHeaderData();
+        data.setTitle(personnel.getPrenom() + " " + personnel.getNom() + " (" + personnel.getRole() + ")" );
+        data.setDescription(personnel.getEmail());
+        header.setSimpleHeaderData(data);
+
+        if (updateMenuItem) {
+            rebuildMenu();
+        }
+
     }
 
     private final int SHADOW_SIZE = 12;

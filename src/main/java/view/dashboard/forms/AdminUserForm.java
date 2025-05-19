@@ -61,12 +61,12 @@ public class AdminUserForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         /* creer le modele de table */
-        Object[] columns = new Object[]{"Sélection", "#", "Id", "Nom", "Prenoms", "Email", "Hotel", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#", "Id", "Nom", "Prenoms", "Email", "Hotel", "Rôle", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // autoriser la modification des cellules uniquement dans la colonne 0 pour la case à cocher
-                return column == 0 || column == 7;
+                return column == 0 || column == 8;
             }
 
             @Override
@@ -97,7 +97,8 @@ public class AdminUserForm extends Form {
         table.getColumnModel().getColumn(4).setPreferredWidth(150);
         table.getColumnModel().getColumn(5).setPreferredWidth(150);
         table.getColumnModel().getColumn(6).setPreferredWidth(150);
-        table.getColumnModel().getColumn(7).setPreferredWidth(300);
+        table.getColumnModel().getColumn(7).setPreferredWidth(150);
+        table.getColumnModel().getColumn(8).setPreferredWidth(300);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -109,7 +110,7 @@ public class AdminUserForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(8).setCellRenderer(new TableActionCellRenderer());
 //
 
         TableActionCellEditor editor = new TableActionCellEditor();
@@ -168,7 +169,7 @@ public class AdminUserForm extends Form {
                 );
             }
         });
-        table.getColumnModel().getColumn(7).setCellEditor(editor);
+        table.getColumnModel().getColumn(8).setCellEditor(editor);
 
 
         // alignment table header
@@ -178,7 +179,7 @@ public class AdminUserForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 7) {
+                if (column == 8) {
                     return SwingConstants.TRAILING;
                 }
                 return SwingConstants.LEADING;
@@ -187,7 +188,7 @@ public class AdminUserForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 7) {
+                if (column == 8) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -258,7 +259,10 @@ public class AdminUserForm extends Form {
         ModalDialog.showModal(this, new SimpleModalBorder(
                 new CreatePersonnel(), "Créer", SimpleModalBorder.DEFAULT_OPTION,
                 (controller, action) -> {
-
+                    if (action == SimpleModalBorder.OK_OPTION) {
+                        System.out.println("OK");
+                        refreshTableData();
+                    }
                 }), option, CreatePersonnel.ID);
     }
 

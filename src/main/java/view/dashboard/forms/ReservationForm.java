@@ -9,7 +9,6 @@ import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
-import sample.SampleData;
 import view.forms.CreateReservation;
 import view.system.Form;
 import view.utils.table.*;
@@ -17,7 +16,6 @@ import view.utils.table.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Date;
 
 public class ReservationForm extends Form {
 
@@ -62,7 +60,7 @@ public class ReservationForm extends Form {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // autoriser la modification des cellules uniquement dans la colonne 0 pour la case à cocher
-                return column == 0 || column == 6;
+                return column == 0 || column == 7;
             }
 
             @Override
@@ -71,13 +69,13 @@ public class ReservationForm extends Form {
                 if (columnIndex == 0)
                     return Boolean.class;
 
-                if (columnIndex == 2) {
-                    return Client.class;
-                }
-
-                if (columnIndex == 3) {
-                    return Chambre.class;
-                }
+//                if (columnIndex == 2) {
+//                    return Client.class;
+//                }
+//
+//                if (columnIndex == 3) {
+//                    return Chambre.class;
+//                }
                 return super.getColumnClass(columnIndex);
             }
         };
@@ -207,20 +205,20 @@ public class ReservationForm extends Form {
         return panel;
     }
 
-    private Reservation getReservationFromRow(int row) {
-        DefaultTableModel model = (DefaultTableModel) table.getModel();
-
-        Client client = (Client) model.getValueAt(row, 3);
-        Chambre chambre = (Chambre) model.getValueAt(row, 4);
-        Date dateDebut = (Date) model.getValueAt(row, 5);
-        Date dateFin = (Date) model.getValueAt(row, 6);
-
-        Hotel hotel = new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris");
-        Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
-
-
-        return new Reservation(client, dateDebut, dateFin, receptioniste, chambre);
-    }
+//    private Reservation getReservationFromRow(int row) {
+//        DefaultTableModel model = (DefaultTableModel) table.getModel();
+//
+//        Client client = (Client) model.getValueAt(row, 3);
+//        Chambre chambre = (Chambre) model.getValueAt(row, 4);
+//        Date dateDebut = (Date) model.getValueAt(row, 5);
+//        Date dateFin = (Date) model.getValueAt(row, 6);
+//
+//        Hotel hotel = new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris");
+//        Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
+//
+//
+//        return new Reservation(client, dateDebut, dateFin, receptioniste, chambre);
+//    }
 
     private int getReservationIdFromRow(int row) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
