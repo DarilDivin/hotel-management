@@ -89,6 +89,7 @@ public class DatabaseConnection {
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
                 "    sejour_id INTEGER NOT NULL,\n" +
                 "    produit_id INTEGER NOT NULL,\n" +
+                "    quantite INTEGER NOT NULL,\n" +
                 "    FOREIGN KEY (sejour_id) REFERENCES Sejour(id),\n" +
                 "    FOREIGN KEY (produit_id) REFERENCES Produit(id)\n" +
                 ");";
