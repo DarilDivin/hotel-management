@@ -5,10 +5,9 @@ import java.util.*;
 public class Reservation {
 
     private int id;
-
+    private boolean statut = false;
     private Date date_debut;
     private Date date_fin;
-
     private Receptioniste receptioniste;
     private Chambre chambre;
     private Client client;
@@ -27,6 +26,14 @@ public class Reservation {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public boolean getStatut() {
+        return statut;
+    }
+
+    public void setStatut(boolean statut) {
+        this.statut = statut;
     }
 
     public Client getClient() {

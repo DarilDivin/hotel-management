@@ -1,8 +1,9 @@
 package model.DAO;
 import java.sql.*;
 import java.util.*;
-import model.Sejour;
-import model.Reservation;
+import java.util.Date;
+
+import model.*;
 
 public class SejourDAO {
     public void ajouterSejour(Sejour sejour) {
@@ -103,4 +104,6 @@ public class SejourDAO {
 
         return sejours;
     }
+
+    // Créer un séjour sans réservation
 }
