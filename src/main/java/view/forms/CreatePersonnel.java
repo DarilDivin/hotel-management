@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import model.Chambre;
 import model.Controllers.HotelController;
 import model.Controllers.PersonnelController;
+import model.Hotel;
 import model.Personnel;
 import model.TypeChambre;
 import net.miginfocom.swing.MigLayout;
@@ -14,6 +15,7 @@ import raven.modal.component.SimpleModalBorder;
 import view.utils.ToastManager;
 
 import javax.swing.*;
+import java.util.Objects;
 
 public class CreatePersonnel extends JPanel {
 
@@ -67,7 +69,7 @@ public class CreatePersonnel extends JPanel {
 
         JTextField txtEmail = new JTextField();
         txtEmail.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "example@mail.com");
-        add(txtEmail, "gapy n 20" );
+        add(txtEmail, "" );
 
 //        JLabel lbPassword = new JLabel("Mot de passe");
 //        lbPassword.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -78,14 +80,32 @@ public class CreatePersonnel extends JPanel {
 //        txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Minimum 8 caractères");
 //        add(txtPassword);
 
+        JLabel lbRole = new JLabel("Role");
+        lbRole.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;");
+        add(lbRole);
+
         JComboBox<String> cboRole = new JComboBox<String>();
-        // Ajouter les types de chambre disponibles
         cboRole.addItem("receptioniste");
         cboRole.addItem("agent de nettoyage");
-        cboRole.addActionListener(e -> {
-            String selectedType = (String) cboRole.getSelectedItem();
-            // Traiter la sélection
-        });
+        cboRole.addItem("administrateur");
+
+        add(cboRole, "gapy n 20");
+
+        JLabel lbHotel = new JLabel("Hotel");
+        lbHotel.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;");
+        add(lbHotel);
+
+        JComboBox<String> cboHotel = new JComboBox<String>();
+        for (Hotel h : HotelController.getTousLesHotels()) {
+            cboHotel.addItem(h.getNom());
+            if(this.personnel != null && this.personnel.getHotel().getId() == h.getId()) {
+                cboHotel.setSelectedItem(h.getNom());
+            }
+        }
+
+        add(cboHotel, "gapy n 20");
 
 
         JButton cmdCreate = new JButton("Créer") {
@@ -121,6 +141,7 @@ public class CreatePersonnel extends JPanel {
                 personnel.setPrenom(txtPrenom.getText().trim());
                 personnel.setEmail(txtEmail.getText().trim());
                 personnel.setRole((String) cboRole.getSelectedItem());
+                personnel.setHotel(HotelController.getHotelByNom(Objects.requireNonNull(cboHotel.getSelectedItem()).toString()));
 
                 PersonnelController.modifierPersonnel(personnel);
 
@@ -133,7 +154,7 @@ public class CreatePersonnel extends JPanel {
                         txtEmail.getText().trim(),
                         "Abcd1234",
                         (String) cboRole.getSelectedItem(),
-                        HotelController.getHotelById(1)
+                        HotelController.getHotelByNom(Objects.requireNonNull(cboHotel.getSelectedItem()).toString())
                 );
 
                 PersonnelController.ajouterPersonnel(newPersonnel);

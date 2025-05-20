@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class MyDrawerBuilder extends SimpleDrawerBuilder {
     private static MyDrawerBuilder instance;
     private ModelUser user;
-    private Personnel personnel;
+    private static Personnel personnel;
 
     public static MyDrawerBuilder getInstance() {
         if (instance == null) {
@@ -41,13 +41,10 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     public ModelUser getUser() {
         return user;
     }
-    public Personnel getPersonnel() {
+    public static Personnel getPersonnel() {
         return personnel;
     }
 
-    public boolean isAdmin() {
-        return user != null && user.getRole() == ModelUser.Role.ADMIN;
-    }
 
     public void setUser(ModelUser user) {
         boolean updateMenuItem = this.user == null || this.user.getRole() != user.getRole();
@@ -103,50 +100,34 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         });
     }
 
-    @Override
-    public SimpleHeaderData getSimpleHeaderData() {
-        return new SimpleHeaderData()
-            .setTitle("Daril D.")
-            .setDescription("daril@gmail.com");
-    }
-
-    @Override
-    public SimpleFooterData getSimpleFooterData() {
-
-        return new SimpleFooterData()
-                .setTitle("ZenHotel")
-                .setDescription("Version 1.0.0");
-    }
-
-    @Override
-    public Option createOption() {
-        Option option = super.createOption();
-        option.setOpacity(0.3f);
-        option.getBorderOption()
-                .setShadowSize(new Insets(0, 0, 0, SHADOW_SIZE));
-        return option;
-    }
-
-
     private static MenuOption createSimpleMenuOption() {
-        // create simple menu option
         MenuOption simpleMenuOption = new MenuOption();
 
         MenuItem items[] = new MenuItem[]{
                 new Item.Label("Administrateur"),
                 new Item("Dashboard", "dashboard.svg", DashboardForm.class),
-                new Item("Gestion d'Hotel", "dashboard.svg")
-                        .subMenu("Hotels", HotelForm.class)
-                        .subMenu("Utilisateurs", AdminUserForm.class)
-                        .subMenu("Etage"),
+
+//                personnel != null && (personnel.getRole().equals("administrateur")) ?
+                        new Item("Gestion d'Hotel", "dashboard.svg")
+                                .subMenu("Hotels", HotelForm.class)
+                                .subMenu("Utilisateurs", AdminUserForm.class),
+//                        : new Item(""),
+
                 new Item.Label("Personnel"),
-                new Item("Réceptionniste", "dashboard.svg")
-                        .subMenu("Client", ClientForm.class)
-                        .subMenu("Chambre", ChambreForm.class)
-                        .subMenu("Réservation", ReservationForm.class)
-                        .subMenu("Séjour", SejourForm.class),
-                new Item("Personnel de chambre", "space.svg")
-                        .subMenu("Intervention", InterventionForm.class),
+
+//                personnel != null && (personnel.getRole().equals("receptioniste") || personnel.getRole().equals("administrateur")) ?
+                        new Item("Réceptionniste", "dashboard.svg")
+                                .subMenu("Client", ClientForm.class)
+                                .subMenu("Chambre", ChambreForm.class)
+                                .subMenu("Réservation", ReservationForm.class)
+                                .subMenu("Séjour", SejourForm.class),
+//                        : new Item(""),
+
+//                personnel != null && (personnel.getRole().equals("agent de nettoyage") || personnel.getRole().equals("administrateur")) ?
+                        new Item("Personnel de chambre", "space.svg")
+                                .subMenu("Intervention", InterventionForm.class),
+//                        : new Item.Label(""),
+
                 new Item.Label("Autres"),
                 new Item("Se déconnecter", "log-out.svg")
         };
@@ -203,6 +184,31 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                 .setIconScale(0.50f);
 
         return simpleMenuOption;
+    }
+
+
+
+    @Override
+    public SimpleHeaderData getSimpleHeaderData() {
+        return new SimpleHeaderData()
+            .setTitle("Daril D.")
+            .setDescription("daril@gmail.com");
+    }
+
+    @Override
+    public SimpleFooterData getSimpleFooterData() {
+        return new SimpleFooterData()
+                .setTitle("ZenHotel")
+                .setDescription("Version 1.0.0");
+    }
+
+    @Override
+    public Option createOption() {
+        Option option = super.createOption();
+        option.setOpacity(0.3f);
+        option.getBorderOption()
+                .setShadowSize(new Insets(0, 0, 0, SHADOW_SIZE));
+        return option;
     }
 
     @Override

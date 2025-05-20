@@ -110,10 +110,10 @@ public class ReservationForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new TableReservationActionCellRenderer());
 
-        TableActionCellEditor editor = new TableActionCellEditor();
-        editor.setTableButtonsListener(new TableButtonsListener() {
+        TableReservationActionCellEditor editor = new TableReservationActionCellEditor();
+        editor.setTableButtonsListener(new TableReservationActionCellListener() {
             @Override
             public void onModifier(int row) {
                 int id = getReservationIdFromRow(row);
@@ -140,10 +140,14 @@ public class ReservationForm extends Form {
 
             @Override
             public void onSupprimer(int row) {
-                // Votre code pour la suppression
                 System.out.println("Suppression de la ligne " + row);
             }
+            @Override
+            public void onValider(int row) {
+                System.out.println("Validation de la ligne " + row);
+            }
         });
+
         table.getColumnModel().getColumn(7).setCellEditor(editor);
 
 
@@ -205,21 +209,6 @@ public class ReservationForm extends Form {
         return panel;
     }
 
-//    private Reservation getReservationFromRow(int row) {
-//        DefaultTableModel model = (DefaultTableModel) table.getModel();
-//
-//        Client client = (Client) model.getValueAt(row, 3);
-//        Chambre chambre = (Chambre) model.getValueAt(row, 4);
-//        Date dateDebut = (Date) model.getValueAt(row, 5);
-//        Date dateFin = (Date) model.getValueAt(row, 6);
-//
-//        Hotel hotel = new Hotel( "Grand Hotel Paris", "123 Rue de Rivoli, 75001 Paris");
-//        Receptioniste receptioniste = new Receptioniste("Dave", "Dave", "Dave@dave.com", "Abcd1234", hotel);
-//
-//
-//        return new Reservation(client, dateDebut, dateFin, receptioniste, chambre);
-//    }
-
     private int getReservationIdFromRow(int row) {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
 
@@ -232,15 +221,6 @@ public class ReservationForm extends Form {
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("images/search.svg", 0.4f));
-//        JButton cmdCreate = new JButton("Create");
-//        JButton cmdEdit = new JButton("Edit");
-//        JButton cmdDelete = new JButton("Delete");
-
-//        cmdCreate.addActionListener(e -> showModal());
-//        panel.add(txtSearch);
-//        panel.add(cmdCreate);
-//        panel.add(cmdEdit);
-//        panel.add(cmdDelete);
 
         panel.putClientProperty(FlatClientProperties.STYLE, "background:null;");
         return panel;

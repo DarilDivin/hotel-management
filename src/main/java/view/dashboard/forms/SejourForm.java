@@ -115,8 +115,8 @@ public class SejourForm extends Form {
         // apply action button cell renderer
         table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
 
-        TableActionCellEditor editor = new TableActionCellEditor();
-        editor.setTableButtonsListener(new TableButtonsListener() {
+        TableSejourActionCellEditor editor = new TableSejourActionCellEditor();
+        editor.setTableButtonsListener(new TableSejourActionCellListener() {
             @Override
             public void onModifier(int row) {
                 int id = getSejourIdFromRow(row);
@@ -141,8 +141,17 @@ public class SejourForm extends Form {
 
             @Override
             public void onSupprimer(int row) {
-                // Votre code pour la suppression
                 System.out.println("Suppression de la ligne " + row);
+            }
+
+            @Override
+            public void onAjouterConso(int row) {
+                System.out.println("Ajout de la ligne " + row);
+            }
+
+            @Override
+            public void onPrint(int row) {
+                System.out.println("Print de la ligne " + row);
             }
         });
         table.getColumnModel().getColumn(7).setCellEditor(editor);
