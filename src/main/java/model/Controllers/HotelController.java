@@ -35,4 +35,8 @@ public class HotelController {
     public static Vector<Client> getClients(Hotel hotel) {
         return hotelDAO.getClients(hotel);
     }
+
+    public static Vector<Client> getChambres(Hotel hotel) {
+        return hotelDAO.getClients(hotel);
+    }
 }

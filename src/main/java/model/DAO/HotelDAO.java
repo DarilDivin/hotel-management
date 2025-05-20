@@ -1,4 +1,5 @@
 package model.DAO;
+import model.Chambre;
 import model.Client;
 import model.Hotel;
 
@@ -138,6 +139,19 @@ public class HotelDAO {
             }
         }
         return clientsHotel;
+    }
+
+    public Vector<Chambre> getChambres(Hotel hotel) {
+        ChambreDAO chambreDAO = new ChambreDAO();
+        Vector<Chambre> chambres = chambreDAO.getAllChambres();
+        Vector<Chambre> chambresHotel = new Vector<Chambre>();
+
+        for(Chambre chambre : chambres) {
+            if(chambre.getHotel().getId() == hotel.getId()) {
+                chambresHotel.add(chambre);
+            }
+        }
+        return chambresHotel;
     }
 
 }
