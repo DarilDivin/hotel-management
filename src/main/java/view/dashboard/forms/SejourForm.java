@@ -14,6 +14,7 @@ import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
 import view.components.SimpleMessageModal;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateConsommation;
 import view.forms.CreateSejour;
 import view.forms.ShowSejourInfo;
@@ -35,6 +36,10 @@ public class SejourForm extends Form {
     public void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
+//        for (Sejour d : ReceptionisteController.getSejours(ReceptionisteController.getReceptionisteById(MyDrawerBuilder.getInstance().getPersonnel().getId()))) {
+//            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+//        }
+
         for (Sejour d : SejourController.getTousLesSejours()) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }

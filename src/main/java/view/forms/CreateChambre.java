@@ -12,6 +12,7 @@ import raven.modal.ModalDialog;
 import raven.modal.Toast;
 import raven.modal.component.ModalBorderAction;
 import raven.modal.component.SimpleModalBorder;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.utils.ToastManager;
 
 import javax.swing.*;
@@ -156,7 +157,7 @@ public class CreateChambre extends JPanel {
                         txtNumero.getText().trim(),
                         Float.parseFloat(txtPrix.getText().trim()),
                         Float.parseFloat(txtSuperficie.getText().trim()),
-                        HotelController.getHotelById(1)
+                        MyDrawerBuilder.getInstance().getPersonnel().getHotel()
                 );
 
                 ChambreController.ajouterChambre(newChambre, imageFile);
