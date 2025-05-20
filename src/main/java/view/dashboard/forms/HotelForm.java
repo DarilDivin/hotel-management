@@ -10,7 +10,6 @@ import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
-import sample.SampleData;
 import view.components.SimpleMessageModal;
 import view.forms.CreateHotel;
 import view.system.Form;

@@ -68,7 +68,7 @@ public class DatabaseConnection {
 
         String createReservationsTable = "CREATE TABLE IF NOT EXISTS Reservation (\n" +
                 "    id INTEGER PRIMARY KEY AUTOINCREMENT,\n" +
-                "    statut INTEGER CHECK (colonne1 IN (0, 1)),"+
+                "    statut INTEGER CHECK (statut IN (0, 1)),"+
                 "    date_debut DATETIME NOT NULL,\n" +
                 "    date_fin DATETIME NOT NULL,\n" +
                 "    client_id INTEGER NOT NULL,\n" +

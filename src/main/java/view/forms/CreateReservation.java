@@ -39,6 +39,7 @@ public class CreateReservation extends JPanel {
     }
 
     public CreateReservation(Receptioniste r, Chambre c) {
+        System.out.println(r.getId() + " - " + r.getNom() + " " + r.getPrenom() + " (" + r.getEmail() + ")" );
         this.receptioniste = r;
         this.chambre = c;
         init();
@@ -106,6 +107,10 @@ public class CreateReservation extends JPanel {
 //            add(cboChambre);
 //        }
 
+        JLabel lbClient = new JLabel("Client");
+        lbClient.putClientProperty(FlatClientProperties.STYLE, "" +
+                "font:bold;");
+
         JComboBox<String> cboClient = new JComboBox<String>();
         // Ajouter les types de chambre disponibles
         for (Client c : ClientController.getTousLesClients()) {
@@ -115,7 +120,9 @@ public class CreateReservation extends JPanel {
             String selectedType = (String) cboChambre.getSelectedItem();
             // Traiter la sélection
         });
-        
+
+        add(lbClient);
+        add(cboClient);
 
         JButton cmdCreate = new JButton("Créer") {
             @Override

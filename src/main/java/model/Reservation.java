@@ -84,7 +84,8 @@ public class Reservation {
                 client.getPrenom() + " " + client.getNom(),
                 chambre.getNumero(),
                 new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_debut),
-                new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_fin)
+                new java.text.SimpleDateFormat("dd/MM/yyyy").format(date_fin),
+                statut
         };
     }
 }
