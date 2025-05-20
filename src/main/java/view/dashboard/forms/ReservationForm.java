@@ -3,6 +3,7 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
+import model.Controllers.HotelController;
 import model.Controllers.ReservationController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
@@ -30,6 +31,9 @@ public class ReservationForm extends Form {
     public void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
+
+//        for (Reservation d : HotelController.)
+
         for (Reservation d : ReservationController.getTousLesReservations()) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }

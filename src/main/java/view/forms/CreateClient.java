@@ -9,6 +9,7 @@ import raven.modal.ModalDialog;
 import raven.modal.Toast;
 import raven.modal.component.ModalBorderAction;
 import raven.modal.component.SimpleModalBorder;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.utils.ToastManager;
 
 import javax.swing.*;
@@ -109,7 +110,7 @@ public class CreateClient extends JPanel{
                         txtNom.getText().trim(),
                         txtPrenom.getText().trim(),
                         txtEmail.getText().trim(),
-                        HotelController.getHotelById(1)
+                        MyDrawerBuilder.getInstance().getPersonnel().getHotel()
                 );
 
                 ClientController.ajouterClient(newClient);

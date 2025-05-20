@@ -4,7 +4,6 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
 import model.Controllers.ReceptionisteController;
-import model.Controllers.ReservationController;
 import model.Controllers.SejourController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
@@ -12,7 +11,6 @@ import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
-import sample.SampleData;
 import view.components.SimpleMessageModal;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateConsommation;
@@ -25,7 +23,6 @@ import view.utils.table.*;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import java.awt.*;
-import java.util.Date;
 
 public class SejourForm extends Form {
     private JTable table;
@@ -36,13 +33,13 @@ public class SejourForm extends Form {
     public void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-//        for (Sejour d : ReceptionisteController.getSejours(ReceptionisteController.getReceptionisteById(MyDrawerBuilder.getInstance().getPersonnel().getId()))) {
-//            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
-//        }
-
-        for (Sejour d : SejourController.getTousLesSejours()) {
+        for (Sejour d : ReceptionisteController.getSejours(ReceptionisteController.getReceptionisteById(MyDrawerBuilder.getInstance().getPersonnel().getId()))) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
+
+//        for (Sejour d : SejourController.getTousLesSejours()) {
+//            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+//        }
     }
 
     private void init() {
