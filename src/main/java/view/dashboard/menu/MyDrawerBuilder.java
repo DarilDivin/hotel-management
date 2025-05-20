@@ -107,31 +107,22 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 
         MenuItem items[] = new MenuItem[]{
                 new Item.Label("Administrateur"),
-                new Item("Dashboard", "dashboard.svg", DashboardForm.class),
-
-//                personnel != null && (personnel.getRole().equals("administrateur")) ?
-                        new Item("Gestion d'Hotel", "dashboard.svg")
-                                .subMenu("Hotels", HotelForm.class)
-                                .subMenu("Utilisateurs", AdminUserForm.class),
-//                        : new Item(""),
+                    new Item("Dashboard", "dashboard.svg", DashboardForm.class),
+                    new Item("Gestion d'Hotel", "dashboard.svg")
+                            .subMenu("Hotels", HotelForm.class)
+                            .subMenu("Utilisateurs", AdminUserForm.class),
 
                 new Item.Label("Personnel"),
-
-//                personnel != null && (personnel.getRole().equals("receptioniste") || personnel.getRole().equals("administrateur")) ?
-                        new Item("Réceptionniste", "dashboard.svg")
-                                .subMenu("Client", ClientForm.class)
-                                .subMenu("Chambre", ChambreForm.class)
-                                .subMenu("Réservation", ReservationForm.class)
-                                .subMenu("Séjour", SejourForm.class),
-//                        : new Item(""),
-
-//                personnel != null && (personnel.getRole().equals("agent de nettoyage") || personnel.getRole().equals("administrateur")) ?
-                        new Item("Personnel de chambre", "space.svg")
-                                .subMenu("Intervention", InterventionForm.class),
-//                        : new Item.Label(""),
+                    new Item("Réceptionniste", "dashboard.svg")
+                            .subMenu("Client", ClientForm.class)
+                            .subMenu("Chambre", ChambreForm.class)
+                            .subMenu("Réservation", ReservationForm.class)
+                            .subMenu("Séjour", SejourForm.class),
+                    new Item("Personnel de chambre", "space.svg")
+                            .subMenu("Intervention", InterventionForm.class),
 
                 new Item.Label("Autres"),
-                new Item("Se déconnecter", "log-out.svg")
+                    new Item("Se déconnecter", "log-out.svg")
         };
 
         simpleMenuOption.setMenuStyle(new MenuStyle() {
