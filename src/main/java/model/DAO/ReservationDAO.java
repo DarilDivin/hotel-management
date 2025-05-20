@@ -11,16 +11,17 @@ import model.Sejour;
 
 public class ReservationDAO {
     public void ajouterReservation(Reservation reservation) {
-        String sql = "INSERT INTO Reservation (date_debut, date_fin, client_id, receptionniste_id, chambre_id) VALUES (?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO Reservation (statut, date_debut, date_fin, client_id, receptionniste_id, chambre_id) VALUES (?, ?, ?, ?, ?, ?)";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)) {
 
-            stmt.setTimestamp(1, new Timestamp(reservation.getDateDebut().getTime()));
-            stmt.setTimestamp(2, new Timestamp(reservation.getDateFin().getTime()));
-            stmt.setInt(3, reservation.getClient().getId());
-            stmt.setInt(4, reservation.getReceptionniste().getId());
-            stmt.setInt(5, reservation.getChambre().getId());
+            stmt.setBoolean(1, reservation.getStatut());
+            stmt.setTimestamp(2, new Timestamp(reservation.getDateDebut().getTime()));
+            stmt.setTimestamp(3, new Timestamp(reservation.getDateFin().getTime()));
+            stmt.setInt(4, reservation.getClient().getId());
+            stmt.setInt(5, reservation.getReceptionniste().getId());
+            stmt.setInt(6, reservation.getChambre().getId());
             stmt.executeUpdate();
 
             // Récupérer l'identifiant généré automatiquement
@@ -84,17 +85,18 @@ public class ReservationDAO {
     }
 
     public void modifierReservation(Reservation reservation) {
-        String sql = "UPDATE Reservation SET date_debut = ?, date_fin = ?, client_id = ?, receptionniste_id = ?, chambre_id = ? WHERE id = ?";
+        String sql = "UPDATE Reservation SET statut = ? , date_debut = ?, date_fin = ?, client_id = ?, receptionniste_id = ?, chambre_id = ? WHERE id = ?";
 
         try (Connection conn = DatabaseConnection.getConnection();
              PreparedStatement stmt = conn.prepareStatement(sql)) {
 
-            stmt.setTimestamp(1, new Timestamp(reservation.getDateDebut().getTime()));
-            stmt.setTimestamp(2, new Timestamp(reservation.getDateFin().getTime()));
-            stmt.setInt(3, reservation.getClient().getId());
-            stmt.setInt(4, reservation.getReceptionniste().getId());
-            stmt.setInt(5, reservation.getChambre().getId());
-            stmt.setInt(6, reservation.getId());
+            stmt.setBoolean(1, reservation.getStatut());
+            stmt.setTimestamp(2, new Timestamp(reservation.getDateDebut().getTime()));
+            stmt.setTimestamp(3, new Timestamp(reservation.getDateFin().getTime()));
+            stmt.setInt(4, reservation.getClient().getId());
+            stmt.setInt(5, reservation.getReceptionniste().getId());
+            stmt.setInt(6, reservation.getChambre().getId());
+            stmt.setInt(7, reservation.getId());
             stmt.executeUpdate();
 
         } catch (SQLException e) {
@@ -131,5 +133,21 @@ public class ReservationDAO {
         }
 
         return reservations;
+    }
+
+    public void validerReservation(Reservation reservation) {
+        SejourDAO sejourDAO = new SejourDAO();
+        reservation.setStatut(true);
+        Sejour sejour = new Sejour(reservation);
+        this.modifierReservation(reservation);
+        sejourDAO.ajouterSejour(sejour);
+    }
+
+    public void retirerValidationReservation(Reservation reservation) {
+        SejourDAO sejourDAO = new SejourDAO();
+        reservation.setStatut(false);
+        Sejour sejour = new Sejour(reservation);
+        this.modifierReservation(reservation);
+        sejourDAO.supprimerSejour(sejour.getId());
     }
 }

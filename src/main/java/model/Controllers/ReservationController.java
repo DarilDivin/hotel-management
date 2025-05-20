@@ -26,4 +26,12 @@ public class ReservationController {
     public static Vector<Reservation> getTousLesReservations() {
         return reservationDAO.getTousLesReservations();
     }
+
+    public static void validerReservation(Reservation reservation) {
+        reservationDAO.validerReservation(reservation);
+    }
+
+    public static void retirerValidationReservation(Reservation reservation) {
+        reservationDAO.retirerValidationReservation(reservation);
+    }
 }
