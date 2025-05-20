@@ -2,6 +2,7 @@ package model.Controllers;
 
 import model.Receptioniste;
 import model.DAO.ReceptionisteDAO;
+import model.Reservation;
 import model.Sejour;
 
 import java.util.Vector;
@@ -31,5 +32,9 @@ public class ReceptionisteController {
 
     public static Vector<Sejour> getSejours(Receptioniste receptioniste) {
         return receptionisteDAO.getSejours(receptioniste);
+    }
+
+    public Vector<Reservation> getReservations(Receptioniste receptioniste) {
+        return receptionisteDAO.getReservations(receptioniste);
     }
 }

@@ -1,5 +1,6 @@
 package model.Controllers;
 
+import model.Client;
 import model.Hotel;
 import model.DAO.HotelDAO;
 import java.util.Vector;
@@ -29,5 +30,13 @@ public class HotelController {
 
     public static Hotel getHotelByNom(String nom) {
         return hotelDAO.getHotelByNom(nom);
+    }
+
+    public static Vector<Client> getClients(Hotel hotel) {
+        return hotelDAO.getClients(hotel);
+    }
+
+    public static Vector<Client> getChambres(Hotel hotel) {
+        return hotelDAO.getClients(hotel);
     }
 }

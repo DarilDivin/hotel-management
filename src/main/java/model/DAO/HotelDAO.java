@@ -1,4 +1,6 @@
 package model.DAO;
+import model.Chambre;
+import model.Client;
 import model.Hotel;
 
 import java.sql.*;
@@ -124,6 +126,32 @@ public class HotelDAO {
         } catch (SQLException e) {
             e.printStackTrace();
         }
+    }
+
+    public Vector<Client> getClients(Hotel hotel) {
+        ClientDAO clientDAO = new ClientDAO();
+        Vector<Client> clients = clientDAO.getAllClients();
+        Vector<Client> clientsHotel = new Vector<Client>();
+
+        for (Client client : clients) {
+            if(client.getHotel().getId() == hotel.getId()) {
+                clientsHotel.add(client);
+            }
+        }
+        return clientsHotel;
+    }
+
+    public Vector<Chambre> getChambres(Hotel hotel) {
+        ChambreDAO chambreDAO = new ChambreDAO();
+        Vector<Chambre> chambres = chambreDAO.getAllChambres();
+        Vector<Chambre> chambresHotel = new Vector<Chambre>();
+
+        for(Chambre chambre : chambres) {
+            if(chambre.getHotel().getId() == hotel.getId()) {
+                chambresHotel.add(chambre);
+            }
+        }
+        return chambresHotel;
     }
 
 }
