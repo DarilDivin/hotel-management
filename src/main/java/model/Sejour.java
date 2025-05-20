@@ -61,6 +61,14 @@ public class Sejour {
         this.reservation = newReservation;
     }
 
+    public Receptioniste getReceptioniste() {
+        return receptioniste;
+    }
+
+    public void setReceptioniste(Receptioniste newReceptioniste) {
+        this.receptioniste = newReceptioniste;
+    }
+
     public Object[] toTableRowCustom(int row) {
         return new Object[]{
                 false,

@@ -2,6 +2,8 @@ package model.Controllers;
 
 import model.Receptioniste;
 import model.DAO.ReceptionisteDAO;
+import model.Sejour;
+
 import java.util.Vector;
 
 public class ReceptionisteController {
@@ -25,5 +27,9 @@ public class ReceptionisteController {
 
     public static Vector<Receptioniste> getTousLesReceptionistes() {
         return receptionisteDAO.getTousLesReceptionistes();
+    }
+
+    public static Vector<Sejour> getSejours(Receptioniste receptioniste) {
+        return receptionisteDAO.getSejours(receptioniste);
     }
 }
