@@ -120,4 +120,59 @@ public class InterventionDAO {
         return interventions;
     }
 
+public Vector<Intervention> creerInterventions(AgentNettoyage agentNettoyage) {
+    Vector<Intervention> interventions = new Vector<Intervention>();
+    
+    // Vérification des interventions pour le jour actuel
+    Date aujourdhui = new Date();
+    if (existeInterventionsPourDate(aujourdhui)) {
+        return interventions; // Retourne un vecteur vide si des interventions existent déjà
+    }
+    
+    HotelDAO hotelDAO = new HotelDAO();
+    Vector<Chambre> chambresHotel = hotelDAO.getChambres(agentNettoyage.getHotel());
+    int nbr_chambres = chambresHotel.size();
+    
+    if (nbr_chambres == 0) {
+        return interventions;
+    }
+
+    Random random = new Random();
+    int nbrInterventions = random.nextInt(nbr_chambres) + 1;
+    
+    for (int i = 0; i < nbrInterventions; i++) {
+        int indexChambre = random.nextInt(nbr_chambres);
+        Chambre chambreAleatoire = chambresHotel.get(indexChambre);
+        
+        Intervention intervention = new Intervention(
+            chambreAleatoire,
+            agentNettoyage,
+            aujourdhui
+        );
+        this.ajouterIntervention(intervention);
+        interventions.add(intervention);
+    }
+    
+    return interventions;
+}
+
+    // Méthode auxiliaire pour vérifier l'existence d'interventions à une date donnée
+    private boolean existeInterventionsPourDate(Date date) {
+        String sql = "SELECT COUNT(*) FROM Intervention WHERE DATE(date) = DATE(?)";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setTimestamp(1, new Timestamp(date.getTime()));
+            ResultSet rs = stmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return false;
+    }
 }
