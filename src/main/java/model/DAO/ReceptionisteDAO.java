@@ -3,6 +3,7 @@ import java.sql.*;
 import java.util.*;
 import model.Receptioniste;
 import model.Personnel;
+import model.Sejour;
 
 public class ReceptionisteDAO {
     private PersonnelDAO personnelDAO = new PersonnelDAO();
@@ -64,5 +65,17 @@ public class ReceptionisteDAO {
         }
 
         return receptionistes;
+    }
+
+    public Vector<Sejour> getSejours(Receptioniste receptioniste) {
+        SejourDAO sejourDAO = new SejourDAO();
+        Vector<Sejour> sejours = sejourDAO.getTousLesSejours();
+
+        for(Sejour sejour : sejours) {
+            if(sejour.getReceptioniste().getId() == receptioniste.getId()) {
+                sejours.add(sejour);
+            }
+        }
+        return sejours;
     }
 }
