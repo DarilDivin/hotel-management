@@ -1,5 +1,6 @@
 package model.Controllers;
 
+import model.AgentNettoyage;
 import model.Intervention;
 import model.DAO.InterventionDAO;
 import java.util.Vector;
@@ -25,5 +26,9 @@ public class InterventionController {
 
     public static Vector<Intervention> getTousLesInterventions() {
         return interventionDAO.getTousLesInterventions();
+    }
+
+    public static Vector<Intervention> creerInterventions(AgentNettoyage agentNettoyage) {
+        return interventionDAO.creerInterventions(agentNettoyage);
     }
 }
