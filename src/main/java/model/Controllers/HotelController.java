@@ -1,5 +1,6 @@
 package model.Controllers;
 
+import model.Chambre;
 import model.Client;
 import model.Hotel;
 import model.DAO.HotelDAO;
@@ -36,7 +37,7 @@ public class HotelController {
         return hotelDAO.getClients(hotel);
     }
 
-    public static Vector<Client> getChambres(Hotel hotel) {
-        return hotelDAO.getClients(hotel);
+    public static Vector<Chambre> getChambres(Hotel hotel) {
+        return hotelDAO.getChambres(hotel);
     }
 }
