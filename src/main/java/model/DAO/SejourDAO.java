@@ -105,5 +105,37 @@ public class SejourDAO {
         return sejours;
     }
 
+    public Vector<Consommation> getConsommations(Sejour sejour) {
+        Vector<Consommation> consommations = new Vector<>();
+
+        String sql = "SELECT * FROM Consommation WHERE sejour_id = ?";
+
+        try (Connection conn = DatabaseConnection.getConnection();
+             PreparedStatement stmt = conn.prepareStatement(sql)) {
+
+            stmt.setInt(1, sejour.getId());
+            ResultSet rs = stmt.executeQuery();
+
+            while (rs.next()) {
+                int consommationId = rs.getInt("id");
+                int produitId = rs.getInt("produit_id");
+                int quantite = rs.getInt("quantite");
+
+                Produit produit = new ProduitDAO().getProduitById(produitId);
+
+                Consommation consommation = new Consommation(sejour, produit, quantite);
+                consommation.setId(consommationId);
+
+                consommations.add(consommation);
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return consommations;
+    }
+
+
     // Créer un séjour sans réservation
 }
