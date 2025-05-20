@@ -71,11 +71,13 @@ public class ReceptionisteDAO {
         SejourDAO sejourDAO = new SejourDAO();
         Vector<Sejour> sejours = sejourDAO.getTousLesSejours();
 
+        Vector<Sejour> sejoursReceptioniste = new Vector<>();
+
         for(Sejour sejour : sejours) {
             if(sejour.getReceptioniste().getId() == receptioniste.getId()) {
-                sejours.add(sejour);
+                sejoursReceptioniste.add(sejour);
             }
         }
-        return sejours;
+        return sejoursReceptioniste;
     }
 }
