@@ -1,5 +1,6 @@
 package model.Controllers;
 
+import model.Consommation;
 import model.Sejour;
 import model.DAO.SejourDAO;
 import java.util.Vector;
@@ -25,5 +26,9 @@ public class SejourController {
 
     public static Vector<Sejour> getTousLesSejours() {
         return sejourDAO.getTousLesSejours();
+    }
+
+    public static Vector<Consommation> getConsommations(Sejour sejour) {
+        return sejourDAO.getConsommations(sejour);
     }
 }
