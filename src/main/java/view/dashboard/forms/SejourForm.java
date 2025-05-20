@@ -1,5 +1,6 @@
 package view.dashboard.forms;
 
+import jnafilechooser.api.JnaFileChooser;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
@@ -17,6 +18,7 @@ import view.forms.CreateConsommation;
 import view.forms.CreateSejour;
 import view.forms.ShowSejourInfo;
 import view.system.Form;
+import view.utils.PDFGenerator;
 import view.utils.ToastManager;
 import view.utils.table.*;
 
@@ -206,7 +208,29 @@ public class SejourForm extends Form {
 
             @Override
             public void onPrint(int row) {
-                System.out.println("Print de la ligne " + row);
+                int id = getSejourIdFromRow(row);
+                Sejour s = SejourController.getSejourById(id);
+
+                Window parent = SwingUtilities.getWindowAncestor(table);
+
+                // Créer un JFileChooser
+                JnaFileChooser fileChooser = new JnaFileChooser();
+                fileChooser.setTitle("Enregistrer la facture");
+                fileChooser.setDefaultFileName("facture_sejour_" + id + ".pdf");
+
+                if (fileChooser.showSaveDialog(parent)) {
+                    String filePath = fileChooser.getSelectedFile().getAbsolutePath();
+                    if (!filePath.toLowerCase().endsWith(".pdf")) {
+                        filePath += ".pdf";
+                    }
+
+                    PDFGenerator.generateFacture(s, filePath);
+
+                    JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+                    ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Facture générée avec succès");
+                }
+
+
             }
         });
         table.getColumnModel().getColumn(7).setCellEditor(editor);

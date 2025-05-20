@@ -31,7 +31,7 @@ public class ChambreForm extends Form {
     }
 
     public void refreshChambreList() {
-//        chambres = ChambreController.getTousLesChambres();
+        // chambres = ChambreController.getTousLesChambres();
         chambres = HotelController.getChambres(MyDrawerBuilder.getInstance().getPersonnel().getHotel());
         panelCard.removeAll();
 

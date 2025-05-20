@@ -69,6 +69,30 @@ public class Sejour {
         this.receptioniste = newReceptioniste;
     }
 
+    public Chambre getChambre() {
+        return chambre;
+    }
+
+    public void setChambre(Chambre newChambre) {
+        this.chambre = newChambre;
+    }
+
+    public Client getClient() {
+        return client;
+    }
+
+    public void setClient(Client newClient) {
+        this.client = newClient;
+    }
+
+    public Date getDateDebut() {
+        return this.date_debut;
+    }
+
+    public Date getDateFin() {
+        return this.date_fin;
+    }
+
     public Object[] toTableRowCustom(int row) {
         return new Object[]{
                 false,
