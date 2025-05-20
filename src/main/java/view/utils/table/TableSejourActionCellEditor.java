@@ -10,7 +10,7 @@ import java.awt.*;
 public class TableSejourActionCellEditor extends AbstractCellEditor implements TableCellEditor {
     private JPanel panel;
     private JButton btnAjouterConso;
-    private JButton btnModifier;
+    private JButton btnInfo;
     private JButton btnSupprimer;
     private JButton btnPrint;
     private JTable table;
@@ -20,7 +20,7 @@ public class TableSejourActionCellEditor extends AbstractCellEditor implements T
         panel = new JPanel(new MigLayout("insets 0 20 0 20, ay center, ax trailing"));
 
         btnAjouterConso = new JButton("Ajouter");
-        btnModifier = new JButton("Modifier");
+        btnInfo = new JButton("Info");
         btnSupprimer = new JButton("Supprimer");
         btnPrint = new JButton("Facturer");
 
@@ -28,7 +28,7 @@ public class TableSejourActionCellEditor extends AbstractCellEditor implements T
                 "arc:8;" +
                 "background:#82F782;" +
                 "foreground:#FFFFFF;");
-        btnModifier.putClientProperty(FlatClientProperties.STYLE, "" +
+        btnInfo.putClientProperty(FlatClientProperties.STYLE, "" +
                 "arc:8;" +
                 "background:#F7BD82;" +
                 "foreground:#FFFFFF;");
@@ -41,9 +41,9 @@ public class TableSejourActionCellEditor extends AbstractCellEditor implements T
                 "background:$Component.accentColor;" +
                 "foreground:#FFFFFF;");
 
-        btnModifier.addActionListener(e -> {
+        btnInfo.addActionListener(e -> {
             if (listener != null && table != null) {
-                listener.onModifier(table.getSelectedRow());
+                listener.onInfo(table.getSelectedRow());
             }
             fireEditingStopped();
         });
@@ -71,7 +71,7 @@ public class TableSejourActionCellEditor extends AbstractCellEditor implements T
 
         panel.add(btnAjouterConso, "gap 5");
         panel.add(btnPrint, "gap 5");
-        panel.add(btnModifier, "gap 5");
+        panel.add(btnInfo, "gap 5");
         panel.add(btnSupprimer, "gap 5");
     }
 

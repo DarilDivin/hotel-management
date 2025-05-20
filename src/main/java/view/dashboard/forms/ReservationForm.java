@@ -132,15 +132,13 @@ public class ReservationForm extends Form {
                 Component parent = SwingUtilities.getWindowAncestor(table);
 
                 ModalDialog.showModal(parent, new SimpleModalBorder(
-                        new CreateReservation(r), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
-                        (controller, action) -> {
-                            if(action == SimpleModalBorder.OK_OPTION) {
-                                refreshTable();
-                            }
-
-                        }), option, CreateReservation.ID);
-
-                System.out.println("Modification de la ligne " + row);
+                    new CreateReservation(r), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
+                    (controller, action) -> {
+                        if(action == SimpleModalBorder.OK_OPTION) {
+                            refreshTable();
+                        }
+                    }
+                ), option, CreateReservation.ID);
             }
 
             @Override
@@ -194,6 +192,7 @@ public class ReservationForm extends Form {
 
                 ModalDialog.showModal(
                         parent,
+                        !r.getStatut() ?
                         new SimpleMessageModal(
                                 SimpleMessageModal.Type.WARNING,
                                 message, titre,
@@ -202,11 +201,20 @@ public class ReservationForm extends Form {
                                     if(action==SimpleModalBorder.YES_OPTION) {
                                         ReservationController.validerReservation(r);
                                         r.setStatut(true);
-//                                        table.remove(row);
                                         refreshTable();
                                         ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Réservation validé avec succès");
                                     }
-                                }),
+                                })
+                        :
+                                new SimpleMessageModal(
+                                    SimpleMessageModal.Type.WARNING,
+                                    "Cette réservation à déjà été validé", "Validation Réservation",
+                                    SimpleModalBorder.DEFAULT_OPTION,
+                                    (controller, action) -> {
+                                        if(action==SimpleModalBorder.YES_OPTION) {
+
+                                        }
+                                    }),
                         option
                 );
             }

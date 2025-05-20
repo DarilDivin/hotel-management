@@ -8,12 +8,17 @@ import model.Controllers.ReservationController;
 import model.Controllers.SejourController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
+import view.components.SimpleMessageModal;
+import view.forms.CreateConsommation;
 import view.forms.CreateSejour;
+import view.forms.ShowSejourInfo;
 import view.system.Form;
+import view.utils.ToastManager;
 import view.utils.table.*;
 
 import javax.swing.*;
@@ -44,9 +49,9 @@ public class SejourForm extends Form {
 
     private JPanel createInfo() {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap", "[fill]"));
-        JLabel lbTitle = new JLabel("Liste des réservationss");
+        JLabel lbTitle = new JLabel("Liste des séjours");
         JTextPane text = new JTextPane();
-        text.setText("Ceci est la liste des Rréservations");
+        text.setText("Ceci est la liste des séjours");
         text.setEditable(false);
         text.setBorder(BorderFactory.createEmptyBorder());
         lbTitle.putClientProperty(FlatClientProperties.STYLE, "font:bold +" + (4 - 1));
@@ -94,12 +99,12 @@ public class SejourForm extends Form {
         // table option
         table.getColumnModel().getColumn(0).setMaxWidth(50);
         table.getColumnModel().getColumn(1).setMaxWidth(50);
-        table.getColumnModel().getColumn(2).setPreferredWidth(100);
+        table.getColumnModel().getColumn(2).setMaxWidth(50);
         table.getColumnModel().getColumn(3).setPreferredWidth(50);
-        table.getColumnModel().getColumn(4).setPreferredWidth(100);
-        table.getColumnModel().getColumn(5).setPreferredWidth(100);
-        table.getColumnModel().getColumn(6).setPreferredWidth(100);
-        table.getColumnModel().getColumn(7).setMinWidth(250);
+        table.getColumnModel().getColumn(4).setPreferredWidth(50);
+        table.getColumnModel().getColumn(5).setPreferredWidth(80);
+        table.getColumnModel().getColumn(6).setPreferredWidth(80);
+        table.getColumnModel().getColumn(7).setMinWidth(300);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -114,14 +119,70 @@ public class SejourForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(7).setCellRenderer(new TableActionCellRenderer());
+        table.getColumnModel().getColumn(7).setCellRenderer(new TableSejourActionCellRenderer());
 
         TableSejourActionCellEditor editor = new TableSejourActionCellEditor();
         editor.setTableButtonsListener(new TableSejourActionCellListener() {
             @Override
-            public void onModifier(int row) {
+            public void onInfo(int row) {
                 int id = getSejourIdFromRow(row);
                 Sejour r = SejourController.getSejourById(id);
+
+                Option option = ModalDialog.createOption();
+                option.getLayoutOption()
+                        .setLocation(Location.CENTER, Location.CENTER)
+                        .setAnimateDistance(0.7f, 0);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+
+                ModalDialog.showModal(parent, new SimpleModalBorder(
+                    new ShowSejourInfo(r), "Information séjour", SimpleModalBorder.DEFAULT_OPTION,
+                    (controller, action) -> {
+                        if(action == SimpleModalBorder.OK_OPTION) {
+                            refreshTable();
+                        }
+                    }
+                ), option, CreateSejour.ID);
+
+            }
+
+            @Override
+            public void onSupprimer(int row) {
+                int id = getSejourIdFromRow(row);
+
+                Option option = ModalDialog.createOption()
+                        .setAnimationEnabled(true);
+                option.getLayoutOption()
+                        .setLocation(Location.CENTER, Location.CENTER);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+
+
+                String titre = "Suppression Séjour";
+                String message = "Voulez vous vraiment supprimer ce séjour ??";
+
+                ModalDialog.showModal(
+                        parent,
+                        new SimpleMessageModal(
+                                SimpleMessageModal.Type.WARNING,
+                                message, titre,
+                                SimpleModalBorder.YES_NO_OPTION,
+                                (controller, action) -> {
+                                    if(action==SimpleModalBorder.YES_OPTION) {
+                                        SejourController.supprimerSejour(id);
+                                        refreshTable();
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Séjour supprimé avec succès");
+                                    }
+                                }),
+                        option
+                );
+            }
+
+            @Override
+            public void onAjouterConso(int row) {
+                int id = getSejourIdFromRow(row);
+                Sejour s = SejourController.getSejourById(id);
 
                 Option option = ModalDialog.createOption();
                 option.getLayoutOption().setSize(-1, 1f)
@@ -129,25 +190,16 @@ public class SejourForm extends Form {
                         .setAnimateDistance(0.7f, 0);
 
                 Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
 
                 ModalDialog.showModal(parent, new SimpleModalBorder(
-                        new CreateSejour(r), "Modifier", SimpleModalBorder.DEFAULT_OPTION,
+                        new CreateConsommation(s), "Ajouter une consommation", SimpleModalBorder.DEFAULT_OPTION,
                         (controller, action) -> {
                             if(action == SimpleModalBorder.OK_OPTION) {
                                 refreshTable();
                             }
-                        }), option, CreateSejour.ID);
+                        }), option, CreateConsommation.ID);
 
-            }
-
-            @Override
-            public void onSupprimer(int row) {
-                System.out.println("Suppression de la ligne " + row);
-            }
-
-            @Override
-            public void onAjouterConso(int row) {
-                System.out.println("Ajout de la ligne " + row);
             }
 
             @Override

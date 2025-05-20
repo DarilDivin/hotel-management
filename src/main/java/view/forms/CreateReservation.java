@@ -78,7 +78,7 @@ public class CreateReservation extends JPanel {
                     dateDebut = Date.from(dates[0].atStartOfDay(ZoneId.systemDefault()).toInstant());
                     dateFin = Date.from(dates[1].atStartOfDay(ZoneId.systemDefault()).toInstant());
 
-                    // Pour l'affichage uniquement
+
                     DateTimeFormatter df = DateTimeFormatter.ofPattern("dd-MM-yyyy");
                     System.out.println(df.format(dates[0]) + " - " + df.format(dates[1]));
                 }
@@ -94,32 +94,19 @@ public class CreateReservation extends JPanel {
                 "font:bold;");
 
         JComboBox<String> cboChambre = new JComboBox<String>();
-        // Ajouter les types de chambre disponibles
         cboChambre.addItem(new Chambre(new TypeChambre("Simple"), "A-102", 400, 12.5).getNumero());
         cboChambre.addItem(new Chambre(new TypeChambre("Double"), "A-105", 600, 12.5).getNumero());
-        cboChambre.addActionListener(e -> {
-            String selectedType = (String) cboChambre.getSelectedItem();
-            // Traiter la sélection
-        });
 
-//        if(reservation != null) {
-//            add(lbChambre);
-//            add(cboChambre);
-//        }
+
 
         JLabel lbClient = new JLabel("Client");
         lbClient.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold;");
 
         JComboBox<String> cboClient = new JComboBox<String>();
-        // Ajouter les types de chambre disponibles
         for (Client c : ClientController.getTousLesClients()) {
             cboClient.addItem(c.getId() + " - " + c.getNom() + " " + c.getPrenom() + " (" + c.getEmail() + ")" );
         }
-        cboChambre.addActionListener(e -> {
-            String selectedType = (String) cboChambre.getSelectedItem();
-            // Traiter la sélection
-        });
 
         add(lbClient);
         add(cboClient);
@@ -143,7 +130,6 @@ public class CreateReservation extends JPanel {
 
 
         // evenement
-
         cmdCreate.addActionListener((e) -> {
             if (reservation != null) {
                 reservation.setDateDebut(dateDebut);
@@ -160,7 +146,6 @@ public class CreateReservation extends JPanel {
                         ClientController.getClientById(clientId),
                         dateDebut,
                         dateFin,
-//                        ReceptionisteController.getReceptionisteById(1),
                         receptioniste,
                         chambre
                 );
