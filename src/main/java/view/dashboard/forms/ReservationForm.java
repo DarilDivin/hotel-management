@@ -6,11 +6,14 @@ import model.*;
 import model.Controllers.ReservationController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
+import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
+import view.components.SimpleMessageModal;
 import view.forms.CreateReservation;
 import view.system.Form;
+import view.utils.ToastManager;
 import view.utils.table.*;
 
 import javax.swing.*;
@@ -24,7 +27,7 @@ public class ReservationForm extends Form {
         init();
     }
 
-    private void refreshTable() {
+    public void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         for (Reservation d : ReservationController.getTousLesReservations()) {
@@ -36,6 +39,7 @@ public class ReservationForm extends Form {
         setLayout(new MigLayout("fillx,wrap", "[fill]", "[][fill,grow]"));
         add(createInfo());
         add(createCustomTable(), "gapx 7 7, h 590!, spany, growy");
+        refreshTable();
     }
 
     private JPanel createInfo() {
@@ -55,12 +59,12 @@ public class ReservationForm extends Form {
         JPanel panel = new JPanel(new MigLayout("fillx,wrap,insets 10 0 10 0", "[fill]", "[][]0[fill,grow]"));
 
         /* creer le modele de table */
-        Object[] columns = new Object[]{"Sélection", "#", "Id", "Client", "Chambre", "Date de Début", "Date de Fin", "Actions"};
+        Object[] columns = new Object[]{"Sélection", "#", "Id", "Client", "Chambre", "Date de Début", "Date de Fin", "Statut", "Actions"};
         DefaultTableModel model = new DefaultTableModel(columns, 0) {
             @Override
             public boolean isCellEditable(int row, int column) {
                 // autoriser la modification des cellules uniquement dans la colonne 0 pour la case à cocher
-                return column == 0 || column == 7;
+                return column == 0 || column == 8;
             }
 
             @Override
@@ -95,7 +99,8 @@ public class ReservationForm extends Form {
         table.getColumnModel().getColumn(4).setPreferredWidth(50);
         table.getColumnModel().getColumn(5).setPreferredWidth(100);
         table.getColumnModel().getColumn(6).setPreferredWidth(100);
-        table.getColumnModel().getColumn(7).setMinWidth(250);
+        table.getColumnModel().getColumn(7).setPreferredWidth(100);
+        table.getColumnModel().getColumn(8).setMinWidth(250);
 
         // disable reordering table column
         table.getTableHeader().setReorderingAllowed(false);
@@ -110,7 +115,7 @@ public class ReservationForm extends Form {
         table.getColumnModel().getColumn(0).setHeaderRenderer(new CheckBoxTableHeaderRenderer(table, 0));
 
         // apply action button cell renderer
-        table.getColumnModel().getColumn(7).setCellRenderer(new TableReservationActionCellRenderer());
+        table.getColumnModel().getColumn(8).setCellRenderer(new TableReservationActionCellRenderer());
 
         TableReservationActionCellEditor editor = new TableReservationActionCellEditor();
         editor.setTableButtonsListener(new TableReservationActionCellListener() {
@@ -140,15 +145,74 @@ public class ReservationForm extends Form {
 
             @Override
             public void onSupprimer(int row) {
-                System.out.println("Suppression de la ligne " + row);
+                int id = getReservationIdFromRow(row);
+
+                Option option = ModalDialog.createOption()
+                        .setAnimationEnabled(true);
+                option.getLayoutOption()
+                        .setLocation(Location.CENTER, Location.CENTER);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+
+
+                String titre = "Suppression Rréservation";
+                String message = "Voulez vous vraiment supprimer cette réservation ??";
+
+                ModalDialog.showModal(
+                        parent,
+                        new SimpleMessageModal(
+                                SimpleMessageModal.Type.WARNING,
+                                message, titre,
+                                SimpleModalBorder.YES_NO_OPTION,
+                                (controller, action) -> {
+                                    if(action==SimpleModalBorder.YES_OPTION) {
+                                        ReservationController.supprimerReservation(id);
+                                        refreshTable();
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Réservation supprimé avec succès");
+                                    }
+                                }),
+                        option
+                );
             }
             @Override
             public void onValider(int row) {
-                System.out.println("Validation de la ligne " + row);
+                int id = getReservationIdFromRow(row);
+                Reservation r = ReservationController.getReservationById(id);
+
+                Option option = ModalDialog.createOption()
+                        .setAnimationEnabled(true);
+                option.getLayoutOption()
+                        .setLocation(Location.CENTER, Location.CENTER);
+
+                Component parent = SwingUtilities.getWindowAncestor(table);
+                JComponent jParent = (JComponent) SwingUtilities.getAncestorOfClass(JComponent.class, table);
+
+
+                String titre = "Validation Réservation";
+                String message = "Voulez vous vraiment valider cette réservation ??";
+
+                ModalDialog.showModal(
+                        parent,
+                        new SimpleMessageModal(
+                                SimpleMessageModal.Type.WARNING,
+                                message, titre,
+                                SimpleModalBorder.YES_NO_OPTION,
+                                (controller, action) -> {
+                                    if(action==SimpleModalBorder.YES_OPTION) {
+                                        ReservationController.validerReservation(r);
+                                        r.setStatut(true);
+//                                        table.remove(row);
+                                        refreshTable();
+                                        ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Réservation validé avec succès");
+                                    }
+                                }),
+                        option
+                );
             }
         });
 
-        table.getColumnModel().getColumn(7).setCellEditor(editor);
+        table.getColumnModel().getColumn(8).setCellEditor(editor);
 
 
         // alignment table header
@@ -158,7 +222,7 @@ public class ReservationForm extends Form {
                 if (column == 1) {
                     return SwingConstants.CENTER;
                 }
-                if (column == 7) {
+                if (column == 8) {
                     return SwingConstants.TRAILING;
                 }
                 return SwingConstants.LEADING;
@@ -167,7 +231,7 @@ public class ReservationForm extends Form {
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
                 Component component = super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
-                if (column == 7) {
+                if (column == 8) {
                     ((JLabel) component).setBorder(BorderFactory.createEmptyBorder(0, 0, 0, 20));
                 }
                 return component;
@@ -221,6 +285,13 @@ public class ReservationForm extends Form {
         JTextField txtSearch = new JTextField();
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("images/search.svg", 0.4f));
+
+        JButton cmdRefresh = new JButton(new FlatSVGIcon("images/refresh.svg", 0.4f).setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#ffffff"))));
+
+        cmdRefresh.addActionListener(e -> {refreshTable();});
+
+        panel.add(txtSearch);
+        panel.add(cmdRefresh);
 
         panel.putClientProperty(FlatClientProperties.STYLE, "background:null;");
         return panel;

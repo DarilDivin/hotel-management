@@ -29,7 +29,7 @@ import java.util.Arrays;
 public class MyDrawerBuilder extends SimpleDrawerBuilder {
     private static MyDrawerBuilder instance;
     private ModelUser user;
-    private static Personnel personnel;
+    private Personnel personnel;
 
     public static MyDrawerBuilder getInstance() {
         if (instance == null) {
@@ -41,7 +41,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
     public ModelUser getUser() {
         return user;
     }
-    public static Personnel getPersonnel() {
+    public Personnel getPersonnel() {
         return personnel;
     }
 
@@ -74,7 +74,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 
         this.personnel = personnel;
 
-        // set user to menu validation
+        // set personnel to menu validation
         MyMenuValidation.setPersonnel(personnel);
 
         // setup drawer header
@@ -85,7 +85,9 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
         header.setSimpleHeaderData(data);
 
         if (updateMenuItem) {
+            System.out.println("Drawer menu updated");
             rebuildMenu();
+            System.out.println(this.personnel.getRole());
         }
 
     }
@@ -105,31 +107,22 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
 
         MenuItem items[] = new MenuItem[]{
                 new Item.Label("Administrateur"),
-                new Item("Dashboard", "dashboard.svg", DashboardForm.class),
-
-//                personnel != null && (personnel.getRole().equals("administrateur")) ?
-                        new Item("Gestion d'Hotel", "dashboard.svg")
-                                .subMenu("Hotels", HotelForm.class)
-                                .subMenu("Utilisateurs", AdminUserForm.class),
-//                        : new Item(""),
+                    new Item("Dashboard", "dashboard.svg", DashboardForm.class),
+                    new Item("Gestion d'Hotel", "dashboard.svg")
+                            .subMenu("Hotels", HotelForm.class)
+                            .subMenu("Utilisateurs", AdminUserForm.class),
 
                 new Item.Label("Personnel"),
-
-//                personnel != null && (personnel.getRole().equals("receptioniste") || personnel.getRole().equals("administrateur")) ?
-                        new Item("Réceptionniste", "dashboard.svg")
-                                .subMenu("Client", ClientForm.class)
-                                .subMenu("Chambre", ChambreForm.class)
-                                .subMenu("Réservation", ReservationForm.class)
-                                .subMenu("Séjour", SejourForm.class),
-//                        : new Item(""),
-
-//                personnel != null && (personnel.getRole().equals("agent de nettoyage") || personnel.getRole().equals("administrateur")) ?
-                        new Item("Personnel de chambre", "space.svg")
-                                .subMenu("Intervention", InterventionForm.class),
-//                        : new Item.Label(""),
+                    new Item("Réceptionniste", "dashboard.svg")
+                            .subMenu("Client", ClientForm.class)
+                            .subMenu("Chambre", ChambreForm.class)
+                            .subMenu("Réservation", ReservationForm.class)
+                            .subMenu("Séjour", SejourForm.class),
+                    new Item("Personnel de chambre", "space.svg")
+                            .subMenu("Intervention", InterventionForm.class),
 
                 new Item.Label("Autres"),
-                new Item("Se déconnecter", "log-out.svg")
+                    new Item("Se déconnecter", "log-out.svg")
         };
 
         simpleMenuOption.setMenuStyle(new MenuStyle() {
@@ -159,7 +152,7 @@ public class MyDrawerBuilder extends SimpleDrawerBuilder {
                 Class<?> itemClass = action.getItem().getItemClass();
                 int i = index[0];
 
-                if (i == 5) {
+                if (i == 4) {
                     action.consume();
                     FormManager.logout();
                     return;

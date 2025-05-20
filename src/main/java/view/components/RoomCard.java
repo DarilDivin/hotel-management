@@ -14,6 +14,7 @@ import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import view.dashboard.forms.ReservationForm;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateChambre;
 import view.forms.CreateHotel;
 import view.forms.CreateReservation;
@@ -182,20 +183,30 @@ public class RoomCard extends JPanel{
     }
 
     private void showCreateReservationDialog() {
+        System.out.println("MyDrawerBuilder personnel Id " + MyDrawerBuilder.getInstance().getPersonnel().getId());
+        System.out.println("Receptionniste ID " + ReceptionisteController.getReceptionisteById(MyDrawerBuilder.getInstance().getPersonnel().getId()).getId());
         Option option = ModalDialog.createOption()
                 .setCloseOnPressedEscape(true)
                 .setBackgroundClickType(Option.BackgroundClickType.CLOSE_MODAL)
                 .setAnimationEnabled(true)
                 .setOpacity(0.5f);
-        ModalDialog.showModal(this, new SimpleModalBorder(new CreateReservation(ReceptionisteController.getReceptionisteById(1), ChambreController.getChambreById(chambre.getId())), "Créer", SimpleModalBorder.DEFAULT_OPTION,
-                (controller, action) -> {
-                    if (action == SimpleModalBorder.OK_OPTION) {
-                        this.getParent().revalidate();
-                        if (reservationForm != null) {
-                            reservationForm.revalidate();
+        ModalDialog.showModal(this,
+                new SimpleModalBorder(
+                        new CreateReservation(
+                            ReceptionisteController.getReceptionisteById(MyDrawerBuilder.getInstance().getPersonnel().getId()),
+                            ChambreController.getChambreById(chambre.getId())
+                        ),
+                        "Créer",
+                        SimpleModalBorder.DEFAULT_OPTION,
+                        (controller, action) -> {
+                            if (action == SimpleModalBorder.OK_OPTION) {
+                                this.getParent().revalidate();
+                                if (reservationForm != null) {
+                                    reservationForm.revalidate();
+                                }
+                            }
                         }
-                    }
-                }), option, CreateReservation.ID);
+                ), option, CreateReservation.ID);
     }
 
     public void showCreateChambreDialog() {

@@ -21,6 +21,7 @@ public class Receptioniste extends Personnel {
 
     public Receptioniste(Personnel personnel) {
         super(personnel.getNom(), personnel.getPrenom(), personnel.getEmail(), personnel.getPassword(), personnel.getRole(), personnel.getHotel());
+        setId(personnel.getId());
     }
     
     /**

@@ -27,7 +27,7 @@ public class SejourForm extends Form {
         init();
     }
 
-    private void refreshTable() {
+    public void refreshTable() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
         for (Sejour d : SejourController.getTousLesSejours()) {
@@ -39,6 +39,7 @@ public class SejourForm extends Form {
         setLayout(new MigLayout("fillx,wrap", "[fill]", "[][fill,grow]"));
         add(createInfo());
         add(createCustomTable(), "gapx 7 7, h 590!, spany, growy");
+        refreshTable();
     }
 
     private JPanel createInfo() {
@@ -241,10 +242,13 @@ public class SejourForm extends Form {
         txtSearch.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Search...");
         txtSearch.putClientProperty(FlatClientProperties.TEXT_FIELD_LEADING_ICON, new FlatSVGIcon("images/search.svg", 0.4f));
         JButton cmdCreate = new JButton("Create");
+        JButton cmdRefresh = new JButton(new FlatSVGIcon("images/refresh.svg", 0.4f).setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#ffffff"))));
 
         cmdCreate.addActionListener(e -> showModal());
+        cmdRefresh.addActionListener(e -> refreshTable());
         panel.add(txtSearch);
         panel.add(cmdCreate);
+        panel.add(cmdRefresh);
 
         panel.putClientProperty(FlatClientProperties.STYLE, "background:null;");
         return panel;

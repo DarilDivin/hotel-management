@@ -50,7 +50,7 @@ public class ReservationDAO {
 
             if (rs.next()) {
                 Client client = new ClientDAO().getClientById(rs.getInt("client_id"));
-                Receptioniste receptioniste = (Receptioniste) new PersonnelDAO().getPersonnelById(rs.getInt("receptionniste_id"));
+                Receptioniste receptioniste = new Receptioniste(new PersonnelDAO().getPersonnelById(rs.getInt("receptionniste_id")));
                 Chambre chambre = new ChambreDAO().getChambreById(rs.getInt("chambre_id"));
 
                 reservation = new Reservation(
@@ -114,7 +114,7 @@ public class ReservationDAO {
 
             while (rs.next()) {
                 Client client = new ClientDAO().getClientById(rs.getInt("client_id"));
-                Receptioniste receptioniste = (Receptioniste) new PersonnelDAO().getPersonnelById(rs.getInt("receptionniste_id"));
+                Receptioniste receptioniste = new Receptioniste(new PersonnelDAO().getPersonnelById(rs.getInt("receptionniste_id")));
                 Chambre chambre = new ChambreDAO().getChambreById(rs.getInt("chambre_id"));
 
                 Reservation reservation = new Reservation(
@@ -125,6 +125,9 @@ public class ReservationDAO {
                         chambre
                 );
                 reservation.setId(rs.getInt("id"));
+                if(rs.getInt("statut") == 1) {
+                    reservation.setStatut(true);
+                }
                 reservations.add(reservation);
             }
 
