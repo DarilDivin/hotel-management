@@ -4,6 +4,7 @@ import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.*;
 import model.Controllers.HotelController;
+import model.Controllers.ReceptionisteController;
 import model.Controllers.ReservationController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
@@ -12,6 +13,7 @@ import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import view.components.SimpleMessageModal;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateReservation;
 import view.system.Form;
 import view.utils.ToastManager;
@@ -32,11 +34,13 @@ public class ReservationForm extends Form {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
 
-//        for (Reservation d : HotelController.)
-
-        for (Reservation d : ReservationController.getTousLesReservations()) {
+        for (Reservation d : ReceptionisteController.getReservations(ReceptionisteController.getReceptionisteById(MyDrawerBuilder.getInstance().getPersonnel().getId()))) {
             model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
         }
+
+//        for (Reservation d : ReservationController.getTousLesReservations()) {
+//            model.addRow(d.toTableRowCustom(table.getRowCount() + 1));
+//        }
     }
 
     private void init() {

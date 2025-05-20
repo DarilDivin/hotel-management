@@ -13,6 +13,7 @@ import raven.modal.option.Location;
 import raven.modal.option.Option;
 import sample.SampleData;
 import view.components.SimpleMessageModal;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateClient;
 import view.forms.CreatePersonnel;
 import view.system.Form;
@@ -34,9 +35,14 @@ public class ClientForm extends Form {
     private void refreshTableData() {
         DefaultTableModel model = (DefaultTableModel) table.getModel();
         model.setRowCount(0);
-        for (Client client : ClientController.getTousLesClients()) {
-            model.addRow(client.toTableRowCustom(table.getRowCount() + 1));
+
+        for (Client cl : HotelController.getClients(MyDrawerBuilder.getInstance().getPersonnel().getHotel())) {
+            model.addRow(cl.toTableRowCustom(table.getRowCount() + 1));
         }
+
+//        for (Client client : ClientController.getTousLesClients()) {
+//            model.addRow(client.toTableRowCustom(table.getRowCount() + 1));
+//        }
     }
 
     private void init() {

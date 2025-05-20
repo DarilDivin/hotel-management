@@ -3,12 +3,14 @@ package view.dashboard.forms;
 import com.formdev.flatlaf.FlatClientProperties;
 import model.Chambre;
 import model.Controllers.ChambreController;
+import model.Controllers.HotelController;
 import net.miginfocom.swing.MigLayout;
 import raven.modal.ModalDialog;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
 import view.components.RoomCard;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateChambre;
 import view.layout.ResponsiveLayout;
 import view.system.Form;
@@ -29,7 +31,8 @@ public class ChambreForm extends Form {
     }
 
     public void refreshChambreList() {
-        chambres = ChambreController.getTousLesChambres();
+//        chambres = ChambreController.getTousLesChambres();
+        chambres = HotelController.getChambres(MyDrawerBuilder.getInstance().getPersonnel().getHotel());
         panelCard.removeAll();
 
         for (Chambre chambre : chambres) {
