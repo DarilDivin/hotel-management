@@ -72,7 +72,7 @@ public class ReceptionisteDAO {
         SejourDAO sejourDAO = new SejourDAO();
         Vector<Sejour> sejours = sejourDAO.getTousLesSejours();
 
-        Vector<Sejour> sejoursReceptioniste = new Vector<>();
+        Vector<Sejour> sejoursReceptioniste = new Vector<Sejour>();
 
         for(Sejour sejour : sejours) {
             if(sejour.getReceptioniste().getId() == receptioniste.getId()) {
@@ -85,7 +85,7 @@ public class ReceptionisteDAO {
     public Vector<Reservation> getReservations(Receptioniste receptioniste) {
         ReservationDAO reservationDAO = new ReservationDAO();
         Vector<Reservation> reservations = reservationDAO.getTousLesReservations();
-        Vector<Reservation> reservationsReceptioniste = new Vector<>();
+        Vector<Reservation> reservationsReceptioniste = new Vector<Reservation>();
         for(Reservation reservation : reservations) {
             if(reservation.getReceptionniste().getId() == receptioniste.getId()) {
                 reservationsReceptioniste.add(reservation);
