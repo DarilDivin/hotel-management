@@ -2,16 +2,17 @@ package view.components;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.extras.FlatSVGIcon;
+import model.Intervention;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
 import java.awt.*;
 
 public class InterventionCard extends JPanel {
-    public InterventionCard() {
+    public InterventionCard(Intervention intervention) {
         setLayout(new MigLayout("insets 0, wrap, fill", "[grow]", "[grow]"));
 
-        JLabel lbName = new JLabel("John Doe");
+        JLabel lbName = new JLabel(intervention.getAgentNettoyage().getNom() + " " + intervention.getAgentNettoyage().getPrenom());
         lbName.putClientProperty(FlatClientProperties.STYLE, "" +
                 "font:bold +2;");
         lbName.setIcon(new FlatSVGIcon("images/user-round.svg", 0.7f).setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#969696"))));

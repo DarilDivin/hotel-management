@@ -1,22 +1,48 @@
 package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import model.AgentNettoyage;
+import model.Controllers.InterventionController;
+import model.Intervention;
 import net.miginfocom.swing.MigLayout;
 import view.components.InterventionCard;
-import view.components.RoomCard;
+import view.dashboard.menu.MyDrawerBuilder;
 import view.layout.ResponsiveLayout;
 import view.system.Form;
 
 import javax.swing.*;
 import java.awt.*;
+import java.util.Vector;
 
 public class InterventionForm extends Form {
     private JPanel panelCard;
-    private ResponsiveLayout responsiveLayout;
+    private Vector<Intervention> interventions;
 
     public InterventionForm() {
         init();
     }
+
+//    public void refreshInterventionList() {
+//        interventions = InterventionController.creerInterventions((AgentNettoyage) MyDrawerBuilder.getInstance().getPersonnel());
+//        panelCard.removeAll();
+//
+//        for (Intervention intervention : interventions) {
+//            InterventionCard card = new InterventionCard(intervention);
+//            card.putClientProperty(FlatClientProperties.STYLE, "" +
+//                    "border:8,8,8,8;" +
+//                    "arc:$Component.arc;" +
+//                    "[dark]background:tint($Panel.background,5%);" +
+//                    "[light]background:fade(@accentColor,5%);" +
+//                    "[light]background:fade(#fdfdf6,100%);" +
+//                    "[dark]borderColor:#333333;" +
+//                    "[dark]borderColor:#dddddd;");
+//
+//            panelCard.add(card, "");
+//        }
+//        
+//        panelCard.revalidate();
+//        panelCard.repaint();
+//    }
 
     private void init() {
         setLayout(new MigLayout("fillx,wrap", "[fill]", "[][fill,grow]"));
@@ -38,7 +64,7 @@ public class InterventionForm extends Form {
     }
 
     private void createPanelLayout() {
-        responsiveLayout = new ResponsiveLayout(ResponsiveLayout.JustifyContent.FIT_CONTENT, new Dimension(280, -1), 10, 10);
+        ResponsiveLayout responsiveLayout = new ResponsiveLayout(ResponsiveLayout.JustifyContent.FIT_CONTENT, new Dimension(280, -1), 10, 10);
         panelCard = new JPanel(responsiveLayout);
         panelCard.putClientProperty(FlatClientProperties.STYLE, "" +
                 "border:10,10,10,10;");
@@ -54,9 +80,11 @@ public class InterventionForm extends Form {
                 "thumbInsets:0,0,0,0;" +
                 "width:5;");
         add(scrollPane, "gapx 7 7, spany, growy");
+        
+        interventions = InterventionController.creerInterventions(new AgentNettoyage(MyDrawerBuilder.getInstance().getPersonnel()));
 
-        for (int i = 0; i < 8; i++) {
-            InterventionCard card = new InterventionCard();
+        for (Intervention intervention : interventions) {
+            InterventionCard card = new InterventionCard(intervention);
             card.putClientProperty(FlatClientProperties.STYLE, "" +
                     "border:8,8,8,8;" +
                     /*"borderWidth:1;" +*/

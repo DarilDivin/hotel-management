@@ -19,6 +19,7 @@ public class AgentNettoyage extends Personnel {
 
     public AgentNettoyage(Personnel personnel) {
         super(personnel.getNom(), personnel.getPrenom(), personnel.getEmail(), personnel.getPassword(), personnel.getRole(), personnel.getHotel());
+        setId(personnel.getId());
     }
 
     private Vector<Intervention> list_intervention = new Vector<Intervention>();
