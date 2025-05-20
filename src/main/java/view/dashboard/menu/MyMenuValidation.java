@@ -59,7 +59,11 @@ public class MyMenuValidation extends MenuValidation {
         if (personnel == null) {
             return false;
         }
-        if (Objects.equals(personnel.getRole(), "receptioniste") || Objects.equals(personnel.getRole(), "agent de nettoyage") || Objects.equals(personnel.getRole(), "admin")) {
+        if (
+                Objects.equals(personnel.getRole(), "receptioniste") ||
+                Objects.equals(personnel.getRole(), "agent de nettoyage") ||
+                Objects.equals(personnel.getRole(), "administrateur")
+        ) {
             return true;
         }
 

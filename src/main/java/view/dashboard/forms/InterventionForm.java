@@ -27,7 +27,7 @@ public class InterventionForm extends Form {
 
     private void headerPanel() {
         JPanel panel = new JPanel(new MigLayout("wrap,fillx", "[fill]"));
-        JLabel title = new JLabel("Liste des chambres");
+        JLabel title = new JLabel("Liste des Interventions");
         title.setFont(new Font("", Font.BOLD, 28));
         panel.add(title, "split 2, gapy 10, w 100%-180!");
 
