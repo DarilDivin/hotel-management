@@ -23,5 +23,30 @@ public class Test {
         PersonnelController.ajouterPersonnel(p1);
         PersonnelController.ajouterPersonnel(p2);
         PersonnelController.ajouterPersonnel(p3);
+
+
+
+        Produit prod1 = new Produit("Coca Cola",  3);
+        Produit prod2 = new Produit("Chips", 2);
+        Produit prod3 = new Produit("Sandwich",  5);
+        Produit prod4 = new Produit("Eau minérale",  2);
+        Produit prod5 = new Produit("Chocolat", 1);
+        Produit prod6 = new Produit("Café", 2);
+        Produit prod7 = new Produit("Jus d'orange", 4);
+        Produit prod8 = new Produit("Croissant",  2);
+        Produit prod9 = new Produit("Salade", 9);
+        Produit prod10 = new Produit("Glace", 3);
+
+        ProduitController.ajouterProduit(prod1);
+        ProduitController.ajouterProduit(prod2);
+        ProduitController.ajouterProduit(prod3);
+        ProduitController.ajouterProduit(prod4);
+        ProduitController.ajouterProduit(prod5);
+        ProduitController.ajouterProduit(prod6);
+        ProduitController.ajouterProduit(prod7);
+        ProduitController.ajouterProduit(prod8);
+        ProduitController.ajouterProduit(prod9);
+        ProduitController.ajouterProduit(prod10);
+
     }
 }
