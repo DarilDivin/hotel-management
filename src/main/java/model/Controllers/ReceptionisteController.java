@@ -34,7 +34,7 @@ public class ReceptionisteController {
         return receptionisteDAO.getSejours(receptioniste);
     }
 
-    public Vector<Reservation> getReservations(Receptioniste receptioniste) {
+    public static Vector<Reservation> getReservations(Receptioniste receptioniste) {
         return receptionisteDAO.getReservations(receptioniste);
     }
 }
