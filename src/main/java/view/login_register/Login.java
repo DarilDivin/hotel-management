@@ -5,6 +5,7 @@ import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Controllers.PersonnelController;
 import model.Personnel;
 import model.utilsModel.ModelUser;
+import raven.modal.Drawer;
 import raven.modal.Toast;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.login_register.components.ButtonLink;
