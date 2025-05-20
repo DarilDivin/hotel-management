@@ -65,4 +65,4 @@ public class ReceptionisteDAO {
 
         return receptionistes;
     }
- }
+}

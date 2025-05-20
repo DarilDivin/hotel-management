@@ -125,6 +125,9 @@ public class ReservationDAO {
                         chambre
                 );
                 reservation.setId(rs.getInt("id"));
+                if(rs.getInt("statut") == 1) {
+                    reservation.setStatut(true);
+                }
                 reservations.add(reservation);
             }
 

@@ -23,6 +23,5 @@ public class Test {
         PersonnelController.ajouterPersonnel(p1);
         PersonnelController.ajouterPersonnel(p2);
         PersonnelController.ajouterPersonnel(p3);
-
     }
 }
