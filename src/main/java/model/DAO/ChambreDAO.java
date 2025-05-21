@@ -151,7 +151,7 @@ public class ChambreDAO {
                         rs.getString("image"),
                         rs.getFloat("prix"),
                         rs.getFloat("superficie"),
-                        hotelDAO.getHotelById(rs.getInt("id"))
+                        hotelDAO.getHotelById(rs.getInt("hotel_id"))
                 );
                 chambre.setId(rs.getInt("id"));
                 chambres.add(chambre);
