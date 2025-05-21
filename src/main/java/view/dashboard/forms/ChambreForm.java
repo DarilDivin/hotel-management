@@ -1,6 +1,7 @@
 package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
+import com.formdev.flatlaf.extras.FlatSVGIcon;
 import model.Chambre;
 import model.Controllers.ChambreController;
 import model.Controllers.HotelController;
@@ -104,11 +105,18 @@ public class ChambreForm extends Form {
         JPanel panel = new JPanel(new MigLayout("wrap,fillx", "[fill]"));
         JLabel title = new JLabel("Liste des chambres");
         title.setFont(new Font("", Font.BOLD, 28));
-        panel.add(title, "split 2, gapy 10, w 100%-180!");
+        panel.add(title, "split 3, gapy 10, w 100%-180!");
 
         JButton cmdCreate = new JButton("Créer une chambre");
         panel.add(cmdCreate, "al right, gapy 10, w 150!");
+
+//        JButton cmdRefresh = new JButton(new FlatSVGIcon("images/refresh.svg", 0.4f).setColorFilter(new FlatSVGIcon.ColorFilter(color -> Color.decode("#ffffff"))));
+//
+//        cmdRefresh.addActionListener(e -> {refreshChambreList();});
+
+//        panel.add(cmdRefresh, "gapy 10");
         add(panel, "gapx 7 7");
+
 
         // evenement
         cmdCreate.addActionListener((e) -> {

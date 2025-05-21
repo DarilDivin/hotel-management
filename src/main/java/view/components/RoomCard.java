@@ -55,7 +55,7 @@ public class RoomCard extends JPanel{
     public void init() {
         setLayout(new MigLayout("insets 0, wrap, fillx", "leading", "top"));
 
-        RoundedImagePanel hotelImg = new RoundedImagePanel("/" + chambre.getImage(), 15);
+        RoundedImagePanel hotelImg = new RoundedImagePanel(chambre.getImage(), 15);
 
         add(hotelImg, "w 100%, h 205!");
 

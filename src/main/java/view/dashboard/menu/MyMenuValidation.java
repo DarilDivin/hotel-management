@@ -88,15 +88,15 @@ public class MyMenuValidation extends MenuValidation {
         // Vérification selon le rôle
         switch (personnel.getRole()) {
             case "administrateur":
-//                if (index[0] == 0 || index[0] == 4) {
-//                    return true;
-//                }
-//                // Vérifier si c'est le menu gestion hotel ou ses sous-menus
-//                if (index[0] == menuGestionHotel[0]) {
-//                    return true;
-//                }
-//                break;
-                return true;
+                if (index[0] == 0 || index[0] == 4) {
+                    return true;
+                }
+                // Vérifier si c'est le menu gestion hotel ou ses sous-menus
+                if (index[0] == menuGestionHotel[0]) {
+                    return true;
+                }
+                break;
+//                return true;
 
             case "receptioniste":
                 // Accès au dashboard et menu réceptionniste

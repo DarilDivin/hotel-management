@@ -19,6 +19,8 @@ import javax.swing.*;
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
+import javax.swing.Timer;
+import java.awt.event.ActionListener;
 
 public class CreateChambre extends JPanel {
     
@@ -128,7 +130,7 @@ public class CreateChambre extends JPanel {
             if(action) {
                 System.out.println(fileChooser.getSelectedFile().getAbsolutePath());
                 imageFile = fileChooser.getSelectedFile();
-//                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Image uploadé avec succès");
+                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Image uploadé avec succès");
             }
         });
 
@@ -167,12 +169,14 @@ public class CreateChambre extends JPanel {
                     throw new RuntimeException(ex);
                 }
 
-                ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
-                ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Chambre créé avec succès");
+                Timer timer = new Timer(12000, e1 -> {
+                    ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Chambre créé avec succès");
+                    ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
+                    ModalDialog.closeModal(CreateChambre.ID);
+                });
+                timer.setRepeats(false);
+                timer.start();
             }
-
-
-            ModalDialog.closeModal(CreateChambre.ID);
         });
     }
 }
