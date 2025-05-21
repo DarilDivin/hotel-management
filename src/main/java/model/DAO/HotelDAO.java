@@ -147,6 +147,7 @@ public class HotelDAO {
         Vector<Chambre> chambresHotel = new Vector<Chambre>();
 
         for(Chambre chambre : chambres) {
+            System.out.println(chambre);
             if(chambre.getHotel().getId() == hotel.getId()) {
                 chambresHotel.add(chambre);
             }

@@ -31,11 +31,12 @@ public class ChambreForm extends Form {
     }
 
     public void refreshChambreList() {
-        // chambres = ChambreController.getTousLesChambres();
-        chambres = HotelController.getChambres(MyDrawerBuilder.getInstance().getPersonnel().getHotel());
+         chambres = ChambreController.getTousLesChambres();
+//        chambres = HotelController.getChambres(MyDrawerBuilder.getInstance().getPersonnel().getHotel());
         panelCard.removeAll();
 
         for (Chambre chambre : chambres) {
+            System.out.println(chambre.getHotel());
             RoomCard card = new RoomCard(chambre);
             card.putClientProperty(FlatClientProperties.STYLE, "" +
                     "border:8,8,8,8;" +
