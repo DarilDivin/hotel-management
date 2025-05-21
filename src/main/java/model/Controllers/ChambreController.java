@@ -11,7 +11,7 @@ import java.util.UUID;
 import java.util.Vector;
 
 public class ChambreController {
-    private static final String UPLOAD_DIR = "src/main/resources/static/images/chambre/";
+    private static final String UPLOAD_DIR = "images/chambre/";
     private static final String[] ALLOWED_EXTENSIONS = {".jpg", ".jpeg", ".png", ".gif"};
     private static final ChambreDAO chambreDAO = new ChambreDAO();
 
