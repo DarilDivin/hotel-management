@@ -2,6 +2,7 @@ package view.dashboard.forms;
 
 import com.formdev.flatlaf.FlatClientProperties;
 import model.AgentNettoyage;
+import model.Controllers.AgentNettoyageController;
 import model.Controllers.InterventionController;
 import model.Intervention;
 import net.miginfocom.swing.MigLayout;
@@ -81,7 +82,7 @@ public class InterventionForm extends Form {
                 "width:5;");
         add(scrollPane, "gapx 7 7, spany, growy");
         
-        interventions = InterventionController.creerInterventions(new AgentNettoyage(MyDrawerBuilder.getInstance().getPersonnel()));
+        interventions = InterventionController.creerInterventions(AgentNettoyageController.getAgentNettoyageById(MyDrawerBuilder.getInstance().getPersonnel().getId()));
 
         for (Intervention intervention : interventions) {
             InterventionCard card = new InterventionCard(intervention);

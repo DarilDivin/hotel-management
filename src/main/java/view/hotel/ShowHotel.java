@@ -71,14 +71,14 @@ public class ShowHotel extends JPanel {
         add(text, "leading, growx, gapbefore 10");
 
 
-        for (int i = 0; i < 8; i++) {
-            RoomCard card = new RoomCard();
-            card.putClientProperty(FlatClientProperties.STYLE, "" +
-                    "border:8,8,8,8;" +
-                    "arc:$Component.arc;"+
-                    "background:fade(@accentColor,5%);");
-            add(card, "split 4, w 280!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10");
-        }
+//        for (int i = 0; i < 8; i++) {
+//            RoomCard card = new RoomCard();
+//            card.putClientProperty(FlatClientProperties.STYLE, "" +
+//                    "border:8,8,8,8;" +
+//                    "arc:$Component.arc;"+
+//                    "background:fade(@accentColor,5%);");
+//            add(card, "split 4, w 280!, h 510!, al leading center, gapbefore 15, gapafter 15, gapy 10 10");
+//        }
     }
 
     public static void main(String[] args) {

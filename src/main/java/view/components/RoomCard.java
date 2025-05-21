@@ -13,6 +13,7 @@ import raven.modal.Toast;
 import raven.modal.component.SimpleModalBorder;
 import raven.modal.option.Location;
 import raven.modal.option.Option;
+import view.dashboard.forms.ChambreForm;
 import view.dashboard.forms.ReservationForm;
 import view.dashboard.menu.MyDrawerBuilder;
 import view.forms.CreateChambre;
@@ -30,13 +31,20 @@ public class RoomCard extends JPanel{
 
     private Chambre chambre;
     private ReservationForm reservationForm;
+    private ChambreForm form;
 
-    public RoomCard() {
-        init();
-    }
+//    public RoomCard() {
+//        init();
+//    }
+//
+//    public RoomCard(Chambre chambre) {
+//        this.chambre = chambre;
+//        init();
+//    }
 
-    public RoomCard(Chambre chambre) {
+    public RoomCard(Chambre chambre, ChambreForm form) {
         this.chambre = chambre;
+        this.form = form;
         init();
     }
 
@@ -47,7 +55,7 @@ public class RoomCard extends JPanel{
     public void init() {
         setLayout(new MigLayout("insets 0, wrap, fillx", "leading", "top"));
 
-        RoundedImagePanel hotelImg = new RoundedImagePanel("/images/hotel1.jpg", 15);
+        RoundedImagePanel hotelImg = new RoundedImagePanel("/" + chambre.getImage(), 15);
 
         add(hotelImg, "w 100%, h 205!");
 
@@ -173,8 +181,8 @@ public class RoomCard extends JPanel{
                             (controller, action) -> {
                                 if(action==SimpleModalBorder.YES_OPTION) {
                                     ChambreController.supprimerChambre(chambre.getId());
-                                    // Mettre à jour l'affichage de la liste des chambres
-                                    ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Image sélectionnée avec succès");
+                                    form.refreshChambreList();
+                                    ToastManager.getInstance().showToast(jParent, Toast.Type.SUCCESS, "Chambre supprimée avec succès");
                                 }
                             }),
                     option

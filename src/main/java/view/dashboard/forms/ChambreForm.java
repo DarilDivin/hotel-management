@@ -31,13 +31,13 @@ public class ChambreForm extends Form {
     }
 
     public void refreshChambreList() {
-         chambres = ChambreController.getTousLesChambres();
-//        chambres = HotelController.getChambres(MyDrawerBuilder.getInstance().getPersonnel().getHotel());
+//         chambres = ChambreController.getTousLesChambres();
+        chambres = HotelController.getChambres(MyDrawerBuilder.getInstance().getPersonnel().getHotel());
         panelCard.removeAll();
 
         for (Chambre chambre : chambres) {
             System.out.println(chambre.getHotel());
-            RoomCard card = new RoomCard(chambre);
+            RoomCard card = new RoomCard(chambre, this);
             card.putClientProperty(FlatClientProperties.STYLE, "" +
                     "border:8,8,8,8;" +
                     "arc:$Component.arc;" +
@@ -87,7 +87,7 @@ public class ChambreForm extends Form {
         chambres = ChambreController.getTousLesChambres();
 
         for (Chambre c : chambres) {
-            RoomCard card = new RoomCard(c);
+            RoomCard card = new RoomCard(c, this);
             card.putClientProperty(FlatClientProperties.STYLE, "" +
                     "border:8,8,8,8;" +
                     "arc:$Component.arc;"+
