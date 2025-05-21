@@ -17,6 +17,7 @@ import view.utils.ToastManager;
 
 import javax.swing.*;
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 
 public class CreateChambre extends JPanel {
@@ -160,7 +161,11 @@ public class CreateChambre extends JPanel {
                         MyDrawerBuilder.getInstance().getPersonnel().getHotel()
                 );
 
-                ChambreController.ajouterChambre(newChambre, imageFile);
+                try {
+                    ChambreController.ajouterChambre(newChambre, imageFile);
+                } catch (IOException ex) {
+                    throw new RuntimeException(ex);
+                }
 
                 ModalBorderAction.getModalBorderAction(this).doAction(SimpleModalBorder.OK_OPTION);
                 ToastManager.getInstance().showToast(this, Toast.Type.SUCCESS, "Chambre créé avec succès");
