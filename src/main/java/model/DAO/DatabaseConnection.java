@@ -5,10 +5,12 @@ import java.util.*;
 import java.io.File;
 
 public class DatabaseConnection {
-    private static final String URL = "jdbc:sqlite:src/main/java/db/database.db";
+    private static final String path = new File("db/database.db").getAbsolutePath();
+//    private static final String URL = "jdbc:sqlite:src/main/java/db/database.db";
 
     public static Connection getConnection() throws SQLException {
-        return DriverManager.getConnection(URL);
+//        return DriverManager.getConnection(URL);
+        return DriverManager.getConnection("jdbc:sqlite:" + path);
     }
 
     public static void initializeDatabase() {
